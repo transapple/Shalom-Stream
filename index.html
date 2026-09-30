@@ -806,6 +806,7 @@ async function route(method,path,body){
    case'/replies':{await needUser();return ok(await sb.rpc('my_replies'))}
    case'/creator':return ok(await sb.rpc('creator_public',{p_id:q.get('id')}));
    case'/playlists':{await needUser();const rows=ok(await sb.from('playlists').select('id,name,created_at,playlist_items(added_at,content(id,title,artist_name,duration_seconds,media_url,thumbnail_url,creator_id,genre,album,play_count))').order('created_at',{ascending:false}));return rows.map(r=>({id:r.id,name:r.name,items:(r.playlist_items||[]).filter(x=>x.content).sort((a,b)=>new Date(a.added_at)-new Date(b.added_at)).map(x=>rowSong(x.content))}))}
+   case'/support':{await needUser();return ok(await sb.rpc('my_support'))}
    case'/creators/me/defaults':{await needUser();return ok(await sb.rpc('get_upload_defaults'))||{}}
   }
  }
@@ -830,6 +831,8 @@ async function route(method,path,body){
    if(body.avatar){const path=u.id+'/avatar-'+rid()+'.jpg',up=await sb.storage.from(BUCKET).upload(path,body.avatar,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});if(up.error)throw up.error;data.avatar_url=sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
    const d=ok(await sb.auth.updateUser({data}));return{user:shapeUser(d.user)}}
   if(p==='/me/password'){const u=await needUser();if(!(u.user_metadata&&u.user_metadata.listener==='true'))throw apiError('Creators change their password from the sign-in page.');const pw=shortPw(body.password);ok(await sb.auth.updateUser({password:pw}));return{ok:true}}
+  if(p==='/support'){await needUser();ok(await sb.rpc('send_support',{p_kind:body.kind,p_subject:String(body.subject||''),p_body:String(body.body||'')}));return{ok:true}}
+  if(p==='/support/read'){await needUser();ok(await sb.rpc('mark_support_read'));return{ok:true}}
   if(p==='/likes'){await needUser();return ok(await sb.rpc('toggle_like',{p_content:body.id}))}
   if(p==='/creators/register'){
    const rec={p_type:body.type,p_name:body.name,p_location:body.location,p_description:body.description||'',p_permission:!!body.permission};
@@ -1368,7 +1371,7 @@ function dashHtml(){
  const F=cFeed,cm=F?F.comments:null,inter=(T.views||0)+(T.plays||0),engRate=inter?Math.round(((T.likes||0)+(cm||0))/inter*1000)/10:0,PC=(F&&F.per_content)||{};
  const stat=([k,l])=>`<div class="stat"><span>${l}</span><strong>${fmtN(T[k]||0)}</strong>${C[k]==null?'':pct(C[k])}</div>`;
  const seg=(list,cur,fn)=>list.map(([k,l])=>`<button class="seg-btn${k===cur?' active':''}" onclick="${fn}('${k}')">${l}</button>`).join('');
- return `<div class="dash-head"><div class="dash-top"><div class="dash-id">${av(creator.avatar_url,creator.name,'lg')}<div class="dash-info"><h2>${e(creator.name)}</h2><p>${e(kind)}${creator.location?', '+e(creator.location):''}</p><span class="badge">${creator.verified?'Verified':'Awaiting verification'}</span>${creator.description?`<p class="dash-about">${e(creator.description)}</p>`:''}</div></div><div class="kebab-wrap"><button type="button" class="kebab-btn" id="kebabBtn" aria-label="Profile menu" aria-haspopup="menu" aria-expanded="false" onclick="toggleKebab(event)"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button><div class="kebab-menu" id="kebabMenu" role="menu" hidden><button type="button" role="menuitem" onclick="kebabDo('edit')">Edit profile</button><button type="button" role="menuitem" onclick="kebabDo('view')">View public profile</button>${user?'<div class="kebab-sep"></div><button type="button" role="menuitem" class="danger" onclick="kebabDo(\'out\')">Sign out</button>':''}</div></div></div><div class="btn-row dash-actions"><button class="gold-btn" onclick="openModal('upload')">Upload content</button><button class="outline-btn" onclick="openModal('link')">Add stream or video link</button></div></div>
+ return `<div class="dash-head"><div class="dash-top"><div class="dash-id">${av(creator.avatar_url,creator.name,'lg')}<div class="dash-info"><h2>${e(creator.name)}</h2><p>${e(kind)}${creator.location?', '+e(creator.location):''}</p><span class="badge">${creator.verified?'Verified':'Awaiting verification'}</span>${creator.description?`<p class="dash-about">${e(creator.description)}</p>`:''}</div></div><div class="kebab-wrap"><button type="button" class="kebab-btn" id="kebabBtn" aria-label="Profile menu" aria-haspopup="menu" aria-expanded="false" onclick="toggleKebab(event)"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button><div class="kebab-menu" id="kebabMenu" role="menu" hidden><button type="button" role="menuitem" onclick="kebabDo('edit')">Edit profile</button><button type="button" role="menuitem" onclick="kebabDo('view')">View public profile</button><button type="button" role="menuitem" onclick="kebabDo('help')">Contact admin</button>${user?'<div class="kebab-sep"></div><button type="button" role="menuitem" class="danger" onclick="kebabDo(\'out\')">Sign out</button>':''}</div></div></div><div class="btn-row dash-actions"><button class="gold-btn" onclick="openModal('upload')">Upload content</button><button class="outline-btn" onclick="openModal('link')">Add stream or video link</button></div></div>
  ${creator.verified?'':'<div class="c-card"><h3>Your profile is awaiting verification</h3><p class="c-empty">Our team checks every new creator. Once verified, you appear in Artists &amp; Ministries and people can follow you. Everything you publish, uploads and links alike, goes live right away.</p></div>'}
  <div class="c-bar"><div class="seg" role="group" aria-label="Period">${seg([['7d','7 days'],['30d','30 days'],['90d','90 days']],cPeriod,'setCPeriod')}</div></div>
  <div class="stats">${[['views','Views'],['plays','Plays'],['likes','Likes'],['followers','Followers']].map(stat).join('')}<div class="stat"><span>Comments</span><strong>${F?fmtN(cm):'–'}</strong></div><div class="stat"><span>Engagement</span><strong>${engRate}%</strong><small class="stat-note">likes + comments per view or play</small></div><div class="stat live"><span><i class="pulse" aria-hidden="true"></i>Watching now</span><strong>${fmtN(T.watching||0)}</strong></div></div>
@@ -1406,9 +1409,19 @@ async function refreshCreator(){
 setInterval(()=>{const pg=$('page-creator');if(creator&&pg&&pg.classList.contains('active')&&!document.hidden&&!document.querySelector('.rp-box:not([hidden])'))refreshCreator()},30000);
 
 /* KEBAB MENU */
+
+/* Creator support: message the ShalomStream admin and read replies */
+async function openSupport(){
+ let list=[];try{list=await api.req('GET','/support')||[]}catch(_){}
+ const K={complaint:'Complaint',question:'Question',appeal:'Appeal a removal',other:'Other'};
+ const old=list.map(m=>`<div class="acct-item" style="border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px"><strong>${e(m.subject)}</strong> <small>${e(K[m.kind]||'')} · ${e(m.status)} · ${new Date(m.created_at).toLocaleDateString()}</small><p>${e(m.body)}</p>${m.admin_reply?`<p style="border-left:3px solid var(--gold);padding-left:10px"><strong>Admin reply:</strong> ${e(m.admin_reply)}</p>`:'<small>Waiting for a reply.</small>'}</div>`).join('');
+ showModal(`<h2>Contact the admin</h2><p class="au-sub">Send a complaint, question or appeal. The admin replies here.</p><form id="supForm" class="au-form"><div class="au-field"><label>Type</label><select name="kind">${Object.keys(K).map(k=>`<option value="${k}">${K[k]}</option>`).join('')}</select></div><div class="au-field"><label>Subject</label><input name="subject" maxlength="120" required></div><div class="au-field"><label>Message</label><textarea name="body" rows="4" maxlength="2000" class="au-area" required></textarea></div><div class="form-error" id="supErr" role="alert"></div><button class="gold-btn au-submit" type="submit">Send</button></form>${old?'<h3 style="margin-top:18px">Your messages</h3>'+old:''}`);
+ api.req('POST','/support/read').catch(()=>{});
+ $('supForm').onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));try{await api.req('POST','/support',d);toast('Message sent to the admin');openSupport()}catch(er){$('supErr').textContent=er.message}};
+}
 function toggleKebab(ev){ev&&ev.stopPropagation();const m=$('kebabMenu'),b=$('kebabBtn');if(!m)return;const open=m.hidden;m.hidden=!open;b.setAttribute('aria-expanded',open)}
 function closeKebab(){const m=$('kebabMenu'),b=$('kebabBtn');if(m)m.hidden=true;if(b)b.setAttribute('aria-expanded','false')}
-function kebabDo(a){closeKebab();if(a==='edit')editProfile();else if(a==='view')openCreator(creator.id);else if(a==='link')openModal('link');else if(a==='out')authClick()}
+function kebabDo(a){closeKebab();if(a==='edit')editProfile();else if(a==='view')openCreator(creator.id);else if(a==='link')openModal('link');else if(a==='help')openSupport();else if(a==='out')authClick()}
 document.addEventListener('click',ev=>{if(!ev.target.closest('.kebab-wrap'))closeKebab()});
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeKebab()});
 
