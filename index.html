@@ -506,14 +506,76 @@ svg{display:block;flex:none}
 .add-float{position:absolute;left:12px;bottom:12px;z-index:2;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(12,15,20,.72);color:#fff;display:grid;place-items:center;opacity:0;transform:translateY(6px);transition:opacity .18s,transform .18s}
 .card:hover .add-float,.add-float:focus-visible{opacity:1;transform:none}
 @media(max-width:700px){.track,.track.pl-row{grid-template-columns:28px 44px minmax(0,1fr) auto auto}.add-float{opacity:1;transform:none}}
+/* No "add to playlist" + on the home page */
+#homeSongs .add-float,#newSongs .add-mini{display:none}
+.ss-play.ss-music svg{margin-left:0}
+.c-cover{justify-self:start;margin-top:6px;background:none;border:0;padding:0;color:var(--gold);font:inherit;font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.cv-top{display:flex;gap:14px;align-items:center}
+.cv-prev{width:64px;height:64px;border-radius:14px;flex:none;background:var(--surface2) center/cover no-repeat;border:1px solid var(--line2);display:grid;place-items:center;color:var(--gold);overflow:hidden}
+.cv-dot{width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,#f3d58a,var(--gold));color:#1a1305;display:grid;place-items:center}.cv-dot svg{width:16px;height:16px}
+.cv-main{min-width:0;flex:1}
+.cv-picks{display:flex;flex-wrap:wrap;gap:8px}
+.cv-pick{width:38px;height:38px;border-radius:10px;border:2px solid transparent;display:grid;place-items:center;cursor:pointer;padding:0;color:#1a1305}
+.cv-pick .cv-dot{width:20px;height:20px}.cv-pick .cv-dot svg{width:11px;height:11px}
+.cv-pick.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,166,74,.25)}
+.cv-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+@media(min-width:701px){#newSongs .track{grid-template-columns:36px 44px minmax(0,1fr) auto auto}}
 .pl-card{cursor:pointer}
 .pl-list{display:grid;gap:8px;max-height:50vh;overflow:auto;margin:14px 0}
 .pl-opt{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;background:var(--bg);color:var(--text);border:1px solid var(--line2);border-radius:var(--r-md);padding:12px 14px;font:inherit}.pl-opt small{display:block;color:var(--muted)}.pl-opt.on{border-color:var(--gold);color:var(--gold)}
 .pl-pick{display:flex;align-items:center;gap:12px}.pl-pick .track-art{width:40px;height:40px}.pl-pick>span{flex:1;min-width:0}.pl-pick strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pl-pick small{color:var(--muted)}.pl-pick .outline-btn{height:36px}.pl-pick .outline-btn.on{border-color:var(--gold);color:var(--gold)}
 .np-addpl{width:100%;margin:14px 0 0}
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0c0f14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ShalomStream">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+#pwaGate{position:fixed;inset:0;z-index:99999;background:#0c0f14;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px calc(32px + env(safe-area-inset-bottom));text-align:center;font-family:Inter,system-ui,sans-serif;color:#eef1f5}
+#pwaGate.show{display:flex}
+#pwaGate img{width:132px;height:132px;border-radius:50%;box-shadow:0 0 0 1px #2f3946,0 18px 50px rgba(216,169,78,.18)}
+#pwaGate h1{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:32px;margin:26px 0 6px}
+#pwaGate h1 span{color:#d8a94e}
+#pwaGate p{margin:0 0 38px;color:#8e99a8;font-size:15px}
+#pwaGate button{width:100%;max-width:340px;height:52px;border-radius:14px;font-size:16px;font-weight:650;cursor:pointer;margin-top:12px;border:1px solid #2f3946;background:transparent;color:#eef1f5}
+#pwaGate #pwaInstall{background:#d8a94e;border-color:#d8a94e;color:#1a1305}
+#pwaHint{display:none;max-width:320px;margin-top:16px;font-size:13.5px;color:#8e99a8;line-height:1.5}
+</style>
 </head>
 <body>
+<div id="pwaGate" role="dialog" aria-label="Install Shalom Stream">
+  <img src="icon-512.png" alt="Shalom Stream logo">
+  <h1>Shalom<span>Stream</span></h1>
+  <p>Christian Music &amp; Media</p>
+  <button id="pwaInstall">Install app</button>
+  <button id="pwaBrowser">Open in browser</button>
+  <div id="pwaHint"></div>
+</div>
+<script>
+(function(){
+  var gate=document.getElementById('pwaGate'),hint=document.getElementById('pwaHint'),dp=null;
+  var standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  var seen=false;try{seen=sessionStorage.getItem('pwa-skip')==='1'}catch(e){}
+  if(!standalone&&!seen)gate.classList.add('show');
+  function close(){gate.classList.remove('show');try{sessionStorage.setItem('pwa-skip','1')}catch(e){}}
+  addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e});
+  addEventListener('appinstalled',close);
+  document.getElementById('pwaBrowser').onclick=close;
+  document.getElementById('pwaInstall').onclick=function(){
+    if(dp){dp.prompt();dp.userChoice.then(function(c){dp=null;if(c.outcome==='accepted')close()})}
+    else{
+      hint.style.display='block';
+      hint.textContent=ios?'On iPhone: tap the Share button, then "Add to Home Screen".':'Open your browser menu (\u22EE) and tap "Install app" or "Add to Home screen".';
+    }
+  };
+  if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+})();
+</script>
+
 <div class="app" id="app">
 <header class="topbar">
   <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
@@ -868,7 +930,7 @@ async function route(method,path,body){
    if(up.error)throw up.error;
    const who=String(body.get('artist')||'').trim()||cr.name,dur=await mediaLength(file);
    let tPath=null,tUrl=null;
-   try{const cv=body.get('cover'),tb=(cv&&cv.size&&/^image\//.test(cv.type))?await squareBlob(cv,900):await makeThumbBlob(file,rid());if(tb){tPath=u.id+'/'+rid()+'-thumb.jpg';const tu=await sb.storage.from(BUCKET).upload(tPath,tb,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});if(tu.error){tPath=null}else tUrl=sb.storage.from(BUCKET).getPublicUrl(tPath).data.publicUrl}}catch(_){tPath=null;tUrl=null}
+   try{const cv=body.get('cover'),tb=(cv&&cv.size&&/^image\//.test(cv.type))?await squareBlob(cv,900):(file.type.startsWith('video/')?await makeThumbBlob(file,rid()):null);if(tb){tPath=u.id+'/'+rid()+'-thumb.jpg';const tu=await sb.storage.from(BUCKET).upload(tPath,tb,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});if(tu.error){tPath=null}else tUrl=sb.storage.from(BUCKET).getPublicUrl(tPath).data.publicUrl}}catch(_){tPath=null;tUrl=null}
    const ins=await sb.from('content').insert({creator_id:cr.id,kind,title:String(body.get('title')||'').trim(),artist_name:who,speaker:kind==='message'?who:null,church_name:kind==='message'?cr.name:null,category:cat,genre:String(body.get('genre')||'').trim()||null,album:String(body.get('album')||'').trim()||null,description:String(body.get('description')||'').trim(),duration_seconds:dur,storage_path:path,media_url:sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl,thumbnail_url:tUrl,permission_confirmed:body.get('permission')==='on'});
    if(ins.error){await sb.storage.from(BUCKET).remove(tPath?[path,tPath]:[path]);throw ins.error}
    if(body.get('remember')==='on')sb.rpc('save_upload_defaults',{p:{artist:who,category:cat,genre:String(body.get('genre')||''),album:String(body.get('album')||'')}}).then(()=>{},()=>{});
@@ -878,7 +940,21 @@ async function route(method,path,body){
    const u=await needUser(),cr=await myCreator(u,'id,name,location');
    if(!cr)throw apiError('Create a creator account before you add a link.');
    if(body.kind!=='live'&&body.kind!=='video')throw apiError('Choose whether this link is a live stream or a video.');
-   ok(await sb.from('content').insert({creator_id:cr.id,kind:body.kind,title:String(body.title||'').trim(),artist_name:String(body.channel||'').trim()||cr.name,media_url:String(body.url||'').trim(),meta:body.kind==='live'?(cr.location||'Live now'):null}));
+   let tPath=null,tUrl=null;
+   try{const cv=body.cover;if(cv&&cv.size&&/^image\//.test(cv.type)){const tb=await wideBlob(cv,1280);if(tb){tPath=u.id+'/'+rid()+'-thumb.jpg';const tu=await sb.storage.from(BUCKET).upload(tPath,tb,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});if(tu.error){tPath=null}else tUrl=sb.storage.from(BUCKET).getPublicUrl(tPath).data.publicUrl}}}catch(_){tPath=null;tUrl=null}
+   const ins=await sb.from('content').insert({creator_id:cr.id,kind:body.kind,title:String(body.title||'').trim(),artist_name:String(body.channel||'').trim()||cr.name,media_url:String(body.url||'').trim(),thumbnail_url:tUrl,meta:body.kind==='live'?(cr.location||'Live now'):null});
+   if(ins.error){if(tPath)await sb.storage.from(BUCKET).remove([tPath]);throw ins.error}
+   return{ok:true};
+  }
+  if(p==='/content/cover'){
+   const u=await needUser(),cr=await myCreator(u,'id'),cv=body.cover;
+   if(!cr)throw apiError('Create a creator account first.');
+   if(!(cv&&cv.size&&/^image\//.test(cv.type)))throw apiError('Choose a cover image.');
+   const tb=body.wide?await wideBlob(cv,1280):await squareBlob(cv,900),tPath=u.id+'/'+rid()+'-thumb.jpg';
+   const tu=await sb.storage.from(BUCKET).upload(tPath,tb,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});
+   if(tu.error)throw tu.error;
+   const url=sb.storage.from(BUCKET).getPublicUrl(tPath).data.publicUrl,r=await sb.from('content').update({thumbnail_url:url}).eq('id',body.id).eq('creator_id',cr.id).select('id');
+   if(r.error||!r.data||!r.data.length){await sb.storage.from(BUCKET).remove([tPath]);if(r.error)throw r.error;throw apiError('The cover could not be saved. Ask the admin to allow creators to update their own content.',403)}
    return{ok:true};
   }
   if(p==='/churches'){
@@ -915,6 +991,23 @@ const barsFor=seed=>{let h=hashStr(seed),o='';for(let k=0;k<26;k++){h=(h*1103515
 const brandArt=(seed,cls='')=>`<div class="ss-art ss-a${hashStr(seed)%6} ${cls}" aria-hidden="true"><div class="ss-wave">${barsFor(seed)}</div><div class="ss-mark"><span class="ss-play">${I.play}</span><b>Shalom <i>Stream</i></b></div></div>`;
 const coverInner=(t,seed,cls)=>okThumb(t)?'':brandArt(seed,cls);
 const thumbStyle=t=>okThumb(t)?` style="--thumb:url('${okThumb(t)}')"`:'';
+const MUSIC_IC='<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>';
+const short14=t=>{const a=Array.from(String(t==null?'':t));return a.length>14?a.slice(0,14).join('')+'…':a.join('')};
+const musicArt=(seed,cls='')=>`<div class="ss-art ss-a${hashStr(seed)%6} ${cls}" aria-hidden="true"><div class="ss-mark"><span class="ss-play ss-music">${ic(MUSIC_IC,24,2)}</span></div></div>`;
+const songCover=(t,seed,cls)=>okThumb(t)?'':musicArt(seed,cls);
+/* Older uploads got an auto-made 16:9 "Shalom Stream" picture. Real covers are square. Swap the auto-made ones for the music icon. */
+const GENT=new Map();
+function genThumb(u){
+ if(GENT.has(u))return GENT.get(u)===true;
+ GENT.set(u,'p');const im=new Image();
+ im.onload=()=>{const g=im.naturalWidth/im.naturalHeight>1.5;GENT.set(u,g);if(g){scanMusicThumbs();if(cur&&okThumb(cur.thumbnailUrl)===u)setNowArt()}};
+ im.onerror=()=>GENT.set(u,false);im.src=u;return false}
+function scanMusicThumbs(){
+ document.querySelectorAll('[data-mus].has-thumb').forEach(el=>{
+  const m=/url\(['"]?([^'")]+)/.exec(el.getAttribute('style')||'');if(!m||!genThumb(m[1]))return;
+  el.classList.remove('has-thumb');el.style.removeProperty('--thumb');
+  el.insertAdjacentHTML('afterbegin',musicArt(m[1],el.classList.contains('track-art')?'sm':''))})}
+let scanT=0;new MutationObserver(()=>{clearTimeout(scanT);scanT=setTimeout(scanMusicThumbs,60)}).observe(document.documentElement,{childList:true,subtree:true});
 
 
 /* ============ THUMBNAIL GENERATOR (runs in the browser at upload) ============ */
@@ -977,8 +1070,8 @@ function shortPw(v){v=String(v||'');if(v.length<6||v.length>10)throw apiError('Y
 function squareBlob(file,size){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(file);im.onload=()=>{URL.revokeObjectURL(u);const s=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=Math.min(size,s);c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,c.width,c.height);c.toBlob(b=>b?res(b):rej(new Error('Could not read that image.')),'image/jpeg',.88)};im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('That image could not be read. Use a JPG, PNG or WebP file.'))};im.src=u})}
 const av=(url,name,cls='')=>okThumb(url)?`<span class="av ${cls}" style="background-image:url('${okThumb(url)}')"></span>`:`<span class="av ${cls}">${e(String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase())}</span>`;
 /* ============ TEMPLATES ============ */
-const songCard=(s,i)=>`<div class="card"><div class="cover${okThumb(s.thumbnailUrl)?' has-thumb':''}"${thumbStyle(s.thumbnailUrl)}>${coverInner(s.thumbnailUrl,s.id||s.title)}<button class="add-float" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-float" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div><div class="card-body"><div class="card-title">${e(s.title)}</div><div class="card-meta">${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</div><div class="badge">${e(s.plays)} plays</div></div></div>`;
-const track=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}"${thumbStyle(s.thumbnailUrl)}>${coverInner(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
+const songCard=(s,i)=>`<div class="card"><div class="cover${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title)}<button class="add-float" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-float" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div><div class="card-body"><div class="card-title" title="${e(s.title)}">${e(short14(s.title))}</div><div class="card-meta">${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</div><div class="badge">${e(s.plays)} plays</div></div></div>`;
+const track=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
 const artistCard=(a,i)=>`<div class="card artist-card" onclick="openCreator('${e(a.id)}')"><div class="cover c${(i+1)%6}"><div class="avatar"${okThumb(a.avatar)?` style="background:url('${okThumb(a.avatar)}') center/cover;color:transparent"`:''}>${okThumb(a.avatar)?'':e(a.name.split(' ').slice(0,2).map(w=>w[0]).join(''))}</div></div><div class="card-body"><div class="card-title">${e(a.name)}</div><div class="card-meta">${e(a.meta)}</div><span class="badge">${a.followers?e(a.followers)+' followers':'Verified ministry'}</span><button class="outline-btn follow-btn${following.has(String(a.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(a.id)}',this)">${following.has(String(a.id))?'Following':'Follow'}</button></div></div>`;
 const churchCard=(c,i)=>`<div class="card church-card"><div class="cover c${(i+3)%6}"><span class="church-icon">${I.church}</span></div><div class="card-body"><div class="card-title">${e(c.name)}</div><div class="card-meta">${e(c.meta)}</div><span class="badge">Official profile</span></div></div>`;
 const messageCard=m=>`<div class="message"><div class="msg-cover${okThumb(m.thumbnailUrl)?' has-thumb':''}"${thumbStyle(m.thumbnailUrl)} onclick="playMessage('${e(m.id)}')">${coverInner(m.thumbnailUrl,m.id||m.title)}</div><h3>${e(m.title)}</h3><p>${e(m.speaker)}, ${e(m.church)}<br>${e(m.length)}</p><button class="outline-btn" onclick="playMessage('${e(m.id)}')">${I.play} Listen</button></div>`;
@@ -1147,8 +1240,9 @@ function cycleRepeat(){PS.repeat=PS.repeat==='off'?'all':PS.repeat==='all'?'one'
 function onEnded(){if(PS.repeat==='one'&&cur){if(cur.audioUrl){audio.currentTime=0;audio.play().catch(()=>{})}else simT=0}else nextTrack()}
 
 function setNowArt(){
- if(!cur)return;const seed=cur.id||cur.title,t=okThumb(cur.thumbnailUrl);
- const fill=(el,cls)=>{el.style.background=t?`url('${t}') center/cover`:'';el.innerHTML=t?'':brandArt(seed,cls)};
+ if(!cur)return;const seed=cur.id||cur.title,isSong=songs.some(x=>String(x.id)===String(cur.id));let t=okThumb(cur.thumbnailUrl);
+ if(isSong&&t&&genThumb(t))t='';
+ const fill=(el,cls)=>{el.style.background=t?`url('${t}') center/cover`:'';el.innerHTML=t?'':(isSong?musicArt(seed,cls):brandArt(seed,cls))};
  fill($('nowArt'),'sm');fill($('npArt'),'');
  $('npTitle').textContent=cur.title||'';$('npArtist').textContent=cur.artist||cur.speaker||'';
  try{if('mediaSession' in navigator&&window.MediaMetadata)navigator.mediaSession.metadata=new MediaMetadata({title:cur.title||'',artist:cur.artist||cur.speaker||'',album:'Shalom Stream',artwork:t?[{src:t,sizes:'512x512',type:'image/jpeg'}]:[]})}catch(_){}
@@ -1244,13 +1338,14 @@ const INFO={
  contact:['Contact','For support, ministry verification or content concerns, write to the ShalomStream team.']
 };
 const FORMS={
- link:{title:'Add a stream or video link',text:'Paste a YouTube or Facebook link. It plays on ShalomStream with the original platform’s player, and the video stays on that platform.',submit:'Add to ShalomStream',fields:[['title','Title','text'],['channel','Church or ministry','text'],['kind','This link is a','select',['Live stream','Video']],['url','YouTube or Facebook link','url']],run:async fd=>{const d=Object.fromEntries(fd);d.kind=d.kind==='Live stream'?'live':'video';const x=parseUrl(d.url);const ok=x&&x.protocol==='https:'&&(toEmbed(d.url)||/(^|\.)(youtube\.com|youtu\.be|facebook\.com|fb\.watch)$/.test(x.hostname));if(!ok)throw new Error('Paste an https link from YouTube or Facebook, or a direct video file link.');await api.post('/content/links',d);loadAll()},done:'Link added'},
+ link:{title:'Add a stream or video link',text:'Paste a YouTube or Facebook link. It plays on ShalomStream with the original platform’s player, and the video stays on that platform.',submit:'Add to ShalomStream',fields:[['title','Title','text'],['channel','Church or ministry','text'],['kind','This link is a','select',['Live stream','Video']],['url','YouTube or Facebook link','url'],['cover','Cover image','cover']],run:async fd=>{const d=Object.fromEntries(fd);const cvf=fd.get('cover');if(cvf&&cvf.size>15*1024*1024)throw new Error('Choose a cover image under 15 MB.');d.cover=await pickedCover(fd,true,1280,720);delete d.coverPreset;d.kind=d.kind==='Live stream'?'live':'video';const x=parseUrl(d.url);const ok=x&&x.protocol==='https:'&&(toEmbed(d.url)||/(^|\.)(youtube\.com|youtu\.be|facebook\.com|fb\.watch)$/.test(x.hostname));if(!ok)throw new Error('Paste an https link from YouTube or Facebook, or a direct video file link.');await api.post('/content/links',d);loadAll()},done:'Link added'},
  login:{title:'Creator sign in',text:'Sign in to your creator account to open your dashboard.',submit:'Sign in',fields:[['email','Email','email'],['password','Password','password']],run:async fd=>{const r=await api.post('/auth/login',Object.fromEntries(fd));setUser(r.user);loadAll()},done:'Signed in'},
  upload:{title:'Publish content',text:'Share music or messages you own or have permission to publish. Your upload goes live as soon as you publish it.',submit:'Publish',fields:[['title','Title','text'],['artist','Artist or ministry','text'],['category','Category','select',['Worship','Gospel','Hymns','Choir','Sermon']],['file','Audio or video file','file'],['description','Description','textarea',0],['permission','I own this content or have permission to publish it.','checkbox']],run:async fd=>{await api.post('/content',fd);loadCreator()},done:'Published'},
  church:{title:'Register a church',text:'Create an official church profile. We verify each church before it is listed.',submit:'Register church',fields:[['name','Church name','text'],['location','Town or city','text'],['email','Contact email','email'],['description','About the church','textarea',0]],run:fd=>api.post('/churches',Object.fromEntries(fd)),done:'Church submitted for verification'}
 };
 function fieldHtml([n,l,t,x]){
  const req=x===0?'':' required';
+ if(t==='cover')return coverField('link');
  if(t==='checkbox')return `<label class="check"><input type="checkbox" name="${n}" required> <span>${e(l)}</span></label>`;
  const ctl=t==='select'?`<select name="${n}"${req}>${x.map(o=>`<option>${e(o)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name="${n}" rows="3"${req}></textarea>`:`<input name="${n}" type="${t}"${t==='file'?' accept="audio/*,video/*"':''}${req}>`;
  return `<div class="field"><label>${e(l)}</label>${ctl}</div>`;
@@ -1381,7 +1476,7 @@ function dashHtml(){
   <div class="c-card"><h3>Most played</h3>${top.length?'<div class="c-scroll">'+top.map(c=>`<div class="c-row"><div class="c-t"><strong>${e(c.title)}</strong><i class="meter"><b style="width:${Math.round(c.plays/max*100)}%"></b></i></div><span>${fmtN(c.plays)}</span></div>`).join('')+'</div>':'<p class="c-empty">Plays will show here.</p>'}</div>
  </div>
  ${engagementCards(PC)}
- <div class="c-card"><h3>Your content</h3>${cContent.length?`<div class="c-table"><div class="c-th"><span>Title</span><span>Plays</span><span>Views</span><span>Likes</span><span>Watching</span><span>Change</span><span>Status</span></div>${cContent.map(c=>`<div class="c-tr"><span class="c-t"><strong>${e(c.title)}</strong><em>${e(c.type)}${PC[c.id]?' · '+fmtN(PC[c.id])+' comment'+(PC[c.id]==1?'':'s'):''}</em></span><span>${fmtN(c.plays)}</span><span>${fmtN(c.views)}</span><span>${fmtN(c.likes||0)}</span><span>${fmtN(c.watching||0)}</span>${pct(c.growth)}<span>${e(c.status)}</span></div>`).join('')}</div>`:'<p class="c-empty">You have not published anything yet. Use Upload content to get started.</p>'}</div>`;
+ <div class="c-card"><h3>Your content</h3>${cContent.length?`<div class="c-table"><div class="c-th"><span>Title</span><span>Plays</span><span>Views</span><span>Likes</span><span>Watching</span><span>Change</span><span>Status</span></div>${cContent.map(c=>`<div class="c-tr"><span class="c-t"><strong>${e(c.title)}</strong><em>${e(c.type)}${PC[c.id]?' · '+fmtN(PC[c.id])+' comment'+(PC[c.id]==1?'':'s'):''}</em><button type="button" class="c-cover" onclick="openCover('${e(c.id)}')">Change cover</button></span><span>${fmtN(c.plays)}</span><span>${fmtN(c.views)}</span><span>${fmtN(c.likes||0)}</span><span>${fmtN(c.watching||0)}</span>${pct(c.growth)}<span>${e(c.status)}</span></div>`).join('')}</div>`:'<p class="c-empty">You have not published anything yet. Use Upload content to get started.</p>'}</div>`;
 }
 function drawChart(){
  const s=(cData&&cData.series)||[],el=$('cchart');if(!el)return;
@@ -1550,7 +1645,7 @@ function profPlay(id,kind){if(kind==='video')return openVideo(id);playFrom((kind
 function renderProfile(){
  const p=prof,mine=creator&&creator.id===p.id,fol=following.has(String(p.id)),items=p.content||[],S=items.filter(x=>x.kind==='song'),kind=TYPE_LABEL[p.type]||'Ministry',alb={};
  S.forEach(s=>{const k=(s.album||'').trim();if(k)(alb[k]=alb[k]||[]).push(s)});
- const row=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnail_url)?' has-thumb':''}"${thumbStyle(s.thumbnail_url)}>${coverInner(s.thumbnail_url,s.id,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.genre||s.album||kind)}</span></div><div class="track-stat">${kfmt(s.play_count)}</div>${s.kind==='song'?`<button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button>`:'<span></span>'}<button class="play-mini" aria-label="Play ${e(s.title)}" onclick="profPlay('${e(s.id)}','${s.kind}')">${I.play}</button></div>`;
+ const row=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnail_url)?' has-thumb':''}"${s.kind==='song'?' data-mus="1"':''}${thumbStyle(s.thumbnail_url)}>${s.kind==='song'?songCover(s.thumbnail_url,s.id,'sm'):coverInner(s.thumbnail_url,s.id,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.genre||s.album||kind)}</span></div><div class="track-stat">${kfmt(s.play_count)}</div>${s.kind==='song'?`<button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button>`:'<span></span>'}<button class="play-mini" aria-label="Play ${e(s.title)}" onclick="profPlay('${e(s.id)}','${s.kind}')">${I.play}</button></div>`;
  const list=(L,none)=>L.length?`<div class="row-list">${L.map(row).join('')}</div>`:`<div class="empty">${none}</div>`;
  const body=profTab==='music'?list(S,'No songs yet.'):profTab==='albums'?(Object.keys(alb).length?Object.entries(alb).map(([k,L])=>`<div class="c-card"><div class="c-card-head"><h3>${e(k)}</h3><span class="badge" style="margin:0">${L.length} song${L.length>1?'s':''}</span></div>${list(L)}</div>`).join(''):'<div class="empty">No albums or playlists yet.</div>'):list(items.filter(x=>x.kind!=='song'),'No messages or videos yet.');
  $('profileRoot').innerHTML=`<button class="outline-btn" onclick="closeProfile()">Back</button>
@@ -1563,6 +1658,55 @@ function renderProfile(){
 async function profFollow(){const id=String(prof.id),was=following.has(id);await toggleFollow(id,$('profFollow'));const on=following.has(id);if(on!==was){prof.followers=Math.max(0,(Number(prof.followers)||0)+(on?1:-1));$('profFol').textContent=fmtN(prof.followers)}}
 async function shareCreator(){const u=location.href.split('#')[0]+'#creator='+prof.id;try{if(navigator.share){await navigator.share({title:prof.name+' on ShalomStream',url:u});return}await navigator.clipboard.writeText(u);toast('Profile link copied')}catch(_){}}
 function prevImg(i,id){const f=i.files[0],t=$(id);if(f&&t)t.innerHTML=`<span class="av ${id==='cvPrev'?'lg sq':'xl'}" style="background-image:url('${URL.createObjectURL(f)}')"></span>`}
+/* Optional cover picker: choose a ready-made cover or upload an image. Used by every publish form. */
+const cvDot=k=>`<span class="cv-dot">${k==='link'?I.play:ic(MUSIC_IC,16,2)}</span>`;
+function coverField(kind){
+ const tiles=ART_COLORS.map((c,n)=>`<button type="button" class="cv-pick" aria-label="Cover style ${n+1}" style="background:linear-gradient(140deg,${c[0]},${c[1]})" onclick="cvPreset(${n})">${cvDot(kind)}</button>`).join('');
+ return `<div class="field cv-wrap" data-kind="${kind}"><label>Cover image <em>(optional)</em></label><div class="cv-top"><span class="cv-prev" id="cvPrev">${I.noteS}</span><div class="cv-main"><div class="cv-picks" role="group" aria-label="Ready-made covers">${tiles}</div><div class="cv-acts"><label class="outline-btn pf-pick">Upload image<input type="file" name="cover" accept="image/jpeg,image/png,image/webp" hidden onchange="cvFile(this)"></label><button type="button" class="outline-btn" id="cvClear" hidden onclick="cvClear()">Remove</button></div></div></div><input type="hidden" name="coverPreset" value=""><small class="gate-hint">${kind==='link'?'Skip it and the video’s own picture is used.':'Skip it and songs show a music icon, videos use a frame from the video.'}</small></div>`}
+function cvPreset(n){
+ const w=document.querySelector('.cv-wrap');if(!w)return;const f=w.closest('form'),c=ART_COLORS[n],pv=$('cvPrev');
+ f.coverPreset.value=n;w.querySelector('input[type=file]').value='';
+ w.querySelectorAll('.cv-pick').forEach((b,k)=>b.classList.toggle('on',k===n));
+ pv.style.backgroundImage=`linear-gradient(140deg,${c[0]},${c[1]})`;pv.innerHTML=cvDot(w.dataset.kind);$('cvClear').hidden=false}
+function cvFile(inp){
+ const w=inp.closest('.cv-wrap'),f=inp.files[0],pv=$('cvPrev');if(!f)return;
+ w.closest('form').coverPreset.value='';w.querySelectorAll('.cv-pick').forEach(b=>b.classList.remove('on'));
+ pv.style.backgroundImage=`url('${URL.createObjectURL(f)}')`;pv.innerHTML='';$('cvClear').hidden=false}
+function cvClear(){
+ const w=document.querySelector('.cv-wrap');if(!w)return;
+ w.closest('form').coverPreset.value='';w.querySelector('input[type=file]').value='';
+ w.querySelectorAll('.cv-pick').forEach(b=>b.classList.remove('on'));
+ const pv=$('cvPrev');pv.style.backgroundImage='';pv.innerHTML=I.noteS;$('cvClear').hidden=true}
+function presetBlob(n,video,W,H){return new Promise(res=>{
+ const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d'),[a,b]=ART_COLORS[n];
+ const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,a);g.addColorStop(1,b);x.fillStyle=g;x.fillRect(0,0,W,H);
+ const rg=x.createRadialGradient(W*.28,H*.16,0,W*.28,H*.16,Math.max(W,H)*.6);rg.addColorStop(0,'rgba(255,255,255,.22)');rg.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
+ const r=Math.min(W,H)*.2,cx=W/2,cy=H/2;
+ if(video)drawPlayBadge(x,cx,cy,r);
+ else{
+  const gg=x.createLinearGradient(cx-r,cy-r,cx+r,cy+r);gg.addColorStop(0,'#f3d58a');gg.addColorStop(1,'#d4a64a');
+  x.save();x.shadowColor='rgba(0,0,0,.5)';x.shadowBlur=r*.5;x.shadowOffsetY=r*.15;x.fillStyle=gg;x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fill();x.restore();
+  const k=r*1.1/24;x.save();x.translate(cx-12*k,cy-12*k);x.scale(k,k);x.strokeStyle='#1a1305';x.lineWidth=2;x.lineCap='round';x.lineJoin='round';
+  x.stroke(new Path2D('M9 18V5l11-2v13'));x.beginPath();x.arc(6,18,3,0,Math.PI*2);x.stroke();x.beginPath();x.arc(17,16,3,0,Math.PI*2);x.stroke();x.restore()}
+ c.toBlob(b=>res(b),'image/jpeg',.88)})}
+/* The cover the person picked: an uploaded image, a ready-made one drawn to a picture, or nothing. */
+async function pickedCover(fd,video,W,H){
+ const cv=fd.get('cover');if(cv&&cv.size)return cv;
+ const p=fd.get('coverPreset');if(p!==null&&p!=='')return presetBlob(+p,video,W,H);
+ return null}
+function wideBlob(file,W){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(file);im.onload=()=>{URL.revokeObjectURL(u);let sw=im.width,sh=sw*9/16;if(sh>im.height){sh=im.height;sw=sh*16/9}const c=document.createElement('canvas');c.width=Math.min(W,Math.round(sw));c.height=Math.round(c.width*9/16);c.getContext('2d').drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,0,0,c.width,c.height);c.toBlob(b=>b?res(b):rej(new Error('Could not read that image.')),'image/jpeg',.88)};im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('That image could not be read. Use a JPG, PNG or WebP file.'))};im.src=u})}
+function openCover(id){
+ const c=cContent.find(x=>String(x.id)===String(id));if(!c)return;
+ const wide=/video|live|stream/i.test(String(c.type||''));
+ showModal(`<h2>Change cover</h2><p>Pick a ready-made cover or upload your own image for <strong>${e(c.title)}</strong>.</p><form id="cform" novalidate>${coverField(wide?'link':'upload')}<div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">Save cover</button></form>`);
+ $('cform').addEventListener('submit',async ev=>{
+  ev.preventDefault();const f=ev.target,fd=new FormData(f),cv=fd.get('cover');
+  if(cv&&cv.size>15*1024*1024){$('ferr').textContent='Choose a cover image under 15 MB.';return}
+  $('ferr').textContent='';$('fsub').disabled=true;$('fsub').textContent='Saving…';
+  try{const pc=await pickedCover(fd,wide,wide?1280:900,wide?720:900);if(!pc)throw new Error('Pick a ready-made cover or upload an image first.');
+   await api.post('/content/cover',{id:c.id,cover:pc,wide});closeModal();toast('Cover saved');refreshCreator();loadAll()}
+  catch(err){$('ferr').textContent=err.message;$('fsub').disabled=false;$('fsub').textContent='Save cover'}});
+}
 function editProfile(){
  const c=creator;if(!c)return;
  showModal(`<h2>Edit profile</h2><p>This is what listeners see when they open your profile.</p><form id="pform" novalidate><div class="field"><div class="pf-av"><span id="pfPrev">${av(c.avatar_url,c.name,'xl')}</span><label class="outline-btn pf-pick">Choose profile photo<input type="file" name="avatar" accept="image/jpeg,image/png,image/webp" hidden onchange="prevImg(this,'pfPrev')"></label></div></div><div class="field"><label>Name</label><input name="name" value="${e(c.name)}" required maxlength="120"></div><div class="field"><label>Town or city</label><input name="location" value="${e(c.location||'')}" maxlength="120"></div><div class="field"><label>About</label><textarea name="description" rows="4" maxlength="1000">${e(c.description||'')}</textarea></div><div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">Save profile</button></form>`);
@@ -1580,7 +1724,7 @@ async function openUpload(){
 <form id="uform" novalidate oninput="upSync()" onchange="upSync()">
 <div class="field"><label>Audio or video file</label><input name="file" type="file" accept="audio/*,video/*" required></div>
 <div class="field"><label>Title</label><input name="title" required maxlength="160"></div>
-<div class="field"><label>Cover image <em>(optional, we create one if you skip it)</em></label><div class="pf-av"><span id="cvPrev"><span class="av lg sq">${I.noteS}</span></span><label class="outline-btn pf-pick">Choose image<input type="file" name="cover" accept="image/jpeg,image/png,image/webp" hidden onchange="prevImg(this,'cvPrev')"></label></div></div>
+${coverField('upload')}
 <div class="up-saved" id="upSaved"${saved?'':' hidden'}><div><strong id="upWho"></strong><small id="upWhat"></small></div><button type="button" class="outline-btn" onclick="upEdit(true)">Change</button></div>
 <div id="upFields"${saved?' hidden':''}>
 <div class="field"><label id="upArtL">Artist or ministry</label><input name="artist" value="${e(d.artist||creator.name)}" maxlength="120"></div>
@@ -1597,7 +1741,8 @@ async function openUpload(){
   const fd=new FormData(f),cv=fd.get('cover');if(cv&&cv.size>15*1024*1024){$('ferr').textContent='Choose a cover image under 15 MB.';return}
   if(f.category.value==='Sermon'){fd.set('genre','');fd.set('album','')}
   $('ferr').textContent='';$('fsub').disabled=true;$('fsub').textContent='Publishing…';
-  try{await api.post('/content',fd);closeModal();toast('Published');loadCreator();loadAll()}
+  try{const fl=fd.get('file'),pc=await pickedCover(fd,!!(fl&&/^video\//.test(fl.type)),900,900);fd.delete('coverPreset');if(pc&&pc!==cv)fd.set('cover',pc,'cover.jpg');
+   await api.post('/content',fd);closeModal();toast('Published');loadCreator();loadAll()}
   catch(err){$('ferr').textContent=err.message;$('fsub').disabled=false;$('fsub').textContent='Publish'}});
 }
 function upSync(){const f=$('uform');if(!f)return;const c=f.category.value,m=c!=='Sermon';$('upMusic').hidden=!m;$('upArtL').textContent=m?'Artist or ministry':'Speaker';$('upWho').textContent=f.artist.value||creator.name;$('upWhat').textContent=[c].concat(m?[f.genre.value,f.album.value]:[]).filter(Boolean).join(', ')}
@@ -1655,7 +1800,7 @@ function plRender(state){
   r.innerHTML=`<div class="section-head"><div><h2>Playlists</h2><p>Your own lists of songs</p></div><button class="gold-btn" onclick="plNew()">New playlist</button></div>${pl.length?`<div class="cards">${pl.map(p=>{const t=p.items.find(x=>okThumb(x.thumbnailUrl));return `<div class="card pl-card" role="button" tabindex="0" onclick="plShow('${e(p.id)}')" onkeydown="if(event.key==='Enter')plShow('${e(p.id)}')"><div class="cover${t?' has-thumb':''}"${t?thumbStyle(t.thumbnailUrl):''}>${t?'':brandArt(p.id)}</div><div class="card-body"><div class="card-title">${e(p.name)}</div><div class="card-meta">${nSongs(p.items.length)}</div></div></div>`}).join('')}</div>`:'<div class="empty">You have no playlists yet. Create one, then pick the songs you want in it.</div>'}`;
   return;
  }
- const rows=P.items.map((s,i)=>`<div class="track pl-row"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}"${thumbStyle(s.thumbnailUrl)}>${coverInner(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.artist)}</span></div><button class="add-mini" aria-label="Remove ${e(s.title)} from this playlist" title="Remove from playlist" onclick="plRemove('${e(P.id)}','${e(s.id)}')">${ic(MINUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="plPlay('${e(P.id)}','${e(s.id)}')">${I.play}</button></div>`).join('');
+ const rows=P.items.map((s,i)=>`<div class="track pl-row"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.artist)}</span></div><button class="add-mini" aria-label="Remove ${e(s.title)} from this playlist" title="Remove from playlist" onclick="plRemove('${e(P.id)}','${e(s.id)}')">${ic(MINUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="plPlay('${e(P.id)}','${e(s.id)}')">${I.play}</button></div>`).join('');
  r.innerHTML=`<button class="outline-btn" onclick="plShow(null)">All playlists</button>
  <div class="section-head" style="margin-top:18px"><div><h2>${e(P.name)}</h2><p>${nSongs(P.items.length)}</p></div><div class="btn-row"><button class="gold-btn" onclick="plPlayAll('${e(P.id)}')"${P.items.length?'':' disabled'}>${I.play} Play all</button><button class="outline-btn" onclick="plPick('${e(P.id)}')">Add songs</button><button class="outline-btn" onclick="plRename('${e(P.id)}')">Rename</button><button class="outline-btn" onclick="plDelete('${e(P.id)}')">Delete</button></div></div>
  ${P.items.length?`<div class="row-list">${rows}</div>`:`<div class="empty">This playlist is empty.<br><br><button class="gold-btn" onclick="plPick('${e(P.id)}')">Add songs</button></div>`}`;
@@ -1709,7 +1854,7 @@ function plPick(pid){
 function plPickList(q){
  const box=$('plPickList'),P=plById(plPickId);if(!box||!P)return;q=String(q||'').trim().toLowerCase();
  const L=songs.filter(s=>!q||(s.title+' '+s.artist+' '+(s.album||'')+' '+(s.genre||'')).toLowerCase().includes(q)).slice(0,40);
- box.innerHTML=L.length?L.map(s=>{const on=P.items.some(x=>String(x.id)===String(s.id));return `<div class="pl-pick"><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}"${thumbStyle(s.thumbnailUrl)}>${coverInner(s.thumbnailUrl,s.id||s.title,'sm')}</div><span><strong>${e(s.title)}</strong><small>${e(s.artist)}</small></span><button type="button" class="outline-btn${on?' on':''}" aria-pressed="${on}" onclick="plToggle('${e(P.id)}','${e(s.id)}','pick')">${on?'Added':'Add'}</button></div>`}).join(''):`<p class="c-empty">No songs found${q?' for “'+e(q)+'”':''}.</p>`;
+ box.innerHTML=L.length?L.map(s=>{const on=P.items.some(x=>String(x.id)===String(s.id));return `<div class="pl-pick"><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><span><strong>${e(s.title)}</strong><small>${e(s.artist)}</small></span><button type="button" class="outline-btn${on?' on':''}" aria-pressed="${on}" onclick="plToggle('${e(P.id)}','${e(s.id)}','pick')">${on?'Added':'Add'}</button></div>`}).join(''):`<p class="c-empty">No songs found${q?' for “'+e(q)+'”':''}.</p>`;
 }
 function plPickQ(){
  const q=$('plQ').value;plPickList(q);clearTimeout(plQt);
