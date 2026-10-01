@@ -265,7 +265,7 @@ svg{display:block;flex:none}
 .np-head{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;text-align:center;margin-bottom:10px}
 .np-head strong{font-size:14px;color:var(--muted);font-weight:600}
 .np-art{position:relative;width:min(300px,68vw);aspect-ratio:1;margin:6px auto 16px;border-radius:var(--r-md);overflow:hidden;background:linear-gradient(140deg,#3a3120,#171c24);box-shadow:0 14px 40px rgba(0,0,0,.4)}
-.np-title{text-align:center;margin-bottom:10px}.np-title strong{display:block;font-size:19px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.np-title span{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+.np-title{text-align:center;margin-bottom:10px}.np-title strong{display:block;font-size:16px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.np-title span{display:block;color:var(--muted);font-size:14px;margin-top:3px}
 .np-seek{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .rng{width:100%;accent-color:var(--gold);height:30px;margin:0;flex:1}
 .np-transport{display:flex;align-items:center;justify-content:space-between;margin:10px 0 14px}
@@ -542,6 +542,39 @@ svg{display:block;flex:none}
 #pwaGate p{margin:0 0 38px;color:#8e99a8;font-size:15px}
 #pwaGate button{width:100%;max-width:340px;height:52px;border-radius:14px;font-size:16px;font-weight:650;cursor:pointer;margin-top:12px;border:1px solid #2f3946;background:transparent;color:#eef1f5}
 #pwaGate #pwaInstall{background:#d8a94e;border-color:#d8a94e;color:#1a1305}
+
+.prof{position:relative}
+.prof-more{position:absolute;top:0;right:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:var(--surface);color:var(--text);display:grid;place-items:center;padding:0;z-index:5}
+.prof-more:hover{background:var(--surface2)}
+.prof-menu{display:none;position:absolute;top:46px;right:0;min-width:210px;background:var(--surface);border:1px solid var(--line2);border-radius:14px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.45);z-index:20}
+.prof-menu.open{display:block}
+.prof-menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--text);padding:12px 14px;border-radius:10px;font-size:14.5px;font-weight:550}
+.prof-menu button:hover{background:var(--surface2)}
+.song-card,.video-card{cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.song-card .lnk,.video-card .lnk{-webkit-user-select:text;user-select:text}
+.song-card .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0) 38%,rgba(0,0,0,0) 62%,rgba(0,0,0,.35));pointer-events:none}
+.ss-live{position:absolute;left:10px;right:10px;top:10px;z-index:3;display:flex;align-items:center;gap:7px;pointer-events:none;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:-.01em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.ss-word{display:flex;font-size:16px;line-height:1}
+.ss-l{display:inline-block;animation:ssWave 2.4s ease-in-out infinite;animation-delay:calc(var(--i)*.12s)}
+.ss-l.g{color:var(--gold2)}
+.ss-eq{margin-left:auto;display:flex;align-items:flex-end;gap:2px;height:14px}
+.ss-eq i{width:3px;height:100%;border-radius:2px;background:var(--gold);transform-origin:bottom;animation:ssEq 1s ease-in-out infinite}
+.ss-eq i:nth-child(2){animation-delay:-.3s;animation-duration:.8s}
+.ss-eq i:nth-child(3){animation-delay:-.6s;animation-duration:1.15s}
+.ss-eq i:nth-child(4){animation-delay:-.15s;animation-duration:.9s}
+@keyframes ssEq{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+@keyframes ssWave{0%,60%,100%{transform:translateY(0);text-shadow:0 1px 6px rgba(0,0,0,.6)}30%{transform:translateY(-4px);text-shadow:0 0 10px rgba(236,198,119,.95),0 1px 6px rgba(0,0,0,.6)}}
+@media(prefers-reduced-motion:reduce){.ss-l,.ss-eq i{animation:none}.ss-eq i{transform:scaleY(.6)}}
+.embed-note{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+.video[data-prev] .video-play,.video[data-prev] .video-label{display:none}
+.pv-layer{position:absolute;inset:0;overflow:hidden;opacity:0;transition:opacity .5s;pointer-events:none;background:#000}
+.pv-layer.on{opacity:1}
+.pv-layer video{width:100%;height:100%;object-fit:cover;display:block}
+.pv-layer iframe{position:absolute;top:50%;left:50%;width:100%;height:100%;border:0;transform:translate(-50%,-50%) scale(1.4);pointer-events:none}
+.pv-layer::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--gold);transform-origin:left;transform:scaleX(0);animation:pvBar 15s linear infinite}
+@keyframes pvBar{to{transform:scaleX(1)}}
+.sub-h{margin:0;font-family:var(--display);font-weight:500;font-size:22px}
+.modal h2.media-title{font-size:16px;font-family:var(--ui);font-weight:650;line-height:1.3}
 #pwaHint{display:none;max-width:320px;margin-top:16px;font-size:13.5px;color:#8e99a8;line-height:1.5}
 </style>
 </head>
@@ -632,8 +665,10 @@ svg{display:block;flex:none}
   </div>
 
   <div class="section">
-    <div class="section-head"><div><h2>New Releases</h2><p>Fresh songs from Christian artists and choirs</p></div></div>
+    <div class="section-head"><div><h2>New Releases</h2><p>Fresh songs and videos from Christian artists and choirs</p></div></div>
     <div class="row-list" id="newSongs"></div>
+    <div class="section-head" style="margin-top:40px"><div><h2>New Videos</h2><p>Fresh videos from ministries and creators</p></div><a class="view-all" href="#" onclick="showPage('videos')">Explore videos</a></div>
+    <div class="cards" id="newVideos"></div>
   </div>
 
   <div class="section">
@@ -765,6 +800,9 @@ svg{display:block;flex:none}
 const SUPABASE_URL='https://ixmyndnerktftrgqopry.supabase.co';
 const SUPABASE_KEY='sb_publishable_E2WKhhnJzYJ8GI28zsvggA_awiXq_iK';
 const BUCKET='media',MAX_UPLOAD=50*1024*1024;
+const EXT_MIME={mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm','3gp':'video/3gpp','3gpp':'video/3gpp',mkv:'video/x-matroska',ogv:'video/ogg',avi:'video/x-msvideo',mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',ogg:'audio/ogg',oga:'audio/ogg',opus:'audio/ogg',flac:'audio/flac'};
+function upPick(inp){const f=inp.files&&inp.files[0],er=document.getElementById('ferr');if(!f)return;const t=f.type||EXT_MIME[(f.name.split('.').pop()||'').toLowerCase()]||'';if(!/^(audio|video)\//.test(t)){if(er)er.textContent='Choose an audio or video file, such as MP3, M4A, WAV, MP4 or WebM.';inp.value='';return}if(f.size>MAX_UPLOAD){if(er)er.textContent='That file is too large. The limit is 50 MB.';inp.value='';return}if(er)er.textContent=''}
+function fixFileType(fd,name){const f=fd.get(name);if(!f||!f.size||/^(audio|video)\//.test(f.type))return;const t=EXT_MIME[(f.name.split('.').pop()||'').toLowerCase()];if(t)fd.set(name,new File([f],f.name,{type:t}))}
 const sb=window.supabase?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
 const savedIds=new Set(),following=new Set();
 
@@ -806,13 +844,13 @@ async function myCreator(u,cols){return ok(await sb.from('creators').select(cols
 
 /* Database rows -> the shapes the page renders */
 const TYPE_LABEL={church:'Church',ministry:'Ministry',choir:'Choir',artist:'Gospel artist',other:'Christian group'};
-const rowSong=r=>({creatorId:r.creator_id,genre:r.genre||'',album:r.album||'',id:r.id,title:r.title,artist:r.artist_name,plays:kfmt(r.period_plays!=null?r.period_plays:r.play_count),duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowSong=r=>({creatorId:r.creator_id,genre:r.genre||'',album:r.album||'',description:r.description||'',id:r.id,title:r.title,artist:r.artist_name,plays:kfmt(r.period_plays!=null?r.period_plays:r.play_count),duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowMessage=r=>({creatorId:r.creator_id,id:r.id,title:r.title,speaker:r.speaker||r.artist_name,church:r.church_name||'',length:r.duration_seconds?Math.max(1,Math.round(r.duration_seconds/60))+' min':'',duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowVideo=r=>({creatorId:r.creator_id,id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowVideo=r=>({creatorId:r.creator_id,description:r.description||'',id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowLive=r=>({id:r.id,title:r.title,name:r.artist_name,meta:r.meta||'Live now',viewers:r.viewers?kfmt(r.viewers):null,streamUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowCreator=r=>({avatar:r.avatar_url||'',id:r.id,name:r.name,followers:r.follower_count?kfmt(r.follower_count):'',meta:[TYPE_LABEL[r.type]||'Ministry',r.location].filter(Boolean).join(', ')});
 
-const COLS='id,title,artist_name,speaker,church_name,duration_seconds,media_url,thumbnail_url,meta,viewers,play_count,creator_id,genre,album';
+const COLS='id,title,artist_name,speaker,church_name,duration_seconds,media_url,thumbnail_url,meta,viewers,play_count,creator_id,genre,album,description';
 async function feed(kind,extra){
  let q=sb.from('content').select(COLS).eq('kind',kind).eq('status','published');
  if(extra)q=extra(q);
@@ -1070,26 +1108,56 @@ function shortPw(v){v=String(v||'');if(v.length<6||v.length>10)throw apiError('Y
 function squareBlob(file,size){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(file);im.onload=()=>{URL.revokeObjectURL(u);const s=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=Math.min(size,s);c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,c.width,c.height);c.toBlob(b=>b?res(b):rej(new Error('Could not read that image.')),'image/jpeg',.88)};im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('That image could not be read. Use a JPG, PNG or WebP file.'))};im.src=u})}
 const av=(url,name,cls='')=>okThumb(url)?`<span class="av ${cls}" style="background-image:url('${okThumb(url)}')"></span>`:`<span class="av ${cls}">${e(String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase())}</span>`;
 /* ============ TEMPLATES ============ */
-const songCard=(s,i)=>`<div class="card"><div class="cover${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title)}<button class="add-float" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-float" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div><div class="card-body"><div class="card-title" title="${e(s.title)}">${e(short14(s.title))}</div><div class="card-meta">${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</div><div class="badge">${e(s.plays)} plays</div></div></div>`;
+const SSWORD=Array.from('ShalomStream').map((c,i)=>`<span class="ss-l${i>=6?' g':''}" style="--i:${i}">${c}</span>`).join('');
+const songCard=(s,i)=>`<div class="card song-card" data-sid="${e(s.id)}"><div class="cover${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title)}<span class="ss-live" aria-hidden="true"><span class="ss-word">${SSWORD}</span><span class="ss-eq"><i></i><i></i><i></i><i></i></span></span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(s.title)}" onclick="event.stopPropagation();songInfo('${e(s.id)}');return false">${e(short14(s.title))}</a></div><div class="card-meta">${s.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</div><div class="badge">${e(s.plays)} plays</div></div></div>`;
 const track=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
 const artistCard=(a,i)=>`<div class="card artist-card" onclick="openCreator('${e(a.id)}')"><div class="cover c${(i+1)%6}"><div class="avatar"${okThumb(a.avatar)?` style="background:url('${okThumb(a.avatar)}') center/cover;color:transparent"`:''}>${okThumb(a.avatar)?'':e(a.name.split(' ').slice(0,2).map(w=>w[0]).join(''))}</div></div><div class="card-body"><div class="card-title">${e(a.name)}</div><div class="card-meta">${e(a.meta)}</div><span class="badge">${a.followers?e(a.followers)+' followers':'Verified ministry'}</span><button class="outline-btn follow-btn${following.has(String(a.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(a.id)}',this)">${following.has(String(a.id))?'Following':'Follow'}</button></div></div>`;
 const churchCard=(c,i)=>`<div class="card church-card"><div class="cover c${(i+3)%6}"><span class="church-icon">${I.church}</span></div><div class="card-body"><div class="card-title">${e(c.name)}</div><div class="card-meta">${e(c.meta)}</div><span class="badge">Official profile</span></div></div>`;
 const messageCard=m=>`<div class="message"><div class="msg-cover${okThumb(m.thumbnailUrl)?' has-thumb':''}"${thumbStyle(m.thumbnailUrl)} onclick="playMessage('${e(m.id)}')">${coverInner(m.thumbnailUrl,m.id||m.title)}</div><h3>${e(m.title)}</h3><p>${e(m.speaker)}, ${e(m.church)}<br>${e(m.length)}</p><button class="outline-btn" onclick="playMessage('${e(m.id)}')">${I.play} Listen</button></div>`;
-const videoCard=v=>{const t=thumbOf(v.thumbnailUrl,v.videoUrl);return `<div class="card"><div class="video${t?' has-thumb':''}"${t} onclick="openVideo('${e(v.id)}')">${t?'':brandArt(v.id||v.title,'video')}<button class="video-play" aria-label="Play ${e(v.title)}">${I.play}</button><span class="video-label">${e(v.title)}</span></div><div class="card-body"><div class="card-title">${e(v.channel)}</div><div class="card-meta">Christian video</div></div></div>`};
+const videoCard=v=>{const t=thumbOf(v.thumbnailUrl,v.videoUrl);return `<div class="card video-card" data-vid="${e(v.id)}"><div class="video${t?' has-thumb':''}"${t}${v.videoUrl?` data-prev="${e(v.videoUrl)}"`:''}>${t?'':brandArt(v.id||v.title,'video')}<button class="video-play" aria-label="Play ${e(v.title)}">${I.play}</button><span class="video-label">${e(v.title)}</span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(v.title)}" onclick="event.stopPropagation();videoInfo('${e(v.id)}');return false">${e(v.title)}</a></div><div class="card-meta">${v.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(v.creatorId)}');return false">${e(v.channel)}</a>`:e(v.channel)}</div></div></div>`};
 const parseUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'||x.protocol==='http:'?x:null}catch(_){return null}};
-const bareHost=x=>x.hostname.replace(/^www\.|^m\./,'');
+const bareHost=x=>x.hostname.replace(/^(?:www|m|web|mbasic|music|business|touch)\./,'');
 function ytId(u){
  const x=parseUrl(u);if(!x)return null;const h=bareHost(x);let id=null;
  if(h==='youtu.be')id=x.pathname.slice(1).split('/')[0];
  else if(h==='youtube.com'||h==='youtube-nocookie.com'){if(x.pathname==='/watch')id=x.searchParams.get('v');else{const m=x.pathname.match(/^\/(?:live|embed|shorts|v)\/([\w-]{11})/);if(m)id=m[1]}}
  return id&&/^[\w-]{11}$/.test(id)?id:null;
 }
+/* Turns a pasted link into something that plays inside the app. */
 function toEmbed(u){
- const x=parseUrl(u);if(!x)return null;const h=bareHost(x),id=ytId(u);
- if(id)return{type:'iframe',src:`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`};
- if(h==='youtube.com'){const m=x.pathname.match(/^\/channel\/(UC[\w-]{22})/);if(m)return{type:'iframe',src:`https://www.youtube.com/embed/live_stream?channel=${m[1]}&autoplay=1`}}
- if(h==='facebook.com'||h==='fb.com'||h==='fb.watch')return{type:'iframe',src:'https://www.facebook.com/plugins/video.php?href='+encodeURIComponent(x.href)+'&show_text=false&autoplay=true'};
- if(/\.(mp4|webm|ogg)$/i.test(x.pathname))return{type:'video',src:x.href};
+ const x=parseUrl(u);if(!x)return null;const h=bareHost(x),p=x.pathname,id=ytId(u);
+ const fr=(src,tall)=>({type:'iframe',src,tall:!!tall});
+ let m;
+ /* YouTube */
+ if(id)return fr(`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`);
+ if(h==='youtube.com'){
+  const list=x.searchParams.get('list');
+  if(p==='/playlist'&&list)return fr(`https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(list)}&autoplay=1`);
+  if(m=p.match(/^\/channel\/(UC[\w-]{22})/))return fr(`https://www.youtube.com/embed/live_stream?channel=${m[1]}&autoplay=1`);
+ }
+ /* Facebook: watch, reels, videos, share links and fb.watch */
+ if(h==='facebook.com'||h==='fb.com'||h==='fb.watch')return fr('https://www.facebook.com/plugins/video.php?href='+encodeURIComponent(x.href)+'&show_text=false&autoplay=true');
+ /* Vimeo */
+ if(h==='vimeo.com'&&(m=p.match(/^\/(?:channels\/[^/]+\/|groups\/[^/]+\/videos\/|video\/)?(\d{5,})(?:\/([a-f0-9]+))?/)))return fr(`https://player.vimeo.com/video/${m[1]}?autoplay=1${m[2]?'&h='+m[2]:''}`);
+ if(h==='player.vimeo.com'&&(m=p.match(/^\/video\/(\d+)/)))return fr(`https://player.vimeo.com/video/${m[1]}?autoplay=1`);
+ /* Dailymotion */
+ if(h==='dailymotion.com'&&(m=p.match(/\/video\/([a-z0-9]+)/i)))return fr(`https://www.dailymotion.com/embed/video/${m[1]}?autoplay=1`);
+ if(h==='dai.ly'&&(m=p.match(/^\/([a-z0-9]+)/i)))return fr(`https://www.dailymotion.com/embed/video/${m[1]}?autoplay=1`);
+ /* Instagram */
+ if(h==='instagram.com'&&(m=p.match(/^\/(?:[^/]+\/)?(reel|reels|p|tv)\/([\w-]+)/)))return fr(`https://www.instagram.com/${m[1]==='reels'?'reel':m[1]}/${m[2]}/embed/`,true);
+ /* TikTok */
+ if(h==='tiktok.com'&&(m=p.match(/\/video\/(\d+)/)))return fr(`https://www.tiktok.com/embed/v2/${m[1]}`,true);
+ /* Twitch */
+ if(h==='twitch.tv'){
+  const par='parent='+encodeURIComponent(location.hostname||'localhost');
+  if(m=p.match(/^\/videos\/(\d+)/))return fr(`https://player.twitch.tv/?video=v${m[1]}&${par}&autoplay=true`);
+  if(m=p.match(/^\/([\w]+)\/?$/))return fr(`https://player.twitch.tv/?channel=${m[1]}&${par}&autoplay=true`);
+ }
+ /* Google Drive, Streamable */
+ if(h==='drive.google.com'&&(m=p.match(/\/file\/d\/([\w-]+)/)))return fr(`https://drive.google.com/file/d/${m[1]}/preview`);
+ if(h==='streamable.com'&&(m=p.match(/^\/(?:e\/)?([a-z0-9]+)$/i)))return fr(`https://streamable.com/e/${m[1]}?autoplay=1`);
+ /* Direct video files */
+ if(/\.(mp4|webm|ogg|ogv|mov|m4v)$/i.test(p))return{type:'video',src:x.href};
  return null;
 }
 const thumbOf=(t,u)=>{const s=t&&/^https:\/\/[^\s"'()\\]+$/.test(t)?t:(ytId(u)?`https://i.ytimg.com/vi/${ytId(u)}/hqdefault.jpg`:null);return s?` style="--thumb:url('${s}')"`:''};
@@ -1101,6 +1169,7 @@ function render(){
  fill('heroLive',live,heroLiveCard,'Nothing is live right now.');
  fill('homeSongs',songs.slice(0,4),songCard,'No songs yet.');
  fill('newSongs',songs.slice(4,8),track,'No new releases yet.');
+ fill('newVideos',videos.slice(0,4),videoCard,'No videos yet.');
  fill('homeChurches',churches,churchCard,'No churches yet.');
  fill('homeMessages',messages.slice(0,2),messageCard,'No messages yet.');
  fill('musicCards',songs,songCard,'No songs yet.');
@@ -1124,7 +1193,7 @@ async function setChartPeriod(p){
 function renderSaved(){fill('savedList',songs.filter(s=>savedIds.has(s.id)),track,'Songs you save will appear here. Use the heart in the player to save a song.')}
 async function loadAll(){
  $('notice').hidden=true;
- ['heroLive','homeSongs','newSongs','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='<div class="empty" style="grid-column:1/-1">Loading…</div>');
+ ['heroLive','homeSongs','newSongs','newVideos','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='<div class="empty" style="grid-column:1/-1">Loading…</div>');
  try{
   [songs,artists,churches,messages,videos,live]=await Promise.all(['/songs','/artists','/churches','/messages','/videos','/live'].map(p=>api.get(p)));
   messages.forEach(m=>m.artist=m.speaker);
@@ -1132,7 +1201,7 @@ async function loadAll(){
   try{const me=await api.get('/auth/me');if(me&&me.user)setUser(me.user)}catch(_){}
   render();loadCreator();
  }catch(err){
-  ['heroLive','homeSongs','newSongs','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='');
+  ['heroLive','homeSongs','newSongs','newVideos','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='');
   $('noticeText').textContent=err.message;$('notice').hidden=false;cLoading=false;renderCreator();
  }
 }
@@ -1338,7 +1407,7 @@ const INFO={
  contact:['Contact','For support, ministry verification or content concerns, write to the ShalomStream team.']
 };
 const FORMS={
- link:{title:'Add a stream or video link',text:'Paste a YouTube or Facebook link. It plays on ShalomStream with the original platform’s player, and the video stays on that platform.',submit:'Add to ShalomStream',fields:[['title','Title','text'],['channel','Church or ministry','text'],['kind','This link is a','select',['Live stream','Video']],['url','YouTube or Facebook link','url'],['cover','Cover image','cover']],run:async fd=>{const d=Object.fromEntries(fd);const cvf=fd.get('cover');if(cvf&&cvf.size>15*1024*1024)throw new Error('Choose a cover image under 15 MB.');d.cover=await pickedCover(fd,true,1280,720);delete d.coverPreset;d.kind=d.kind==='Live stream'?'live':'video';const x=parseUrl(d.url);const ok=x&&x.protocol==='https:'&&(toEmbed(d.url)||/(^|\.)(youtube\.com|youtu\.be|facebook\.com|fb\.watch)$/.test(x.hostname));if(!ok)throw new Error('Paste an https link from YouTube or Facebook, or a direct video file link.');await api.post('/content/links',d);loadAll()},done:'Link added'},
+ link:{title:'Add a stream or video link',text:'Paste a YouTube, Facebook, Vimeo, Instagram, TikTok, Twitch or Google Drive link, or a direct video file link. It plays right here on ShalomStream.',submit:'Add to ShalomStream',fields:[['title','Title','text'],['channel','Church or ministry','text'],['kind','This link is a','select',['Live stream','Video']],['url','YouTube or Facebook link','url'],['cover','Cover image','cover']],run:async fd=>{const d=Object.fromEntries(fd);const cvf=fd.get('cover');if(cvf&&cvf.size>15*1024*1024)throw new Error('Choose a cover image under 15 MB.');d.cover=await pickedCover(fd,true,1280,720);delete d.coverPreset;d.kind=d.kind==='Live stream'?'live':'video';const x=parseUrl(d.url);const ok=x&&x.protocol==='https:'&&(toEmbed(d.url)||/(^|\.)(youtube\.com|youtu\.be|facebook\.com|fb\.watch)$/.test(x.hostname));if(!ok)throw new Error('Paste an https link from YouTube or Facebook, or a direct video file link.');await api.post('/content/links',d);loadAll()},done:'Link added'},
  login:{title:'Creator sign in',text:'Sign in to your creator account to open your dashboard.',submit:'Sign in',fields:[['email','Email','email'],['password','Password','password']],run:async fd=>{const r=await api.post('/auth/login',Object.fromEntries(fd));setUser(r.user);loadAll()},done:'Signed in'},
  upload:{title:'Publish content',text:'Share music or messages you own or have permission to publish. Your upload goes live as soon as you publish it.',submit:'Publish',fields:[['title','Title','text'],['artist','Artist or ministry','text'],['category','Category','select',['Worship','Gospel','Hymns','Choir','Sermon']],['file','Audio or video file','file'],['description','Description','textarea',0],['permission','I own this content or have permission to publish it.','checkbox']],run:async fd=>{await api.post('/content',fd);loadCreator()},done:'Published'},
  church:{title:'Register a church',text:'Create an official church profile. We verify each church before it is listed.',submit:'Register church',fields:[['name','Church name','text'],['location','Town or city','text'],['email','Contact email','email'],['description','About the church','textarea',0]],run:fd=>api.post('/churches',Object.fromEntries(fd)),done:'Church submitted for verification'}
@@ -1347,7 +1416,7 @@ function fieldHtml([n,l,t,x]){
  const req=x===0?'':' required';
  if(t==='cover')return coverField('link');
  if(t==='checkbox')return `<label class="check"><input type="checkbox" name="${n}" required> <span>${e(l)}</span></label>`;
- const ctl=t==='select'?`<select name="${n}"${req}>${x.map(o=>`<option>${e(o)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name="${n}" rows="3"${req}></textarea>`:`<input name="${n}" type="${t}"${t==='file'?' accept="audio/*,video/*"':''}${req}>`;
+ const ctl=t==='select'?`<select name="${n}"${req}>${x.map(o=>`<option>${e(o)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name="${n}" rows="3"${req}></textarea>`:`<input name="${n}" type="${t}"${t==='file'?' onchange="upPick(this)"':''}${req}>`;
  return `<div class="field"><label>${e(l)}</label>${ctl}</div>`;
 }
 function showModal(html){$('modalContent').innerHTML=html;$('modalBackdrop').style.display='flex';const f=$('modalContent').querySelector('input,select,textarea,button');if(f)f.focus()}
@@ -1374,11 +1443,11 @@ function mediaModal(title,url,missing,id){
  if(!url)body=`<p>${missing}</p>`;
  else{
   const m=toEmbed(url);
-  if(m&&m.type==='iframe')body=`<div class="embed"><iframe src="${e(m.src)}" title="${e(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
+  if(m&&m.type==='iframe'){const ox=parseUrl(url);body=`<div class="embed"${m.tall?' style="aspect-ratio:auto;height:72vh;width:min(100%,calc(72vh*9/16));margin:0 auto"':''}><iframe src="${e(m.src)}" title="${e(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>${ox?`<p class="embed-note">Video not loading? The owner may have turned off playing it outside their site. <a class="lnk" href="${e(ox.href)}" target="_blank" rel="noopener noreferrer">Open original</a></p>`:''}`}
   else if(m)body=`<div class="video-modal"><video controls autoplay playsinline src="${e(m.src)}"></video></div>`;
   else{const x=parseUrl(url);body=`<p>This one can’t be played here yet.</p>${x?`<a class="outline-btn" href="${e(x.href)}" target="_blank" rel="noopener noreferrer">Watch on the original site</a>`:''}`}
  }
- showModal(`<h2>${e(title)}</h2>${body}${id?engHtml():''}`);if(id)engLoad(id);
+ showModal(`<h2 class="media-title">${e(title)}</h2>${body}${id?engHtml():''}`);if(id)engLoad(id);
 }
 function openVideo(id){const v=videos.find(x=>String(x.id)===String(id));if(v){recordEvent(v.id,'view');if(v.videoUrl)setPresence('modal',v.id)}if(v)mediaModal(v.title,v.videoUrl,'This video is not available yet.',v.id)}
 function openLive(id){const l=live.find(x=>String(x.id)===String(id));if(l){recordEvent(l.id,'view');if(l.streamUrl)setPresence('modal',l.id)}if(l)mediaModal(l.name,l.streamUrl,'This stream has not started yet. Check back at service time.',l.id)}
@@ -1642,6 +1711,91 @@ async function openCreator(id){
 }
 function closeProfile(){showPage(profBack||'home');try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}}
 function profPlay(id,kind){if(kind==='video')return openVideo(id);playFrom((kind==='song'?songs:messages).filter(x=>String(x.creatorId)===String(prof.id)),id)}
+function profMenu(ev){if(ev)ev.stopPropagation();const m=$('profMenu');if(!m)return;m.classList.toggle('open',ev?!m.classList.contains('open'):false)}
+function profCopy(){const u=location.href.split('#')[0]+'#creator='+prof.id;try{navigator.clipboard.writeText(u).then(()=>toast('Profile link copied'),()=>toast('Could not copy the link'))}catch(_){toast('Could not copy the link')}}
+document.addEventListener('click',()=>{const m=document.getElementById('profMenu');if(m)m.classList.remove('open')});
+
+/* Song card gestures: tap = play, long-press (or right-click) = actions */
+function songInfo(id){
+ const x=songs.find(y=>String(y.id)===String(id));if(!x)return;
+ const meta=[x.genre,x.album].filter(Boolean).map(e).join(' · ');
+ showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.artist)}</a>`:e(x.artist)}${meta?' · '+meta:''}</p><p>${e(x.plays)} plays${x.duration?' · '+Math.floor(x.duration/60)+':'+String(Math.round(x.duration%60)).padStart(2,'0'):''}</p><p>${x.description?e(x.description):'No description has been added for this song.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playSong('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="plAdd('${e(x.id)}')">${ic(PLUS,18,2)} Add to playlist</button></div>`);
+}
+function videoInfo(id){
+ const x=videos.find(y=>String(y.id)===String(id));if(!x)return;
+ showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.channel)}</a>`:e(x.channel)}</p><p>${x.description?e(x.description):'No description has been added for this video.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();openVideo('${e(x.id)}')">${I.play} Play</button></div>`);
+}
+function videoActions(id){
+ const x=videos.find(y=>String(y.id)===String(id));if(!x)return;
+ showModal(`<h2>${e(x.title)}</h2><p>${e(x.channel)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();openVideo('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="videoInfo('${e(x.id)}')"><span>About this video</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.channel)}</span></button>`:''}</div>`);
+}
+function songActions(id){
+ const x=songs.find(y=>String(y.id)===String(id));if(!x)return;
+ showModal(`<h2>${e(x.title)}</h2><p>${e(x.artist)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();playSong('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="plAdd('${e(x.id)}')"><span>Add to playlist</span></button><button type="button" class="pl-opt" onclick="songInfo('${e(x.id)}')"><span>About this song</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.artist)}</span></button>`:''}</div>`);
+}
+(function(){
+ let timer=null,fired=false,sx=0,sy=0;
+ const card=t=>t&&t.closest?t.closest('.song-card,.video-card'):null,act=c=>c.dataset.vid?videoActions(c.dataset.vid):songActions(c.dataset.sid);
+ const clear=()=>{clearTimeout(timer);timer=null};
+ document.addEventListener('pointerdown',ev=>{
+  const c=card(ev.target);if(!c||ev.target.closest('a'))return;
+  fired=false;sx=ev.clientX;sy=ev.clientY;clear();
+  timer=setTimeout(()=>{fired=true;if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}act(c)},500);
+ });
+ document.addEventListener('pointermove',ev=>{if(timer&&(Math.abs(ev.clientX-sx)>10||Math.abs(ev.clientY-sy)>10))clear()});
+ ['pointerup','pointercancel','pointerleave'].forEach(n=>document.addEventListener(n,clear));
+ document.addEventListener('contextmenu',ev=>{if(card(ev.target)){ev.preventDefault();if(!fired){act(card(ev.target))}}});
+ document.addEventListener('click',ev=>{
+  const c=card(ev.target);if(!c||ev.target.closest('a'))return;
+  if(fired){fired=false;return}
+  if(c.dataset.vid)openVideo(c.dataset.vid);else playSong(c.dataset.sid);
+ });
+})();
+
+/* Video previews: muted 15-second loops on video cards.
+   Plays a chosen part of the video: the time in the link (?t=90, ?start=1m30s) if there is one,
+   otherwise a point about a quarter of the way in. Only cards on screen play, at most 3 at a time. */
+const PV_LEN=15,PV_MAX=3,pvActive=[];let pvT=null;
+function pvStart(u){const x=parseUrl(u);if(!x)return null;const t=x.searchParams.get('t')||x.searchParams.get('start')||(x.hash.match(/[#&]t=([^&]+)/)||[])[1];if(!t)return null;const m=String(t).match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/);if(!m||!m[0])return null;return (+m[1]||0)*3600+(+m[2]||0)*60+(+m[3]||0)}
+function pvStop(el){const l=el._pv;if(l){const v=l.querySelector('video');if(v){try{v.pause();v.removeAttribute('src');v.load()}catch(_){}}l.remove();el._pv=null}const i=pvActive.indexOf(el);if(i>-1)pvActive.splice(i,1)}
+function pvPlay(el){
+ if(el._pv||!el.isConnected||el.dataset.pvfail)return;
+ const url=el.dataset.prev,m=toEmbed(url);if(!m)return;
+ const given=pvStart(url),layer=document.createElement('div');layer.className='pv-layer';
+ if(m.type==='iframe'){
+  const id=ytId(url);if(!id)return;
+  const S=given!=null?given:10,f=document.createElement('iframe');
+  f.tabIndex=-1;f.setAttribute('aria-hidden','true');f.setAttribute('allow','autoplay; encrypted-media');f.referrerPolicy='strict-origin-when-cross-origin';
+  f.src=`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&modestbranding=1&rel=0&playsinline=1&enablejsapi=1&iv_load_policy=3&fs=0&start=${S}&end=${S+PV_LEN}&loop=1&playlist=${id}`;
+  f.onload=()=>{try{f.contentWindow.postMessage(JSON.stringify({event:'listening',id:1,channel:'widget'}),'*')}catch(_){}};setTimeout(()=>{if(!layer.classList.contains('on')){el.dataset.pvfail='1';pvStop(el)}},9000);layer.appendChild(f);
+ }else{
+  let S=given;const v=document.createElement('video');
+  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='metadata';v.setAttribute('aria-hidden','true');v.src=m.src;
+  v.addEventListener('loadedmetadata',()=>{const d=v.duration||0;if(S==null)S=d>PV_LEN*2?Math.min(d*.25,d-PV_LEN-1):0;S=Math.max(0,Math.min(S,Math.max(0,d-PV_LEN)));try{v.currentTime=S}catch(_){}v.play().catch(()=>{})});
+  v.addEventListener('timeupdate',()=>{if(S!=null&&v.currentTime>=S+PV_LEN)v.currentTime=S});
+  v.addEventListener('ended',()=>{if(S!=null){v.currentTime=S;v.play().catch(()=>{})}});
+  v.addEventListener('playing',()=>layer.classList.add('on'));layer.appendChild(v);
+ }
+ el.prepend(layer);el._pv=layer;
+ for(let i=pvActive.length-1;i>=0;i--)if(!pvActive[i].isConnected)pvStop(pvActive[i]);
+ pvActive.push(el);while(pvActive.length>PV_MAX)pvStop(pvActive[0]);
+}
+addEventListener('message',ev=>{
+ if(!/youtube(-nocookie)?\.com$/.test(String(ev.origin).replace(/^https?:\/\//,'')))return;
+ let d=ev.data;if(typeof d==='string'){try{d=JSON.parse(d)}catch(_){return}}if(!d)return;
+ const el=pvActive.find(x=>{const f=x._pv&&x._pv.querySelector('iframe');return f&&f.contentWindow===ev.source});if(!el)return;
+ const st=d.event==='onStateChange'?d.info:(d.event==='infoDelivery'&&d.info?d.info.playerState:undefined);
+ if(d.event==='onError'){el.dataset.pvfail='1';pvStop(el);return}
+ if(st===1)el._pv.classList.add('on');
+});
+(function(){
+ const off=(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||(navigator.connection&&navigator.connection.saveData);
+ if(off||!('IntersectionObserver' in window))return;
+ const io=new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting?pvPlay(en.target):pvStop(en.target)),{threshold:.6});
+ const scan=()=>document.querySelectorAll('.video[data-prev]:not([data-pv])').forEach(el=>{el.dataset.pv='1';io.observe(el)});
+ new MutationObserver(()=>{clearTimeout(pvT);pvT=setTimeout(scan,150)}).observe(document.body,{childList:true,subtree:true});
+ scan();
+})();
 function renderProfile(){
  const p=prof,mine=creator&&creator.id===p.id,fol=following.has(String(p.id)),items=p.content||[],S=items.filter(x=>x.kind==='song'),kind=TYPE_LABEL[p.type]||'Ministry',alb={};
  S.forEach(s=>{const k=(s.album||'').trim();if(k)(alb[k]=alb[k]||[]).push(s)});
@@ -1649,8 +1803,8 @@ function renderProfile(){
  const list=(L,none)=>L.length?`<div class="row-list">${L.map(row).join('')}</div>`:`<div class="empty">${none}</div>`;
  const body=profTab==='music'?list(S,'No songs yet.'):profTab==='albums'?(Object.keys(alb).length?Object.entries(alb).map(([k,L])=>`<div class="c-card"><div class="c-card-head"><h3>${e(k)}</h3><span class="badge" style="margin:0">${L.length} song${L.length>1?'s':''}</span></div>${list(L)}</div>`).join(''):'<div class="empty">No albums or playlists yet.</div>'):list(items.filter(x=>x.kind!=='song'),'No messages or videos yet.');
  $('profileRoot').innerHTML=`<button class="outline-btn" onclick="closeProfile()">Back</button>
- <div class="prof">${av(p.avatar_url,p.name,'xl')}<div class="prof-main"><h2>${e(p.name)}</h2><p class="prof-sub">${e(kind)}${p.location?', '+e(p.location):''}${p.verified?'<span class="badge">Verified</span>':''}</p>
- <div class="prof-stats"><span><b id="profFol">${fmtN(Number(p.followers)||0)}</b> followers</span><span><b>${fmtN(Number(p.plays)||0)}</b> plays</span><span><b>${S.length}</b> songs</span></div>
+ <div class="prof"><button class="prof-more" id="profMoreBtn" aria-label="More options" aria-haspopup="true" onclick="profMenu(event)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button><div class="prof-menu" id="profMenu" role="menu">${mine?`<button role="menuitem" onclick="profMenu();editProfile()">Edit profile</button>`:`<button role="menuitem" onclick="profMenu();profFollow()">${fol?'Unfollow':'Follow'}</button>`}<button role="menuitem" onclick="profMenu();shareCreator()">Share profile</button><button role="menuitem" onclick="profMenu();profCopy()">Copy profile link</button>${mine?`<button role="menuitem" onclick="profMenu();showPage('creator')">Creator dashboard</button>`:''}<button role="menuitem" onclick="profMenu();openSupport()">${mine?'Help and support':'Report or get help'}</button></div>${av(p.avatar_url,p.name,'xl')}<div class="prof-main"><h2>${e(p.name)}</h2><p class="prof-sub">${e(kind)}${p.location?', '+e(p.location):''}${p.verified?'<span class="badge">Verified</span>':''}</p>
+ <div class="prof-stats"><span><b id="profFol">${fmtN(Number(p.followers)||0)}</b> followers</span><span><b>${fmtN(Number(p.plays)||0)}</b> plays</span><span><b>${S.length}</b> songs</span><span><b>${items.filter(x=>x.kind!=='song').length}</b> videos</span></div>
  ${p.description?`<p class="prof-about">${e(p.description)}</p>`:''}
  <div class="btn-row">${mine?`<button class="outline-btn" onclick="editProfile()">Edit profile</button>`:`<button class="gold-btn follow-main${fol?' on':''}" id="profFollow" onclick="profFollow()">${fol?'Following':'Follow'}</button>`}<button class="outline-btn" onclick="shareCreator()">Share</button></div></div></div>
  <div class="ptabs" role="tablist">${[['music','Music'],['albums','Albums and playlists'],['talks','Messages and videos']].map(([k,l])=>`<button class="ptab${k===profTab?' on':''}" role="tab" onclick="profTab='${k}';renderProfile()">${l}</button>`).join('')}</div>${body}`;
@@ -1722,7 +1876,7 @@ async function openUpload(){
  const albums=[...new Set(songs.filter(s=>String(s.creatorId)===String(creator.id)&&s.album).map(s=>s.album).concat(d.album?[d.album]:[]))];
  showModal(`<h2>Publish content</h2><p>Share music or messages you own or have permission to publish. It goes live as soon as you publish.</p>
 <form id="uform" novalidate oninput="upSync()" onchange="upSync()">
-<div class="field"><label>Audio or video file</label><input name="file" type="file" accept="audio/*,video/*" required></div>
+<div class="field"><label>Audio or video file</label><input name="file" type="file" required onchange="upPick(this)"></div>
 <div class="field"><label>Title</label><input name="title" required maxlength="160"></div>
 ${coverField('upload')}
 <div class="up-saved" id="upSaved"${saved?'':' hidden'}><div><strong id="upWho"></strong><small id="upWhat"></small></div><button type="button" class="outline-btn" onclick="upEdit(true)">Change</button></div>
@@ -1738,7 +1892,7 @@ ${coverField('upload')}
 <div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">Publish</button></form>`);
  upSync();
  $('uform').addEventListener('submit',async ev=>{ev.preventDefault();const f=ev.target;if(!f.checkValidity()){upEdit(true);f.reportValidity();return}
-  const fd=new FormData(f),cv=fd.get('cover');if(cv&&cv.size>15*1024*1024){$('ferr').textContent='Choose a cover image under 15 MB.';return}
+  const fd=new FormData(f);fixFileType(fd,'file');const cv=fd.get('cover');if(cv&&cv.size>15*1024*1024){$('ferr').textContent='Choose a cover image under 15 MB.';return}
   if(f.category.value==='Sermon'){fd.set('genre','');fd.set('album','')}
   $('ferr').textContent='';$('fsub').disabled=true;$('fsub').textContent='Publishing…';
   try{const fl=fd.get('file'),pc=await pickedCover(fd,!!(fl&&/^video\//.test(fl.type)),900,900);fd.delete('coverPreset');if(pc&&pc!==cv)fd.set('cover',pc,'cover.jpg');
