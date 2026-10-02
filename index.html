@@ -1132,7 +1132,7 @@ const songCard=(s,i)=>`<div class="card song-card" data-sid="${e(s.id)}"><div cl
 const track=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
 const artistCard=(a,i)=>`<div class="card artist-card" onclick="openCreator('${e(a.id)}')"><div class="cover c${(i+1)%6}"><div class="avatar"${okThumb(a.avatar)?` style="background:url('${okThumb(a.avatar)}') center/cover;color:transparent"`:''}>${okThumb(a.avatar)?'':e(a.name.split(' ').slice(0,2).map(w=>w[0]).join(''))}</div></div><div class="card-body"><div class="card-title">${e(a.name)}</div><div class="card-meta">${e(a.meta)}</div><span class="badge">${a.followers?e(a.followers)+' followers':'Verified ministry'}</span><button class="outline-btn follow-btn${following.has(String(a.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(a.id)}',this)">${following.has(String(a.id))?'Following':'Follow'}</button></div></div>`;
 const churchCard=(c,i)=>`<div class="card church-card"><div class="cover c${(i+3)%6}"><span class="church-icon">${I.church}</span></div><div class="card-body"><div class="card-title">${e(c.name)}</div><div class="card-meta">${e(c.meta)}</div><span class="badge">Official profile</span></div></div>`;
-const messageCard=m=>`<div class="message"><div class="msg-cover${okThumb(m.thumbnailUrl)?' has-thumb':''}"${thumbStyle(m.thumbnailUrl)} onclick="playMessage('${e(m.id)}')">${coverInner(m.thumbnailUrl,m.id||m.title)}</div><h3>${e(m.title)}</h3><p>${e(m.speaker)}, ${e(m.church)}<br>${e(m.length)}</p><button class="outline-btn" onclick="playMessage('${e(m.id)}')">${I.play} Listen</button></div>`;
+const messageCard=m=>`<div class="message"><div class="msg-cover${okThumb(m.thumbnailUrl)?' has-thumb':''}"${thumbStyle(m.thumbnailUrl)} onclick="playMessage('${e(m.id)}')">${coverInner(m.thumbnailUrl,m.id||m.title)}</div><h3>${e(m.title)}</h3><p>${e(m.speaker)}, ${e(m.church)}<br>${e(m.length)}</p><button class="outline-btn" onclick="playMessage('${e(m.id)}')">${I.play} Listen</button> <button class="outline-btn" onclick="shareContent('${e(m.id)}')">Share link</button></div>`;
 const videoCard=v=>{const t=thumbOf(v.thumbnailUrl,v.videoUrl);return `<div class="card video-card" data-vid="${e(v.id)}"><div class="video${t?' has-thumb':''}"${t}${v.videoUrl?` data-prev="${e(v.videoUrl)}"`:''}>${t?'':brandArt(v.id||v.title,'video')}<button class="video-play" aria-label="Play ${e(v.title)}">${I.play}</button><span class="video-label">${e(v.title)}</span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(v.title)}" onclick="event.stopPropagation();videoInfo('${e(v.id)}');return false">${e(v.title)}</a></div><div class="card-meta">${v.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(v.creatorId)}');return false">${e(v.channel)}</a>`:e(v.channel)}</div></div></div>`};
 const parseUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'||x.protocol==='http:'?x:null}catch(_){return null}};
 const bareHost=x=>x.hostname.replace(/^(?:www|m|web|mbasic|music|business|touch)\./,'');
@@ -1215,7 +1215,7 @@ async function loadAll(){
  ['heroLive','homeSongs','newSongs','newVideos','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='<div class="empty" style="grid-column:1/-1">Loading…</div>');
  try{
   [songs,artists,churches,messages,videos,live]=await Promise.all(['/songs','/artists','/churches','/messages','/videos','/live'].map(p=>api.get(p)));
-  messages.forEach(m=>m.artist=m.speaker);
+  messages.forEach(m=>m.artist=m.speaker);mergeLinked();
   savedIds.clear();following.clear();try{(await api.get('/library/songs')).forEach(id=>savedIds.add(id));(await api.get('/follows')).forEach(id=>following.add(id))}catch(_){}
   try{const me=await api.get('/auth/me');if(me&&me.user)setUser(me.user)}catch(_){}
   render();loadCreator();
@@ -1460,7 +1460,7 @@ function mediaModal(title,url,missing,id){
   else if(m)body=`<div class="video-modal"><video controls autoplay playsinline src="${e(m.src)}"></video></div>`;
   else{const x=parseUrl(url);body=`<p>This one can’t be played here yet.</p>${x?`<a class="outline-btn" href="${e(x.href)}" target="_blank" rel="noopener noreferrer">Watch on the original site</a>`:''}`}
  }
- showModal(`<h2 class="media-title">${e(title)}</h2>${body}${id?engHtml():''}`);if(id)engLoad(id);
+ showModal(`<h2 class="media-title">${e(title)}</h2>${body}${id?`<div class="btn-row" style="margin:10px 0"><button class="outline-btn" onclick="shareContent('${e(id)}')">Share link</button></div>`+engHtml():''}`);if(id)engLoad(id);
 }
 function openVideo(id){const v=videos.find(x=>String(x.id)===String(id));if(v){recordEvent(v.id,'view');if(v.videoUrl)setPresence('modal',v.id)}if(v)mediaModal(v.title,v.videoUrl,'This video is not available yet.',v.id)}
 function openLive(id){const l=live.find(x=>String(x.id)===String(id));if(l){recordEvent(l.id,'view');if(l.streamUrl)setPresence('modal',l.id)}if(l)mediaModal(l.name,l.streamUrl,'This stream has not started yet. Check back at service time.',l.id)}
@@ -1587,7 +1587,31 @@ async function engDel(id){try{await api.post('/comments/delete',{id});await engL
 function songEngage(){if(!cur)return;showModal(`<h2>${e(cur.title||'Comments')}</h2>${engHtml()}`);engLoad(cur.id)}
 
 /* ============ CREATOR PROFILES, UPLOAD DEFAULTS, LISTENER SIGN-IN ============ */
-let prof=null,profTab='music',profBack='home';
+let prof=null,profTab='music',profBack='home',linked=null;
+const PUBLIC_SITE='https://transapple.github.io/3S/';/* share links always use the public site, never an account or studio page */
+const profileLink=id=>PUBLIC_SITE+'#creator='+encodeURIComponent(id);
+const contentLink=id=>PUBLIC_SITE+'#content='+encodeURIComponent(id);
+const kindIn=id=>{const k=String(id);return songs.some(y=>String(y.id)===k)?'song':messages.some(y=>String(y.id)===k)?'message':videos.some(y=>String(y.id)===k)?'video':live.some(y=>String(y.id)===k)?'live':linked&&String(linked.id)===k?linked._kind:null};
+const findContent=id=>{const k=String(id);for(const L of [songs,messages,videos,live]){const x=L.find(y=>String(y.id)===k);if(x)return x}return linked&&String(linked.id)===k?linked:null};
+async function shareLink(url,title){try{if(navigator.share){await navigator.share({title,url});return}await navigator.clipboard.writeText(url);toast('Link copied')}catch(_){}}
+function shareContent(id){const x=findContent(id);shareLink(contentLink(id),((x&&(x.title||x.name))||'Shared')+' on ShalomStream')}
+function mergeLinked(){if(!linked)return;const L={song:songs,message:messages,video:videos,live:live}[linked._kind];if(L&&!L.some(y=>String(y.id)===String(linked.id)))L.push(linked)}
+async function openContentLink(raw){
+ let id='';try{id=decodeURIComponent(raw||'')}catch(_){id=raw||''}if(!id)return;
+ let kind=kindIn(id);
+ if(!kind){
+  try{const r=ok(await sb.from('content').select(COLS+',kind').eq('id',id).eq('status','published').maybeSingle());
+   if(!r)throw 0;kind=r.kind;
+   const x=kind==='song'?rowSong(r):kind==='message'?Object.assign(rowMessage(r),{artist:r.speaker||r.artist_name}):kind==='video'?rowVideo(r):rowLive(r);
+   linked=Object.assign(x,{_kind:kind});mergeLinked()}
+  catch(_){toast('This link is not available.');return}
+ }
+ if(kind==='video')openVideo(id);
+ else if(kind==='live')openLive(id);
+ else if(kind==='song')songInfo(id);
+ else if(kind==='message'){const m=findContent(id);showModal(`<h2>${e(m.title)}</h2><p>${e(m.speaker||'')}${m.church?', '+e(m.church):''}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playMessage('${e(m.id)}')">${I.play} Listen</button><button class="outline-btn" onclick="shareContent('${e(m.id)}')">Share link</button></div>`)}
+}
+function openFromHash(){const h=location.hash;if(/^#creator=/.test(h)){let id=h.slice(9);try{id=decodeURIComponent(id)}catch(_){}openCreator(id)}else if(/^#content=/.test(h))openContentLink(h.slice(9))}
 async function openCreator(id){
  const a=document.querySelector('.page.active');if(a&&a.id!=='page-profile')profBack=a.id.slice(5);
  closeModal();closeSheet();showPage('profile');$('profileRoot').innerHTML='<div class="empty">Loading…</div>';
@@ -1599,26 +1623,26 @@ async function openCreator(id){
 function closeProfile(){showPage(profBack||'home');try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}}
 function profPlay(id,kind){if(kind==='video')return openVideo(id);playFrom((kind==='song'?songs:messages).filter(x=>String(x.creatorId)===String(prof.id)),id)}
 function profMenu(ev){if(ev)ev.stopPropagation();const m=$('profMenu');if(!m)return;m.classList.toggle('open',ev?!m.classList.contains('open'):false)}
-function profCopy(){const u=location.href.split('#')[0]+'#creator='+prof.id;try{navigator.clipboard.writeText(u).then(()=>toast('Profile link copied'),()=>toast('Could not copy the link'))}catch(_){toast('Could not copy the link')}}
+function profCopy(){const u=profileLink(prof.id);try{navigator.clipboard.writeText(u).then(()=>toast('Profile link copied'),()=>toast('Could not copy the link'))}catch(_){toast('Could not copy the link')}}
 document.addEventListener('click',()=>{const m=document.getElementById('profMenu');if(m)m.classList.remove('open')});
 
 /* Song card gestures: tap = play, long-press (or right-click) = actions */
 function songInfo(id){
  const x=songs.find(y=>String(y.id)===String(id));if(!x)return;
  const meta=[x.genre,x.album].filter(Boolean).map(e).join(' · ');
- showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.artist)}</a>`:e(x.artist)}${meta?' · '+meta:''}</p><p>${e(x.plays)} plays${x.duration?' · '+Math.floor(x.duration/60)+':'+String(Math.round(x.duration%60)).padStart(2,'0'):''}</p><p>${x.description?e(x.description):'No description has been added for this song.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playSong('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="plAdd('${e(x.id)}')">${ic(PLUS,18,2)} Add to playlist</button></div>`);
+ showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.artist)}</a>`:e(x.artist)}${meta?' · '+meta:''}</p><p>${e(x.plays)} plays${x.duration?' · '+Math.floor(x.duration/60)+':'+String(Math.round(x.duration%60)).padStart(2,'0'):''}</p><p>${x.description?e(x.description):'No description has been added for this song.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playSong('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="plAdd('${e(x.id)}')">${ic(PLUS,18,2)} Add to playlist</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share link</button></div>`);
 }
 function videoInfo(id){
  const x=videos.find(y=>String(y.id)===String(id));if(!x)return;
- showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.channel)}</a>`:e(x.channel)}</p><p>${x.description?e(x.description):'No description has been added for this video.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();openVideo('${e(x.id)}')">${I.play} Play</button></div>`);
+ showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.channel)}</a>`:e(x.channel)}</p><p>${x.description?e(x.description):'No description has been added for this video.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();openVideo('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share link</button></div>`);
 }
 function videoActions(id){
  const x=videos.find(y=>String(y.id)===String(id));if(!x)return;
- showModal(`<h2>${e(x.title)}</h2><p>${e(x.channel)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();openVideo('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="videoInfo('${e(x.id)}')"><span>About this video</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.channel)}</span></button>`:''}</div>`);
+ showModal(`<h2>${e(x.title)}</h2><p>${e(x.channel)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();openVideo('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="videoInfo('${e(x.id)}')"><span>About this video</span></button><button type="button" class="pl-opt" onclick="shareContent('${e(x.id)}')"><span>Share link</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.channel)}</span></button>`:''}</div>`);
 }
 function songActions(id){
  const x=songs.find(y=>String(y.id)===String(id));if(!x)return;
- showModal(`<h2>${e(x.title)}</h2><p>${e(x.artist)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();playSong('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="plAdd('${e(x.id)}')"><span>Add to playlist</span></button><button type="button" class="pl-opt" onclick="songInfo('${e(x.id)}')"><span>About this song</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.artist)}</span></button>`:''}</div>`);
+ showModal(`<h2>${e(x.title)}</h2><p>${e(x.artist)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();playSong('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="plAdd('${e(x.id)}')"><span>Add to playlist</span></button><button type="button" class="pl-opt" onclick="songInfo('${e(x.id)}')"><span>About this song</span></button><button type="button" class="pl-opt" onclick="shareContent('${e(x.id)}')"><span>Share link</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.artist)}</span></button>`:''}</div>`);
 }
 (function(){
  let timer=null,fired=false,sx=0,sy=0;
@@ -1697,12 +1721,12 @@ function renderProfile(){
  <div class="ptabs" role="tablist">${[['music','Music'],['albums','Albums and playlists'],['talks','Messages and videos']].map(([k,l])=>`<button class="ptab${k===profTab?' on':''}" role="tab" onclick="profTab='${k}';renderProfile()">${l}</button>`).join('')}</div>${body}`;
 }
 async function profFollow(){const id=String(prof.id),was=following.has(id);await toggleFollow(id,$('profFollow'));const on=following.has(id);if(on!==was){prof.followers=Math.max(0,(Number(prof.followers)||0)+(on?1:-1));$('profFol').textContent=fmtN(prof.followers)}}
-async function shareCreator(){const u=location.href.split('#')[0]+'#creator='+prof.id;try{if(navigator.share){await navigator.share({title:prof.name+' on ShalomStream',url:u});return}await navigator.clipboard.writeText(u);toast('Profile link copied')}catch(_){}}
+async function shareCreator(){const u=profileLink(prof.id);try{if(navigator.share){await navigator.share({title:prof.name+' on ShalomStream',url:u});return}await navigator.clipboard.writeText(u);toast('Profile link copied')}catch(_){}}
 function npSocial(){
  const s=$('npSocial');if(!s)return;if(!cur){s.innerHTML='';return}
  let who='';if(cur.creatorId){const ar=artists.find(a=>String(a.id)===String(cur.creatorId)),fol=following.has(String(cur.creatorId));
   who=`<div class="np-artist"><button class="np-who" onclick="openCreator('${e(cur.creatorId)}')">${av(ar&&ar.avatar,cur.artist)}<span><strong>${e(cur.artist)}</strong><small>View profile</small></span></button><button class="outline-btn follow-btn np-follow${fol?' on':''}" onclick="toggleFollow('${e(cur.creatorId)}',this)">${fol?'Following':'Follow'}</button></div>`}
- s.innerHTML=who+(songs.some(x=>String(x.id)===String(cur.id))?`<button class="outline-btn np-addpl" onclick="plAdd('${e(cur.id)}')">${ic(PLIST,18)}Add to playlist</button>`:'')+engHtml();engLoad(cur.id);
+ s.innerHTML=who+(songs.some(x=>String(x.id)===String(cur.id))?`<button class="outline-btn np-addpl" onclick="plAdd('${e(cur.id)}')">${ic(PLIST,18)}Add to playlist</button>`:'')+`<button class="outline-btn np-addpl" onclick="shareContent('${e(cur.id)}')">Share link</button>`+engHtml();engLoad(cur.id);
 }
 function listenerAuth(host,mode,done){
  const T={join:['Create your account','Create account'],in:['Sign in','Sign in'],reset:['Reset your password','Save new password']}[mode];
@@ -1811,7 +1835,7 @@ function plPickQ(){
  const q=$('plQ').value;plPickList(q);clearTimeout(plQt);
  if(q.trim().length>=2)plQt=setTimeout(async()=>{try{const res=await api.get('/search?q='+encodeURIComponent(q.trim()));plKnown(res);if($('plQ')&&$('plQ').value===q)plPickList(q)}catch(_){}},300);
 }
-if(/^#creator=/.test(location.hash))openCreator(location.hash.slice(9));
+openFromHash();window.addEventListener('hashchange',openFromHash);
 </script>
 </div>
 </body>
