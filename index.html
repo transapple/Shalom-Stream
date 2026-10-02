@@ -1251,7 +1251,7 @@ function loadTrack(i){
  pos=i;cur=queue[i];simT=0;stopSim();audio.pause();recordEvent(cur.id,'play');
  $('nowTitle').textContent=cur.title;$('nowArtist').textContent=cur.artist;setNowArt();
  $('player').classList.add('open');document.body.classList.add('has-player');markSaved();
- if(cur.audioUrl){if(fxOff)audio.removeAttribute('crossorigin');else audio.crossOrigin='anonymous';audio.src=cur.audioUrl;audio.volume=volume;audio.defaultPlaybackRate=PS.speed;audio.playbackRate=PS.speed;if(fx&&fx.ctx.state==='suspended')fx.ctx.resume().catch(()=>{});audio.play().catch(()=>{setPlaying(false);toast('This track could not be played.')})}else startSim();
+ if(cur.audioUrl){if(fxOff)audio.removeAttribute('crossorigin');else audio.crossOrigin='anonymous';audio.src=cur.audioUrl;audio.volume=volume;audio.defaultPlaybackRate=PS.speed;audio.playbackRate=PS.speed;if(fx&&fx.ctx.state==='suspended')fx.ctx.resume().catch(()=>{});audio.play().catch(err=>{setPlaying(false);toast(err&&err.name==='NotAllowedError'?'Tap play to start.':'This track could not be played.')})}else startSim();
  setPlaying(true);paint();
 }
 function playFrom(list,id){const i=list.findIndex(x=>String(x.id)===String(id));if(i<0)return;queue=list;loadTrack(i)}
@@ -1588,9 +1588,10 @@ function songEngage(){if(!cur)return;showModal(`<h2>${e(cur.title||'Comments')}<
 
 /* ============ CREATOR PROFILES, UPLOAD DEFAULTS, LISTENER SIGN-IN ============ */
 let prof=null,profTab='music',profBack='home',linked=null;
-const PUBLIC_SITE='https://transapple.github.io/3S/';/* share links always use the public site, never an account or studio page */
+const PUBLIC_SITE='https://transapple.github.io/Shalom-Stream/';/* share links always use the public site, never an account or studio page */
 const profileLink=id=>PUBLIC_SITE+'#creator='+encodeURIComponent(id);
-const contentLink=id=>PUBLIC_SITE+'#content='+encodeURIComponent(id);
+const slugOf=n=>String(n||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9._]+/g,'-').replace(/^-+|-+$/g,'')||'creator';
+const contentLink=id=>{const x=findContent(id);return PUBLIC_SITE+'#/'+encodeURIComponent(slugOf(x&&(x.artist||x.channel||x.name)))+'/'+encodeURIComponent(id)};/* creator name, then the content id; the id is what opens the content */
 const kindIn=id=>{const k=String(id);return songs.some(y=>String(y.id)===k)?'song':messages.some(y=>String(y.id)===k)?'message':videos.some(y=>String(y.id)===k)?'video':live.some(y=>String(y.id)===k)?'live':linked&&String(linked.id)===k?linked._kind:null};
 const findContent=id=>{const k=String(id);for(const L of [songs,messages,videos,live]){const x=L.find(y=>String(y.id)===k);if(x)return x}return linked&&String(linked.id)===k?linked:null};
 async function shareLink(url,title){try{if(navigator.share){await navigator.share({title,url});return}await navigator.clipboard.writeText(url);toast('Link copied')}catch(_){}}
@@ -1606,12 +1607,14 @@ async function openContentLink(raw){
    linked=Object.assign(x,{_kind:kind});mergeLinked()}
   catch(_){toast('This link is not available.');return}
  }
+ try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}/* clear the hash so the same link works again next time */
+ closeModal();
  if(kind==='video')openVideo(id);
  else if(kind==='live')openLive(id);
- else if(kind==='song')songInfo(id);
- else if(kind==='message'){const m=findContent(id);showModal(`<h2>${e(m.title)}</h2><p>${e(m.speaker||'')}${m.church?', '+e(m.church):''}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playMessage('${e(m.id)}')">${I.play} Listen</button><button class="outline-btn" onclick="shareContent('${e(m.id)}')">Share link</button></div>`)}
+ else if(kind==='song')playSong(id);
+ else if(kind==='message')playMessage(id);
 }
-function openFromHash(){const h=location.hash;if(/^#creator=/.test(h)){let id=h.slice(9);try{id=decodeURIComponent(id)}catch(_){}openCreator(id)}else if(/^#content=/.test(h))openContentLink(h.slice(9))}
+function openFromHash(){const h=location.hash;if(/^#creator=/.test(h)){let id=h.slice(9);try{id=decodeURIComponent(id)}catch(_){}openCreator(id)}else if(/^#content=/.test(h))openContentLink(h.slice(9));else if(/^#\/[^\/]+\/[^\/]+/.test(h))openContentLink(h.slice(2).split('/')[1])}
 async function openCreator(id){
  const a=document.querySelector('.page.active');if(a&&a.id!=='page-profile')profBack=a.id.slice(5);
  closeModal();closeSheet();showPage('profile');$('profileRoot').innerHTML='<div class="empty">Loading…</div>';
