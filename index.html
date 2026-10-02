@@ -616,7 +616,6 @@ svg{display:block;flex:none}
   <div class="search"><span class="search-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><input id="searchInput" placeholder="Search songs, artists, churches, sermons..." /></div>
   <div class="top-actions">
     <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Switch day or night mode" title="Day / Night mode"><svg class="theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="theme-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
-    <button class="outline-btn creator-entry" onclick="showPage('creator')">For Creators</button>
     <button class="gold-btn" id="authBtn" onclick="authClick()">Sign in</button>
     <button class="prof-btn" id="acctBtn" onclick="acctClick()" aria-label="My account" title="My account"><span id="acctAv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><i class="prof-dot" id="acctDot" hidden></i></button>
   </div>
@@ -636,11 +635,6 @@ svg{display:block;flex:none}
   <div class="nav-title" style="margin-top:16px">Library</div>
   <button class="nav-item" data-page="saved"><span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 0 0-7.1 7.1L12 21l8.8-8.3a5 5 0 0 0 0-7.1z"/></svg></span>Saved</button>
   <button class="nav-item" data-page="playlists"><span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h13M3 12h13M3 18h8M19 15v6M16 18h6"/></svg></span>Playlists</button>
-  <div class="sidebar-bottom creator-entry">
-    <strong>Creators</strong>
-    <small>Artists, choirs, churches and ministries: open your creator dashboard to publish music, messages and streams, and track your plays, views and followers.</small>
-    <button class="gold-btn" style="width:100%" onclick="showPage('creator')">Creators</button>
-  </div>
 </aside>
 
 <main class="main">
@@ -718,7 +712,6 @@ svg{display:block;flex:none}
   <div class="row-list" id="chartList"></div>
 </div></section>
 
-<section class="page" id="page-creator"><div class="section" style="padding-top:35px"><div id="creatorRoot"><div class="empty">Loading…</div></div></div></section>
 
 <section class="page" id="page-playlists"><div class="section" style="padding-top:35px"><div id="plRoot"></div></div></section>
 
@@ -732,7 +725,7 @@ svg{display:block;flex:none}
 <footer class="footer">
   <div class="footer-about"><h4>ShalomStream</h4><p>A Christian-first media platform for worship music, churches, artists, choirs, sermons and live ministry.</p></div>
   <div class="footer-col"><h4>Explore</h4><a href="#" onclick="showPage('music')">Music</a><a href="#" onclick="showPage('artists')">Artists</a><a href="#" onclick="showPage('churches')">Churches</a><a href="#" onclick="showPage('sermons')">Messages</a></div>
-  <div class="footer-col creator-entry"><h4>Ministry</h4><a href="#" onclick="showPage('creator')">Creator Dashboard</a><a href="#" onclick="showPage('creator')">Create a creator account</a><a href="#" onclick="showPage('creator')">Submit Content</a></div>
+  <div class="footer-col"><h4>Ministry</h4><a href="creators.html">Creator Studio</a></div>
   <div class="footer-col"><h4>Platform</h4><a href="#" onclick="openModal('about')">About</a><a href="#" onclick="openModal('copyright')">Copyright & Permissions</a><a href="#" onclick="openModal('contact')">Contact</a></div>
   <div class="footer-bottom"><span>© <span id="copyYear">2026</span> ShalomStream</span></div>
 </footer>
@@ -927,7 +920,7 @@ async function route(method,path,body){
   if(p==='/comments/delete'){await needUser();ok(await sb.rpc('delete_comment',{p_id:body.id}));return{ok:true}}
   if(p==='/comments/reply'){await needUser();ok(await sb.rpc('reply_to_comment',{p_comment:body.id,p_body:String(body.body||'')}));return{ok:true}}
   if(p==='/replies/read'){await needUser();ok(await sb.rpc('mark_replies_read'));return{ok:true}}
-  if(p==='/me/profile'){const u=await needUser();if(!(u.user_metadata&&u.user_metadata.listener==='true'))throw apiError('Use Edit profile on your creator dashboard.');const data={},nm=String(body.name||'').trim();if(nm)data.name=nm.slice(0,80);
+  if(p==='/me/profile'){const u=await needUser();if(!(u.user_metadata&&u.user_metadata.listener==='true'))throw apiError('Creators manage their profile in the Creator Studio app.');const data={},nm=String(body.name||'').trim();if(nm)data.name=nm.slice(0,80);
    if(body.avatar){const path=u.id+'/avatar-'+rid()+'.jpg',up=await sb.storage.from(BUCKET).upload(path,body.avatar,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});if(up.error)throw up.error;data.avatar_url=sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
    const d=ok(await sb.auth.updateUser({data}));return{user:shapeUser(d.user)}}
   if(p==='/me/password'){const u=await needUser();if(!(u.user_metadata&&u.user_metadata.listener==='true'))throw apiError('Creators change their password from the sign-in page.');const pw=shortPw(body.password);ok(await sb.auth.updateUser({password:pw}));return{ok:true}}
@@ -1401,20 +1394,15 @@ async function authClick(){
  try{await api.post('/auth/logout');setUser(null);toast('Signed out')}catch(err){toast(err.message)}
 }
 const INFO={
- creator:['Creator dashboard','Artists, choirs and ministries publish songs, albums, videos and messages here, and track plays and downloads.','Upload content','upload','Add a stream or video link','link'],
  about:['About ShalomStream','A Christian-first media platform for worship music, gospel artists, churches, choirs, sermons, videos and live ministry.'],
  copyright:['Copyright and permissions','Every upload carries an ownership or permission declaration. Everything you upload is published straight away, so only upload what you own or have permission to share.'],
  contact:['Contact','For support, ministry verification or content concerns, write to the ShalomStream team.']
 };
 const FORMS={
- link:{title:'Add a stream or video link',text:'Paste a YouTube, Facebook, Vimeo, Instagram, TikTok, Twitch or Google Drive link, or a direct video file link. It plays right here on ShalomStream.',submit:'Add to ShalomStream',fields:[['title','Title','text'],['channel','Church or ministry','text'],['kind','This link is a','select',['Live stream','Video']],['url','YouTube or Facebook link','url'],['cover','Cover image','cover']],run:async fd=>{const d=Object.fromEntries(fd);const cvf=fd.get('cover');if(cvf&&cvf.size>15*1024*1024)throw new Error('Choose a cover image under 15 MB.');d.cover=await pickedCover(fd,true,1280,720);delete d.coverPreset;d.kind=d.kind==='Live stream'?'live':'video';const x=parseUrl(d.url);const ok=x&&x.protocol==='https:'&&(toEmbed(d.url)||/(^|\.)(youtube\.com|youtu\.be|facebook\.com|fb\.watch)$/.test(x.hostname));if(!ok)throw new Error('Paste an https link from YouTube or Facebook, or a direct video file link.');await api.post('/content/links',d);loadAll()},done:'Link added'},
- login:{title:'Creator sign in',text:'Sign in to your creator account to open your dashboard.',submit:'Sign in',fields:[['email','Email','email'],['password','Password','password']],run:async fd=>{const r=await api.post('/auth/login',Object.fromEntries(fd));setUser(r.user);loadAll()},done:'Signed in'},
- upload:{title:'Publish content',text:'Share music or messages you own or have permission to publish. Your upload goes live as soon as you publish it.',submit:'Publish',fields:[['title','Title','text'],['artist','Artist or ministry','text'],['category','Category','select',['Worship','Gospel','Hymns','Choir','Sermon']],['file','Audio or video file','file'],['description','Description','textarea',0],['permission','I own this content or have permission to publish it.','checkbox']],run:async fd=>{await api.post('/content',fd);loadCreator()},done:'Published'},
  church:{title:'Register a church',text:'Create an official church profile. We verify each church before it is listed.',submit:'Register church',fields:[['name','Church name','text'],['location','Town or city','text'],['email','Contact email','email'],['description','About the church','textarea',0]],run:fd=>api.post('/churches',Object.fromEntries(fd)),done:'Church submitted for verification'}
 };
 function fieldHtml([n,l,t,x]){
  const req=x===0?'':' required';
- if(t==='cover')return coverField('link');
  if(t==='checkbox')return `<label class="check"><input type="checkbox" name="${n}" required> <span>${e(l)}</span></label>`;
  const ctl=t==='select'?`<select name="${n}"${req}>${x.map(o=>`<option>${e(o)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name="${n}" rows="3"${req}></textarea>`:`<input name="${n}" type="${t}"${t==='file'?' onchange="upPick(this)"':''}${req}>`;
  return `<div class="field"><label>${e(l)}</label>${ctl}</div>`;
@@ -1422,7 +1410,6 @@ function fieldHtml([n,l,t,x]){
 function showModal(html){$('modalContent').innerHTML=html;$('modalBackdrop').style.display='flex';const f=$('modalContent').querySelector('input,select,textarea,button');if(f)f.focus()}
 function openModal(type){
  if(type==='video')return openVideo((videos[1]||videos[0]||{}).id);
- if(type==='upload')return openUpload();
  const F=FORMS[type];
  if(F){
   showModal(`<h2>${F.title}</h2><p>${F.text}</p><form id="mform" novalidate>${F.fields.map(fieldHtml).join('')}<div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">${F.submit}</button></form>`);
@@ -1473,104 +1460,10 @@ let replies={unread:0,items:[]},acctTab='replies';
 const CTYPES=[['church','Church'],['ministry','Ministry'],['choir','Choir or group'],['artist','Artist or individual'],['other','Other']];
 const fmtN=n=>n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':String(n);
 const pct=v=>`<span class="${v>=0?'up':'down'}">${v>=0?'+':'−'}${Math.abs(v)}%</span>`;
-async function loadCreator(){
- try{const r=await api.get('/creators/me');creator=r&&r.creator?r.creator:null}catch(_){creator=null}
- if(creator){try{[cData,cContent,cFeed]=await Promise.all([api.get('/creators/me/analytics?period='+cPeriod),api.get('/creators/me/content'),api.get('/creators/me/feedback?period='+cPeriod).catch(()=>null)])}catch(err){toast(err.message)}}
- cLoading=false;renderCreator();
-}
-const AUI={mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',music:'<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',up:'<path d="M12 16V4M6 10l6-6 6 6M4 20h16"/>',chart:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'};
-const auIn=(icon,name,label,type,extra)=>`<div class="au-field"><label for="au-${name}-${type}">${label}</label><div class="au-input"><span class="au-ico">${ic(AUI[icon],18)}</span><input id="au-${name}-${type}" name="${name}" type="${type}" ${extra||''}>${name==='password'?`<button type="button" class="au-eye" aria-label="Show password" onclick="auEye(this)">${ic(AUI.eye,18)}</button>`:''}</div></div>`;
-let authTab='login';
-function signupHtml(){
- const profile=`<div class="au-field"><label>I am a</label><div class="type-grid">${CTYPES.map((t,i)=>`<label class="type-opt"><input type="radio" name="type" value="${t[0]}"${i?'':' checked'}><span>${t[1]}</span></label>`).join('')}</div></div>
-  <div class="au-row">${auIn('user','name','Name of church, ministry or artist','text','required autocomplete="organization"')}${auIn('pin','location','Town or city','text','required')}</div>
-  <div class="au-field"><label for="au-desc">About you <em>(optional)</em></label><textarea id="au-desc" name="description" rows="3" class="au-area" placeholder="A few words about your ministry or music"></textarea></div>`;
- const perm=`<label class="check au-check"><input type="checkbox" name="permission" required><span>I will only publish content I own or have permission to share.</span></label>`;
- const side=`<aside class="au-side"><div class="au-logo"></div><h2>Publish. Reach. <span>Be heard.</span></h2><p>Your creator space on ShalomStream is where music, messages and streams are published, and where you see who is listening.</p><ul><li>${ic(AUI.up,18)}<span>Publish songs, sermons and videos</span></li><li>${ic(AUI.music,18)}<span>Share live streams and video links</span></li><li>${ic(AUI.chart,18)}<span>Track plays, views, likes and followers</span></li></ul></aside>`;
- if(user&&user.listener){return ''}
- if(user){return `<div class="au-wrap">${side}<div class="au-card"><h3>Set up your creator profile</h3><p class="au-sub">One last step before you can publish content.</p>
-  <form id="cform" novalidate class="au-form">${profile}${perm}<div class="form-error" id="cerr" role="alert"></div><button class="gold-btn au-submit" type="submit" id="csub">Create creator profile</button></form></div></div>`}
- return `<div class="au-wrap">${side}<div class="au-card">
-  <div class="au-tabs" role="tablist"><button type="button" role="tab" id="tab-login" onclick="auTab('login')">Sign in</button><button type="button" role="tab" id="tab-signup" onclick="auTab('signup')">Create account</button><span class="au-slider" id="auSlider"></span></div>
-  <form id="lform" novalidate class="au-form au-pane" data-pane="login"><h3>Welcome back</h3><p class="au-sub">Sign in to open your creator dashboard.</p>
-   ${auIn('mail','email','Email address','email','required autocomplete="email" placeholder="you@example.com"')}
-   ${auIn('lock','password','Password','password','required autocomplete="current-password" placeholder="Your password"')}
-   <div class="form-error" id="lerr" role="alert"></div><button class="gold-btn au-submit" type="submit" id="lsub">Sign in</button>
-   <p class="au-alt">New to ShalomStream? <a href="#" onclick="auTab('signup');return false">Create a free account</a></p></form>
-  <form id="cform" novalidate class="au-form au-pane" data-pane="signup"><h3>Create your creator account</h3><p class="au-sub">Free for churches, ministries, choirs and artists.</p>
-   ${profile}
-   ${auIn('mail','email','Email address','email','required autocomplete="email" placeholder="you@example.com"')}
-   ${auIn('lock','password','Password','password','required minlength="8" autocomplete="new-password" placeholder="At least 8 characters" oninput="auStrength(this)"')}
-   <div class="au-meter"><i></i><i></i><i></i><i></i></div>
-   ${perm}<div class="form-error" id="cerr" role="alert"></div><button class="gold-btn au-submit" type="submit" id="csub">Create creator account</button>
-   <p class="au-alt">Already have an account? <a href="#" onclick="auTab('login');return false">Sign in</a></p></form>
- </div></div>`;
-}
-function auTab(t){authTab=t;const r=$('creatorRoot');if(!r)return;r.querySelectorAll('.au-pane').forEach(f=>f.classList.toggle('on',f.dataset.pane===t));['login','signup'].forEach(k=>{const b=$('tab-'+k);if(b){b.classList.toggle('on',k===t);b.setAttribute('aria-selected',k===t)}});const sl=$('auSlider');if(sl)sl.style.transform=t==='login'?'translateX(0)':'translateX(100%)'}
-function auEye(b){const i=b.parentNode.querySelector('input');const show=i.type==='password';i.type=show?'text':'password';b.setAttribute('aria-label',show?'Hide password':'Show password');b.classList.toggle('on',show)}
-function auStrength(i){const v=i.value;let n=0;if(v.length>=8)n++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))n++;if(/\d/.test(v))n++;if(/[^A-Za-z0-9]/.test(v)||v.length>=12)n++;const m=i.closest('form').querySelector('.au-meter');m.dataset.s=v?n:0;[...m.children].forEach((x,k)=>x.classList.toggle('on',k<n&&!!v))}
-function showAuth(t){if(user&&user.listener&&!creator)return;showPage('creator');if(!user)auTab(t||'login')}
-function bindSignup(){
- const lf=$('lform');
- if(lf)lf.addEventListener('submit',async ev=>{
-  ev.preventDefault();if(!lf.checkValidity()){lf.reportValidity();return}
-  $('lerr').textContent='';$('lsub').disabled=true;$('lsub').textContent='Signing in…';
-  try{const r=await api.post('/auth/login',Object.fromEntries(new FormData(lf)));setUser(r.user);toast('Signed in');try{loadAll()}catch(_){}await loadCreator()}
-  catch(err){$('lerr').textContent=err.message;$('lsub').disabled=false;$('lsub').textContent='Sign in'}
- });
- $('cform').addEventListener('submit',async ev=>{
-  ev.preventDefault();const f=ev.target;if(!f.checkValidity()){f.reportValidity();return}
-  $('cerr').textContent='';$('csub').disabled=true;$('csub').textContent='Please wait…';
-  const label=user?'Create creator profile':'Create creator account';
-  try{const r=await api.post('/creators/register',Object.fromEntries(new FormData(f)));if(r&&r.user)setUser(r.user);toast('Creator account created');await loadCreator()}
-  catch(err){$('cerr').textContent=err.message;$('csub').disabled=false;$('csub').textContent=label}
- });
- auTab(authTab);
-}
-function dashHtml(){
- const d=cData||{totals:{},changes:{},series:[]},T=d.totals||{},C=d.changes||{};
- const boom=cContent.filter(c=>c.growth>=15).sort((a,b)=>b.growth-a.growth).slice(0,20);
- const top=[...cContent].sort((a,b)=>b.plays-a.plays).slice(0,20),max=top[0]?Math.max(top[0].plays,1):1;
- const kind=(CTYPES.find(t=>t[0]===creator.type)||[0,'Creator'])[1];
- const F=cFeed,cm=F?F.comments:null,inter=(T.views||0)+(T.plays||0),engRate=inter?Math.round(((T.likes||0)+(cm||0))/inter*1000)/10:0,PC=(F&&F.per_content)||{};
- const stat=([k,l])=>`<div class="stat"><span>${l}</span><strong>${fmtN(T[k]||0)}</strong>${C[k]==null?'':pct(C[k])}</div>`;
- const seg=(list,cur,fn)=>list.map(([k,l])=>`<button class="seg-btn${k===cur?' active':''}" onclick="${fn}('${k}')">${l}</button>`).join('');
- return `<div class="dash-head"><div class="dash-top"><div class="dash-id">${av(creator.avatar_url,creator.name,'lg')}<div class="dash-info"><h2>${e(creator.name)}</h2><p>${e(kind)}${creator.location?', '+e(creator.location):''}</p><span class="badge">${creator.verified?'Verified':'Awaiting verification'}</span>${creator.description?`<p class="dash-about">${e(creator.description)}</p>`:''}</div></div><div class="kebab-wrap"><button type="button" class="kebab-btn" id="kebabBtn" aria-label="Profile menu" aria-haspopup="menu" aria-expanded="false" onclick="toggleKebab(event)"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button><div class="kebab-menu" id="kebabMenu" role="menu" hidden><button type="button" role="menuitem" onclick="kebabDo('edit')">Edit profile</button><button type="button" role="menuitem" onclick="kebabDo('view')">View public profile</button><button type="button" role="menuitem" onclick="kebabDo('help')">Contact admin</button>${user?'<div class="kebab-sep"></div><button type="button" role="menuitem" class="danger" onclick="kebabDo(\'out\')">Sign out</button>':''}</div></div></div><div class="btn-row dash-actions"><button class="gold-btn" onclick="openModal('upload')">Upload content</button><button class="outline-btn" onclick="openModal('link')">Add stream or video link</button></div></div>
- ${creator.verified?'':'<div class="c-card"><h3>Your profile is awaiting verification</h3><p class="c-empty">Our team checks every new creator. Once verified, you appear in Artists &amp; Ministries and people can follow you. Everything you publish, uploads and links alike, goes live right away.</p></div>'}
- <div class="c-bar"><div class="seg" role="group" aria-label="Period">${seg([['7d','7 days'],['30d','30 days'],['90d','90 days']],cPeriod,'setCPeriod')}</div></div>
- <div class="stats">${[['views','Views'],['plays','Plays'],['likes','Likes'],['followers','Followers']].map(stat).join('')}<div class="stat"><span>Comments</span><strong>${F?fmtN(cm):'–'}</strong></div><div class="stat"><span>Engagement</span><strong>${engRate}%</strong><small class="stat-note">likes + comments per view or play</small></div><div class="stat live"><span><i class="pulse" aria-hidden="true"></i>Watching now</span><strong>${fmtN(T.watching||0)}</strong></div></div>
- <div class="c-card"><div class="c-card-head"><h3>Performance</h3><div class="seg" role="group" aria-label="Metric">${seg([['views','Views'],['plays','Plays'],['likes','Likes'],['followers','New followers']],cMetric,'setCMetric')}</div></div><div id="cchart"></div></div>
- <div class="c-split">
-  <div class="c-card"><h3>Trending now</h3>${boom.length?'<div class="c-scroll">'+boom.map(c=>`<div class="c-row"><div class="c-t"><strong>${e(c.title)}</strong><span>${e(c.type)}</span></div><span class="badge${c.growth>=50?' hot':''}">${c.growth>=50?'Booming':'Trending'}</span>${pct(c.growth)}</div>`).join('')+'</div>':'<p class="c-empty">Nothing is trending yet. Publish more and check back.</p>'}</div>
-  <div class="c-card"><h3>Most played</h3>${top.length?'<div class="c-scroll">'+top.map(c=>`<div class="c-row"><div class="c-t"><strong>${e(c.title)}</strong><i class="meter"><b style="width:${Math.round(c.plays/max*100)}%"></b></i></div><span>${fmtN(c.plays)}</span></div>`).join('')+'</div>':'<p class="c-empty">Plays will show here.</p>'}</div>
- </div>
- ${engagementCards(PC)}
- <div class="c-card"><h3>Your content</h3>${cContent.length?`<div class="c-table"><div class="c-th"><span>Title</span><span>Plays</span><span>Views</span><span>Likes</span><span>Watching</span><span>Change</span><span>Status</span></div>${cContent.map(c=>`<div class="c-tr"><span class="c-t"><strong>${e(c.title)}</strong><em>${e(c.type)}${PC[c.id]?' · '+fmtN(PC[c.id])+' comment'+(PC[c.id]==1?'':'s'):''}</em><button type="button" class="c-cover" onclick="openCover('${e(c.id)}')">Change cover</button></span><span>${fmtN(c.plays)}</span><span>${fmtN(c.views)}</span><span>${fmtN(c.likes||0)}</span><span>${fmtN(c.watching||0)}</span>${pct(c.growth)}<span>${e(c.status)}</span></div>`).join('')}</div>`:'<p class="c-empty">You have not published anything yet. Use Upload content to get started.</p>'}</div>`;
-}
-function drawChart(){
- const s=(cData&&cData.series)||[],el=$('cchart');if(!el)return;
- if(!s.length){el.innerHTML='<p class="c-empty">No data for this period yet.</p>';return}
- const W=700,H=230,P=34,vals=s.map(x=>x[cMetric]||0),mx=Math.max(...vals,1);
- const X=i=>P+i*(W-P-12)/Math.max(1,s.length-1),Y=v=>H-P-(v/mx)*(H-P-16);
- const pts=vals.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
- const grid=[0,.5,1].map(f=>`<line x1="${P}" x2="${W-12}" y1="${Y(mx*f)}" y2="${Y(mx*f)}" class="g"/><text x="${P-6}" y="${Y(mx*f)+4}" text-anchor="end">${fmtN(Math.round(mx*f))}</text>`).join('');
- const lab=[0,Math.floor((s.length-1)/2),s.length-1].map(i=>`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?'start':i===s.length-1?'end':'middle'}">${e(String(s[i].date).slice(5))}</text>`).join('');
- el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="${cMetric} over time">${grid}<polygon points="${X(0)},${H-P} ${pts} ${X(s.length-1)},${H-P}" class="area"/><polyline points="${pts}" class="line"/>${lab}</svg>`;
-}
-function renderCreator(){
- try{updateAcctBtn()}catch(_){}
- const root=$('creatorRoot');if(!root)return;
- if(cLoading){root.innerHTML='<div class="empty">Loading…</div>';return}
- root.innerHTML=creator?dashHtml():signupHtml();
- if(creator)drawChart();else bindSignup();
-}
-async function setCPeriod(p){cPeriod=p;try{[cData,cFeed]=await Promise.all([api.get('/creators/me/analytics?period='+p),api.get('/creators/me/feedback?period='+p).catch(()=>null)])}catch(err){toast(err.message)}renderCreator()}
-function setCMetric(k){cMetric=k;renderCreator()}
-async function refreshCreator(){
- if(!creator)return;
- try{[cData,cContent,cFeed]=await Promise.all([api.get('/creators/me/analytics?period='+cPeriod),api.get('/creators/me/content'),api.get('/creators/me/feedback?period='+cPeriod).catch(()=>null)]);renderCreator()}catch(_){}
-}
-setInterval(()=>{const pg=$('page-creator');if(creator&&pg&&pg.classList.contains('active')&&!document.hidden&&!document.querySelector('.rp-box:not([hidden])'))refreshCreator()},30000);
+async function loadCreator(){cLoading=false}
+function renderCreator(){try{updateAcctBtn()}catch(_){}}
+function showAuth(){openListenerAuth("in")}
+async function refreshCreator(){}
 
 /* KEBAB MENU */
 
@@ -1583,21 +1476,6 @@ async function openSupport(){
  api.req('POST','/support/read').catch(()=>{});
  $('supForm').onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));try{await api.req('POST','/support',d);toast('Message sent to the admin');openSupport()}catch(er){$('supErr').textContent=er.message}};
 }
-function toggleKebab(ev){ev&&ev.stopPropagation();const m=$('kebabMenu'),b=$('kebabBtn');if(!m)return;const open=m.hidden;m.hidden=!open;b.setAttribute('aria-expanded',open)}
-function closeKebab(){const m=$('kebabMenu'),b=$('kebabBtn');if(m)m.hidden=true;if(b)b.setAttribute('aria-expanded','false')}
-function kebabDo(a){closeKebab();if(a==='edit')editProfile();else if(a==='view')openCreator(creator.id);else if(a==='link')openModal('link');else if(a==='help')openSupport();else if(a==='out')authClick()}
-document.addEventListener('click',ev=>{if(!ev.target.closest('.kebab-wrap'))closeKebab()});
-document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeKebab()});
-
-/* ============ PRIVATE REPLIES (creator side) ============ */
-function replyOpen(id){const b=$('rp-'+id);if(!b)return;b.hidden=!b.hidden;if(!b.hidden){const t=b.querySelector('textarea');if(t)t.focus()}}
-async function replySend(id){
- const box=$('rp-'+id);if(!box)return;const t=box.querySelector('textarea'),v=t.value.trim();if(!v){t.focus();return}
- const btn=box.querySelector('.gold-btn');btn.disabled=true;
- try{await api.post('/comments/reply',{id,body:v});toast('Reply sent privately');await refreshCreator()}
- catch(err){btn.disabled=false;toast(err.message)}
-}
-
 /* ============ VIEWER ACCOUNT (profile picture, private replies, settings) ============ */
 const PERSON_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>';
 function updateAcctBtn(){
@@ -1618,7 +1496,7 @@ async function loadReplies(){
 }
 function acctClick(){if(!user)return openGuestMenu();openAccount(replies.unread>0?'replies':acctTab)}
 function openGuestMenu(){
- showModal(`<h2>Welcome</h2><p>Sign in to like songs, comment, follow creators and get replies in your inbox.</p><div class="btn-row"><button class="gold-btn" type="button" onclick="openListenerAuth('in')">Sign in or create account</button></div><div class="acct-sec acct-theme"><h3>Appearance</h3><div class="seg" role="group" aria-label="Theme"><button type="button" class="seg-btn" data-th="light" onclick="setThemeMode('light')">Day</button><button type="button" class="seg-btn" data-th="dark" onclick="setThemeMode('dark')">Night</button></div></div><p class="lm-creator" style="margin-top:18px">Are you a creator, church or ministry? <a href="#" class="lnk" onclick="closeModal();showAuth('login');return false">Sign in with your email</a></p>`);
+ showModal(`<h2>Welcome</h2><p>Sign in to like songs, comment, follow creators and get replies in your inbox.</p><div class="btn-row"><button class="gold-btn" type="button" onclick="openListenerAuth('in')">Sign in or create account</button></div><p class="lm-creator" style="margin-top:18px">Are you a creator, church or ministry? <a href="creators.html" class="lnk">Open the Creator Studio</a></p>`);
  paintThemeSeg();
 }
 function openAccount(tab){
@@ -1684,20 +1562,6 @@ async function engPost(ev){ev.preventDefault();const t=$('engText'),v=t.value.tr
  try{await api.post('/comments',{id:engId,body:v});t.value='';await engLoad(engId)}catch(err){engAuth(err)}$('engSend').disabled=false}
 async function engDel(id){try{await api.post('/comments/delete',{id});await engLoad(engId)}catch(err){engAuth(err)}}
 function songEngage(){if(!cur)return;showModal(`<h2>${e(cur.title||'Comments')}</h2>${engHtml()}`);engLoad(cur.id)}
-
-const STOP=new Set('this that with have from your they them were will what when which there their about would could been more very just also than then thank into some like love'.split(' ').concat('the and for you are was but not all can our out has had his her she him its who how why yes too one two'.split(' ')));
-function topWords(list){const m={};list.forEach(c=>String(c.body||'').toLowerCase().replace(/[^a-z\u00c0-\u024f'\s]/g,' ').split(/\s+/).forEach(w=>{if(w.length>=4&&!STOP.has(w))m[w]=(m[w]||0)+1}));return Object.entries(m).filter(x=>x[1]>1).sort((a,b)=>b[1]-a[1]).slice(0,8)}
-async function creatorDelComment(id){try{await api.post('/comments/delete',{id});await refreshCreator();toast('Comment removed')}catch(err){toast(err.message)}}
-function engagementCards(PC){
- const rate=c=>{const b=(c.views||0)+(c.plays||0);return b?Math.round(((c.likes||0)+(PC[c.id]||0))/b*1000)/10:0};
- const ranked=[...cContent].map(c=>({c,n:(c.likes||0)+(PC[c.id]||0),r:rate(c)})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n).slice(0,20),mx=ranked[0]?ranked[0].n:1;
- const eng=`<div class="c-card"><h3>Engagement by content</h3>${ranked.length?'<div class="c-scroll">'+ranked.map(x=>`<div class="c-row"><div class="c-t"><strong>${e(x.c.title)}</strong><i class="meter"><b style="width:${Math.round(x.n/mx*100)}%"></b></i><span>${fmtN(x.c.likes||0)} likes · ${fmtN(PC[x.c.id]||0)} comments</span></div><span>${x.r}%</span></div>`).join('')+'</div>':'<p class="c-empty">Likes and comments will show here once people react to your content.</p>'}</div>`;
- let say;
- if(!cFeed)say='<p class="c-empty">Comments will appear here once comments are switched on for the site.</p>';
- else{const rc=cFeed.recent||[],tw=topWords(rc);
-  say=(tw.length?`<div class="words">${tw.map(w=>`<span>${e(w[0])} <b>${w[1]}</b></span>`).join('')}</div>`:'')+(rc.length?'<div class="c-scroll">'+rc.map(c=>`<div class="eng-item"><div class="eng-av">${e((c.author_name||'L')[0].toUpperCase())}</div><div class="eng-body"><div class="eng-meta"><strong>${e(c.author_name)}</strong><span>on ${e(c.title)} · ${ago(c.created_at)}</span><button type="button" class="eng-reply" onclick="replyOpen('${e(c.id)}')">Reply</button></div><p>${e(c.body)}</p><div class="rp-box" id="rp-${e(c.id)}" hidden><textarea maxlength="500" rows="2" placeholder="Write a private reply…"></textarea><div class="rp-note">Only this viewer will see your reply, and this comment will leave your list.</div><div class="rp-actions"><button type="button" class="gold-btn" onclick="replySend('${e(c.id)}')">Send reply</button><button type="button" class="outline-btn" onclick="replyOpen('${e(c.id)}')">Cancel</button></div></div></div></div>`).join('')+'</div>':'<p class="c-empty">Nothing waiting for a reply. New comments from listeners appear here.</p>')}
- return `<div class="c-split">${eng}<div class="c-card"><h3>What viewers are saying</h3>${say}</div></div>`;
-}
 
 /* ============ CREATOR PROFILES, UPLOAD DEFAULTS, LISTENER SIGN-IN ============ */
 let prof=null,profTab='music',profBack='home';
@@ -1811,96 +1675,6 @@ function renderProfile(){
 }
 async function profFollow(){const id=String(prof.id),was=following.has(id);await toggleFollow(id,$('profFollow'));const on=following.has(id);if(on!==was){prof.followers=Math.max(0,(Number(prof.followers)||0)+(on?1:-1));$('profFol').textContent=fmtN(prof.followers)}}
 async function shareCreator(){const u=location.href.split('#')[0]+'#creator='+prof.id;try{if(navigator.share){await navigator.share({title:prof.name+' on ShalomStream',url:u});return}await navigator.clipboard.writeText(u);toast('Profile link copied')}catch(_){}}
-function prevImg(i,id){const f=i.files[0],t=$(id);if(f&&t)t.innerHTML=`<span class="av ${id==='cvPrev'?'lg sq':'xl'}" style="background-image:url('${URL.createObjectURL(f)}')"></span>`}
-/* Optional cover picker: choose a ready-made cover or upload an image. Used by every publish form. */
-const cvDot=k=>`<span class="cv-dot">${k==='link'?I.play:ic(MUSIC_IC,16,2)}</span>`;
-function coverField(kind){
- const tiles=ART_COLORS.map((c,n)=>`<button type="button" class="cv-pick" aria-label="Cover style ${n+1}" style="background:linear-gradient(140deg,${c[0]},${c[1]})" onclick="cvPreset(${n})">${cvDot(kind)}</button>`).join('');
- return `<div class="field cv-wrap" data-kind="${kind}"><label>Cover image <em>(optional)</em></label><div class="cv-top"><span class="cv-prev" id="cvPrev">${I.noteS}</span><div class="cv-main"><div class="cv-picks" role="group" aria-label="Ready-made covers">${tiles}</div><div class="cv-acts"><label class="outline-btn pf-pick">Upload image<input type="file" name="cover" accept="image/jpeg,image/png,image/webp" hidden onchange="cvFile(this)"></label><button type="button" class="outline-btn" id="cvClear" hidden onclick="cvClear()">Remove</button></div></div></div><input type="hidden" name="coverPreset" value=""><small class="gate-hint">${kind==='link'?'Skip it and the video’s own picture is used.':'Skip it and songs show a music icon, videos use a frame from the video.'}</small></div>`}
-function cvPreset(n){
- const w=document.querySelector('.cv-wrap');if(!w)return;const f=w.closest('form'),c=ART_COLORS[n],pv=$('cvPrev');
- f.coverPreset.value=n;w.querySelector('input[type=file]').value='';
- w.querySelectorAll('.cv-pick').forEach((b,k)=>b.classList.toggle('on',k===n));
- pv.style.backgroundImage=`linear-gradient(140deg,${c[0]},${c[1]})`;pv.innerHTML=cvDot(w.dataset.kind);$('cvClear').hidden=false}
-function cvFile(inp){
- const w=inp.closest('.cv-wrap'),f=inp.files[0],pv=$('cvPrev');if(!f)return;
- w.closest('form').coverPreset.value='';w.querySelectorAll('.cv-pick').forEach(b=>b.classList.remove('on'));
- pv.style.backgroundImage=`url('${URL.createObjectURL(f)}')`;pv.innerHTML='';$('cvClear').hidden=false}
-function cvClear(){
- const w=document.querySelector('.cv-wrap');if(!w)return;
- w.closest('form').coverPreset.value='';w.querySelector('input[type=file]').value='';
- w.querySelectorAll('.cv-pick').forEach(b=>b.classList.remove('on'));
- const pv=$('cvPrev');pv.style.backgroundImage='';pv.innerHTML=I.noteS;$('cvClear').hidden=true}
-function presetBlob(n,video,W,H){return new Promise(res=>{
- const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d'),[a,b]=ART_COLORS[n];
- const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,a);g.addColorStop(1,b);x.fillStyle=g;x.fillRect(0,0,W,H);
- const rg=x.createRadialGradient(W*.28,H*.16,0,W*.28,H*.16,Math.max(W,H)*.6);rg.addColorStop(0,'rgba(255,255,255,.22)');rg.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
- const r=Math.min(W,H)*.2,cx=W/2,cy=H/2;
- if(video)drawPlayBadge(x,cx,cy,r);
- else{
-  const gg=x.createLinearGradient(cx-r,cy-r,cx+r,cy+r);gg.addColorStop(0,'#f3d58a');gg.addColorStop(1,'#d4a64a');
-  x.save();x.shadowColor='rgba(0,0,0,.5)';x.shadowBlur=r*.5;x.shadowOffsetY=r*.15;x.fillStyle=gg;x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fill();x.restore();
-  const k=r*1.1/24;x.save();x.translate(cx-12*k,cy-12*k);x.scale(k,k);x.strokeStyle='#1a1305';x.lineWidth=2;x.lineCap='round';x.lineJoin='round';
-  x.stroke(new Path2D('M9 18V5l11-2v13'));x.beginPath();x.arc(6,18,3,0,Math.PI*2);x.stroke();x.beginPath();x.arc(17,16,3,0,Math.PI*2);x.stroke();x.restore()}
- c.toBlob(b=>res(b),'image/jpeg',.88)})}
-/* The cover the person picked: an uploaded image, a ready-made one drawn to a picture, or nothing. */
-async function pickedCover(fd,video,W,H){
- const cv=fd.get('cover');if(cv&&cv.size)return cv;
- const p=fd.get('coverPreset');if(p!==null&&p!=='')return presetBlob(+p,video,W,H);
- return null}
-function wideBlob(file,W){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(file);im.onload=()=>{URL.revokeObjectURL(u);let sw=im.width,sh=sw*9/16;if(sh>im.height){sh=im.height;sw=sh*16/9}const c=document.createElement('canvas');c.width=Math.min(W,Math.round(sw));c.height=Math.round(c.width*9/16);c.getContext('2d').drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,0,0,c.width,c.height);c.toBlob(b=>b?res(b):rej(new Error('Could not read that image.')),'image/jpeg',.88)};im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('That image could not be read. Use a JPG, PNG or WebP file.'))};im.src=u})}
-function openCover(id){
- const c=cContent.find(x=>String(x.id)===String(id));if(!c)return;
- const wide=/video|live|stream/i.test(String(c.type||''));
- showModal(`<h2>Change cover</h2><p>Pick a ready-made cover or upload your own image for <strong>${e(c.title)}</strong>.</p><form id="cform" novalidate>${coverField(wide?'link':'upload')}<div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">Save cover</button></form>`);
- $('cform').addEventListener('submit',async ev=>{
-  ev.preventDefault();const f=ev.target,fd=new FormData(f),cv=fd.get('cover');
-  if(cv&&cv.size>15*1024*1024){$('ferr').textContent='Choose a cover image under 15 MB.';return}
-  $('ferr').textContent='';$('fsub').disabled=true;$('fsub').textContent='Saving…';
-  try{const pc=await pickedCover(fd,wide,wide?1280:900,wide?720:900);if(!pc)throw new Error('Pick a ready-made cover or upload an image first.');
-   await api.post('/content/cover',{id:c.id,cover:pc,wide});closeModal();toast('Cover saved');refreshCreator();loadAll()}
-  catch(err){$('ferr').textContent=err.message;$('fsub').disabled=false;$('fsub').textContent='Save cover'}});
-}
-function editProfile(){
- const c=creator;if(!c)return;
- showModal(`<h2>Edit profile</h2><p>This is what listeners see when they open your profile.</p><form id="pform" novalidate><div class="field"><div class="pf-av"><span id="pfPrev">${av(c.avatar_url,c.name,'xl')}</span><label class="outline-btn pf-pick">Choose profile photo<input type="file" name="avatar" accept="image/jpeg,image/png,image/webp" hidden onchange="prevImg(this,'pfPrev')"></label></div></div><div class="field"><label>Name</label><input name="name" value="${e(c.name)}" required maxlength="120"></div><div class="field"><label>Town or city</label><input name="location" value="${e(c.location||'')}" maxlength="120"></div><div class="field"><label>About</label><textarea name="description" rows="4" maxlength="1000">${e(c.description||'')}</textarea></div><div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">Save profile</button></form>`);
- $('pform').addEventListener('submit',async ev=>{ev.preventDefault();const f=ev.target;if(!f.checkValidity()){f.reportValidity();return}const fd=new FormData(f),file=fd.get('avatar');$('fsub').disabled=true;$('fsub').textContent='Saving…';
-  try{const b={name:fd.get('name'),location:fd.get('location'),description:fd.get('description')};if(file&&file.size)b.avatar=await squareBlob(file,512);await api.post('/creators/me/profile',b);closeModal();toast('Profile saved');await loadCreator();loadAll()}
-  catch(err){$('ferr').textContent=err.message;$('fsub').disabled=false;$('fsub').textContent='Save profile'}});
-}
-async function openUpload(){
- if(!creator){showAuth('login');return}
- let d={};try{d=await api.get('/creators/me/defaults')||{}}catch(_){}
- const saved=!!(d.artist||d.category||d.genre||d.album),CATS=['Worship','Gospel','Hymns','Choir','Sermon'],GEN=['','Worship','Praise','Gospel','Hymns','Choir','Contemporary','Afro gospel','Instrumental','Kids'];
- const opt=(A,v)=>A.map(x=>`<option value="${e(x)}"${x===v?' selected':''}>${e(x||'No genre')}</option>`).join('');
- const albums=[...new Set(songs.filter(s=>String(s.creatorId)===String(creator.id)&&s.album).map(s=>s.album).concat(d.album?[d.album]:[]))];
- showModal(`<h2>Publish content</h2><p>Share music or messages you own or have permission to publish. It goes live as soon as you publish.</p>
-<form id="uform" novalidate oninput="upSync()" onchange="upSync()">
-<div class="field"><label>Audio or video file</label><input name="file" type="file" required onchange="upPick(this)"></div>
-<div class="field"><label>Title</label><input name="title" required maxlength="160"></div>
-${coverField('upload')}
-<div class="up-saved" id="upSaved"${saved?'':' hidden'}><div><strong id="upWho"></strong><small id="upWhat"></small></div><button type="button" class="outline-btn" onclick="upEdit(true)">Change</button></div>
-<div id="upFields"${saved?' hidden':''}>
-<div class="field"><label id="upArtL">Artist or ministry</label><input name="artist" value="${e(d.artist||creator.name)}" maxlength="120"></div>
-<div class="field"><label>Category</label><select name="category">${opt(CATS,d.category||'Worship')}</select></div>
-<div id="upMusic"><div class="field"><label>Genre</label><select name="genre">${opt(GEN,d.genre||'')}</select></div>
-<div class="field"><label>Album or playlist</label><input name="album" list="albList" value="${e(d.album||'')}" maxlength="120" placeholder="Pick one you have or type a new name"><datalist id="albList">${albums.map(a=>`<option value="${e(a)}">`).join('')}</datalist></div></div>
-</div>
-<div class="field"><label>Description <em>(optional)</em></label><textarea name="description" rows="3"></textarea></div>
-<label class="check"><input type="checkbox" name="remember" checked> <span>Remember these details for my next upload.</span></label>
-<label class="check"><input type="checkbox" name="permission" required> <span>I own this content or have permission to publish it.</span></label>
-<div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">Publish</button></form>`);
- upSync();
- $('uform').addEventListener('submit',async ev=>{ev.preventDefault();const f=ev.target;if(!f.checkValidity()){upEdit(true);f.reportValidity();return}
-  const fd=new FormData(f);fixFileType(fd,'file');const cv=fd.get('cover');if(cv&&cv.size>15*1024*1024){$('ferr').textContent='Choose a cover image under 15 MB.';return}
-  if(f.category.value==='Sermon'){fd.set('genre','');fd.set('album','')}
-  $('ferr').textContent='';$('fsub').disabled=true;$('fsub').textContent='Publishing…';
-  try{const fl=fd.get('file'),pc=await pickedCover(fd,!!(fl&&/^video\//.test(fl.type)),900,900);fd.delete('coverPreset');if(pc&&pc!==cv)fd.set('cover',pc,'cover.jpg');
-   await api.post('/content',fd);closeModal();toast('Published');loadCreator();loadAll()}
-  catch(err){$('ferr').textContent=err.message;$('fsub').disabled=false;$('fsub').textContent='Publish'}});
-}
-function upSync(){const f=$('uform');if(!f)return;const c=f.category.value,m=c!=='Sermon';$('upMusic').hidden=!m;$('upArtL').textContent=m?'Artist or ministry':'Speaker';$('upWho').textContent=f.artist.value||creator.name;$('upWhat').textContent=[c].concat(m?[f.genre.value,f.album.value]:[]).filter(Boolean).join(', ')}
-function upEdit(on){$('upSaved').hidden=on;$('upFields').hidden=!on}
 function npSocial(){
  const s=$('npSocial');if(!s)return;if(!cur){s.innerHTML='';return}
  let who='';if(cur.creatorId){const ar=artists.find(a=>String(a.id)===String(cur.creatorId)),fol=following.has(String(cur.creatorId));
@@ -1928,7 +1702,7 @@ function engGate(mode){
  listenerAuth(g,mode||'join',()=>{g.remove();loadCreator();engLoad(engId)});
 }
 function openListenerAuth(mode){
- showModal(`<h2>Sign in to ShalomStream</h2><p>Sign in with your username to like songs, write comments and follow creators.</p><div class="eng-gate" id="lmHost"></div><p class="lm-creator">Are you a creator, church or ministry? <a href="#" class="lnk" onclick="closeModal();showAuth('login');return false">Sign in with your email</a></p>`);
+ showModal(`<h2>Sign in to ShalomStream</h2><p>Sign in with your username to like songs, write comments and follow creators.</p><div class="eng-gate" id="lmHost"></div><p class="lm-creator">Are you a creator, church or ministry? <a href="creators.html" class="lnk">Open the Creator Studio</a></p>`);
  listenerAuth($('lmHost'),mode||'in',()=>{closeModal();loadCreator();loadAll()});
 }
 
