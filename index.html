@@ -564,6 +564,36 @@ svg{display:block;flex:none}
 .song-card,.video-card{cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .song-card .lnk,.video-card .lnk{-webkit-user-select:text;user-select:text}
 .song-card .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0) 38%,rgba(0,0,0,0) 62%,rgba(0,0,0,.35));pointer-events:none}
+.song-card .ss-art{display:block}
+.song-card .ss-art .ss-mark{position:absolute;inset:0;width:auto;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;box-sizing:border-box;padding:29px 8px 5px;min-width:0}
+.song-card .ss-play.ss-pfp{flex:1 1 0;min-height:0;width:auto;height:auto;max-width:100%;aspect-ratio:1;box-shadow:none;border:0}
+.song-card .ss-by{flex:none;display:block;width:100%;min-width:0;text-align:center;white-space:nowrap;line-height:1.25}
+.mini-menu{position:fixed;z-index:2000;min-width:150px;background:var(--surface);border:1px solid var(--line2);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.28);padding:4px}
+.mini-menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--text);font:inherit;font-size:13px;font-weight:600;padding:9px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.mini-menu button:hover{background:var(--surface2)}
+@keyframes mqMove{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+.song-card .ss-by.mq .mq-in,.song-card .card-title.mq .song-title,.artist-card .card-title.mq .mq-in{display:inline-block;padding-left:100%;animation:mqMove var(--mqd,8s) linear infinite;will-change:transform}
+.song-card .card-title.mq,.artist-card .card-title.mq{text-overflow:clip}
+@media(prefers-reduced-motion:reduce){.song-card .ss-by.mq .mq-in,.song-card .card-title.mq .song-title,.artist-card .card-title.mq .mq-in{animation:none;padding-left:0}}
+.h-scroll{display:flex;gap:20px;overflow-x:auto;overflow-y:hidden;padding:4px 0 12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.h-scroll>.card{flex:0 0 calc((100% - 60px)/4);scroll-snap-align:start}
+.h-scroll>.empty{flex:1 0 100%}
+@media(max-width:1000px){.h-scroll>.card{flex-basis:calc((100% - 40px)/3)}}
+@media(max-width:700px){.h-scroll{gap:14px}.h-scroll>.card{flex-basis:calc((100% - 14px)/2)}}
+.cat-chips{display:flex;gap:8px;overflow-x:auto;padding:0 0 14px;margin:0 0 6px;scrollbar-width:none}.cat-chips::-webkit-scrollbar{display:none}
+.cat-chip{flex:none;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);color:var(--text);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.cat-chip.on{border-color:var(--gold);color:var(--gold2);background:var(--surface2)}
+.top-tag{position:absolute;top:8px;left:8px;z-index:3;padding:3px 9px;border-radius:999px;background:linear-gradient(145deg,#f3d58a,var(--gold));color:#1a1305;font-size:11px;font-weight:700;letter-spacing:.02em}
+.s-sec{margin:0 0 30px}.s-sec h3{margin:0 0 12px;font-size:17px;font-weight:650}.s-sec h3 small{color:var(--muted);font-weight:500;margin-left:6px}
+.artist-card .card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.artist-card .card-foot .badge{margin-top:0;font-size:10.5px;padding:2px 8px}
+.acct-up{display:inline-flex;margin-top:8px;padding:5px 12px;font-size:13px;cursor:pointer}
+.song-card .ss-play.ss-pfp{background-color:var(--surface2);background-size:cover;background-position:center;color:var(--gold);font-family:var(--display);font-weight:600;font-size:34px;overflow:hidden}
+.song-card .ss-by{overflow:hidden;font-family:var(--ui);font-weight:600;font-size:13px;letter-spacing:0}
+.song-card .card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.song-card .card-foot .badge{margin-top:0;font-size:10.5px;padding:2px 8px}
+.card-more{flex:none;width:30px;height:30px;margin:-4px -6px -4px 0;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0;cursor:pointer}
+.card-more:hover{background:var(--surface2);color:var(--text)}
 .ss-live{position:absolute;left:10px;right:10px;top:10px;z-index:3;display:flex;align-items:center;gap:7px;pointer-events:none;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:-.01em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .ss-word{display:flex;font-size:16px;line-height:1}
 .ss-l{display:inline-block;animation:ssWave 2.4s ease-in-out infinite;animation-delay:calc(var(--i)*.12s)}
@@ -614,6 +644,12 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
 .footer-col{min-width:0}
 @media(max-width:700px){.footer{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:430px){.footer{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Footer spacing tweak */
+.footer{margin:5px 0 5px!important;padding:24px 5% 12px!important;gap:20px 24px!important}
+.footer-bottom{padding-top:12px!important}
+.main,body.has-player .main{padding-bottom:5px!important}
+
 </style>
 </head>
 <body>
@@ -691,8 +727,8 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
   </div>
 
   <div class="section">
-    <div class="section-head"><div><h2>Trending Worship</h2><p>What listeners are playing this week</p></div><a class="view-all" href="#" onclick="showPage('music')">View all</a></div>
-    <div class="cards" id="homeSongs"></div>
+    <div class="section-head"><div><h2>Trending Worship</h2><p id="trendSub">What listeners are playing this week</p></div><a class="view-all" href="#" onclick="showPage('music')">View all</a></div>
+    <div class="cards h-scroll" id="homeSongs"></div>
   </div>
 
   <div class="section">
@@ -703,7 +739,7 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
   </div>
 
   <div class="section">
-    <div class="section-head"><div><h2>Featured Ministries</h2><p>Churches and ministries sharing the message</p></div><a class="view-all" href="#" onclick="showPage('churches')">Explore churches</a></div>
+    <div class="section-head"><div><h2>Featured Churches</h2><p>Churches sharing the message</p></div><a class="view-all" href="#" onclick="showPage('churches')">Explore churches</a></div>
     <div class="cards" id="homeChurches"></div>
   </div>
 
@@ -714,6 +750,11 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
   </div>
 </section>
 
+<section class="page" id="page-search"><div class="section" style="padding-top:35px">
+  <div class="section-head"><div><h2>Search</h2><p id="searchSub">Songs, creators, churches, messages and videos</p></div></div>
+  <div id="searchOut"></div>
+</div></section>
+
 <section class="page" id="page-music"><div class="section" style="padding-top:35px">
   <div class="section-head"><div><h2>Christian Music</h2><p>Worship, praise, gospel, hymns and choir music</p></div></div>
   <div class="cards" id="musicCards"></div>
@@ -721,12 +762,14 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
 
 <section class="page" id="page-artists"><div class="section" style="padding-top:35px">
   <div class="section-head"><div><h2>Artists & Ministries</h2><p>Discover voices serving through music</p></div></div>
+  <div class="cat-chips" id="artistCats" role="tablist" aria-label="Creator categories"></div>
   <div class="cards" id="artistCards"></div>
 </div></section>
 
 <section class="page" id="page-churches"><div class="section" style="padding-top:35px">
-  <div class="section-head"><div><h2>Churches</h2><p>Christian communities and ministries</p></div></div>
+  <div class="section-head"><div><h2>Churches</h2><p>Church accounts and everything they share</p></div></div>
   <div class="cards" id="churchCards"></div>
+  <div id="churchContent"></div>
 </div></section>
 
 <section class="page" id="page-sermons"><div class="section" style="padding-top:35px">
@@ -763,8 +806,7 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
   <div class="footer-about"><h4><span class="wm"><i>Shalom</i><b>Stream</b></span></h4><p>A Christian-first media platform for worship music, churches, artists, choirs, sermons and live ministry.</p></div>
   <div class="footer-col"><h4>Explore</h4><a href="#" onclick="showPage('music')">Music</a><a href="#" onclick="showPage('artists')">Artists</a><a href="#" onclick="showPage('churches')">Churches</a><a href="#" onclick="showPage('sermons')">Messages</a></div>
   <div class="footer-col"><h4>Platform</h4><a href="#" onclick="openModal('about')">About</a><a href="#" onclick="openModal('copyright')">Copyright & Permissions</a><a href="#" onclick="openModal('contact')">Contact</a></div>
-  <div class="footer-bottom"><span>© <span id="copyYear">2026</span> <span class="wm"><i>Shalom</i><b>Stream</b></span></span></div>
-  <div class="footer-tech">Technology for God Administering</div>
+  <div class="footer-bottom"><span>© <span id="copyYear">2026</span> <span class="wm"><i>TFG</i> <b>Administering</b></span></span></div>
 </footer>
 </main>
 </div>
@@ -874,11 +916,11 @@ async function myCreator(u,cols){return ok(await sb.from('creators').select(cols
 
 /* Database rows -> the shapes the page renders */
 const TYPE_LABEL={church:'Church',ministry:'Ministry',choir:'Choir',artist:'Gospel artist',other:'Christian group'};
-const rowSong=r=>({creatorId:r.creator_id,genre:r.genre||'',album:r.album||'',description:r.description||'',id:r.id,title:r.title,artist:r.artist_name,plays:kfmt(r.period_plays!=null?r.period_plays:r.play_count),duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowMessage=r=>({creatorId:r.creator_id,id:r.id,title:r.title,speaker:r.speaker||r.artist_name,church:r.church_name||'',length:r.duration_seconds?Math.max(1,Math.round(r.duration_seconds/60))+' min':'',duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowVideo=r=>({creatorId:r.creator_id,description:r.description||'',id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowLive=r=>({id:r.id,title:r.title,name:r.artist_name,meta:r.meta||'Live now',viewers:r.viewers?kfmt(r.viewers):null,streamUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowCreator=r=>({avatar:r.avatar_url||'',id:r.id,name:r.name,followers:r.follower_count?kfmt(r.follower_count):'',meta:[TYPE_LABEL[r.type]||'Ministry',r.location].filter(Boolean).join(', ')});
+const rowSong=r=>({creatorId:r.creator_id,genre:r.genre||'',album:r.album||'',description:r.description||'',id:r.id,title:r.title,artist:r.artist_name,plays:kfmt(r.period_plays!=null?r.period_plays:r.play_count),pc:Number(r.play_count)||0,duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowMessage=r=>({pc:Number(r.play_count)||0,creatorId:r.creator_id,id:r.id,title:r.title,speaker:r.speaker||r.artist_name,church:r.church_name||'',length:r.duration_seconds?Math.max(1,Math.round(r.duration_seconds/60))+' min':'',duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowVideo=r=>({pc:Number(r.play_count)||0,creatorId:r.creator_id,description:r.description||'',id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowLive=r=>({creatorId:r.creator_id,id:r.id,title:r.title,name:r.artist_name,meta:r.meta||'Live now',viewers:r.viewers?kfmt(r.viewers):null,streamUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowCreator=r=>({type:TYPE_LABEL[r.type]?r.type:'ministry',fc:Number(r.follower_count)||0,avatar:r.avatar_url||'',id:r.id,name:r.name,followers:r.follower_count?kfmt(r.follower_count):'',meta:[TYPE_LABEL[r.type]||'Ministry',r.location].filter(Boolean).join(', ')});
 
 const COLS='id,title,artist_name,speaker,church_name,duration_seconds,media_url,thumbnail_url,meta,viewers,play_count,creator_id,genre,album,description';
 async function feed(kind,extra){
@@ -914,7 +956,7 @@ async function route(method,path,body){
  if(method==='GET'){
   switch(p){
    case'/songs':return(await feed('song',x=>x.order('play_count',{ascending:false}))).map(rowSong);
-   case'/artists':return ok(await sb.from('creators').select('id,name,type,location,follower_count,avatar_url').eq('verified',true).neq('type','church').order('created_at',{ascending:false}).limit(60)).map(rowCreator);
+   case'/artists':return ok(await sb.from('creators').select('id,name,type,location,follower_count,avatar_url').eq('verified',true).order('created_at',{ascending:false}).limit(60)).map(rowCreator);
    case'/churches':return ok(await sb.from('churches').select('id,name,location').eq('status','verified').order('created_at',{ascending:false}).limit(60)).map(c=>({id:c.id,name:c.name,meta:c.location}));
    case'/messages':return(await feed('message')).map(rowMessage);
    case'/videos':return(await feed('video')).map(rowVideo);
@@ -1063,6 +1105,63 @@ const MUSIC_IC='<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle
 const short14=t=>{const a=Array.from(String(t==null?'':t));return a.length>14?a.slice(0,14).join('')+'…':a.join('')};
 const musicArt=(seed,cls='')=>`<div class="ss-art ss-a${hashStr(seed)%6} ${cls}" aria-hidden="true"><div class="ss-mark"><span class="ss-play ss-music">${ic(MUSIC_IC,24,2)}</span></div></div>`;
 const songCover=(t,seed,cls)=>okThumb(t)?'':musicArt(seed,cls);
+/* Creator pictures for song cards: creatorId -> avatar url */
+const CAV=new Map();
+async function primeAvatars(list){
+ try{
+  (typeof artists!=='undefined'?artists:[]).forEach(a=>{if(a&&a.id&&a.avatar)CAV.set(String(a.id),a.avatar)});
+  const need=[...new Set((list||[]).map(x=>x&&x.creatorId).filter(Boolean).map(String))].filter(id=>!CAV.has(id));
+  if(!need.length)return;
+  try{const rows=ok(await sb.from('creators').select('id,avatar_url').in('id',need));rows.forEach(r=>{CAV.set(String(r.id),r.avatar_url||'')})}catch(_){}
+  const rest=need.filter(id=>!CAV.has(id)).slice(0,24);
+  await Promise.all(rest.map(async id=>{try{const c=ok(await sb.rpc('creator_public',{p_id:id}));CAV.set(id,(c&&c.avatar_url)||'')}catch(_){}}));
+ }catch(_){}
+}
+const initials=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(w=>Array.from(w)[0]||'').join('').toUpperCase();
+const songArt=s=>{const u=okThumb(CAV.get(String(s.creatorId))||'');return `<div class="ss-art ss-a${hashStr(s.id||s.title)%6}" aria-hidden="true"><div class="ss-mark"><span class="ss-play ss-pfp"${u?` style="background-image:url('${u}');color:transparent"`:''}>${e(initials(s.artist))}</span><b class="ss-by"><span class="mq-in">${e(s.artist)}</span></b></div></div>`};
+let miniMenu=null,miniFor=null;
+function closeSongMore(){if(miniMenu){miniMenu.remove();miniMenu=null;miniFor=null;['pointerdown','scroll','resize','keydown'].forEach(n=>document.removeEventListener(n,miniAway,true));window.removeEventListener('resize',closeSongMore)}}
+function miniAway(ev){if(ev.type==='keydown'){if(ev.key==='Escape')closeSongMore();return}if(ev.type==='pointerdown'&&miniMenu&&miniMenu.contains(ev.target))return;closeSongMore()}
+function mqScan(all){
+ document.querySelectorAll(all?'.song-card .card-title,.song-card .ss-by,.artist-card .card-title':'.song-card .card-title:not([data-mq]),.song-card .ss-by:not([data-mq]),.artist-card .card-title:not([data-mq])').forEach(el=>{
+  if(!el.clientWidth)return;
+  el.classList.remove('mq');
+  if(el.scrollWidth>el.clientWidth+1){const n=(el.textContent||'').length;el.style.setProperty('--mqd',Math.max(7,Math.round(n*.32+5))+'s');el.classList.add('mq')}
+  el.dataset.mq='1';
+ });
+}
+(function(){let t=0;new MutationObserver(()=>{clearTimeout(t);t=setTimeout(mqScan,80)}).observe(document.documentElement,{childList:true,subtree:true});
+ setInterval(mqScan,1500);
+ window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>mqScan(true),200)});
+ window.addEventListener('load',()=>mqScan(true));
+ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>mqScan(true)).catch(()=>{});
+})();
+function creatorMore(id,btn){
+ if(miniMenu&&miniFor==='c'+String(id)){closeSongMore();return}
+ closeSongMore();if(!btn)return;
+ const m=document.createElement('div');m.className='mini-menu';m.setAttribute('role','menu');
+ m.innerHTML=`<button type="button" role="menuitem" onclick="closeSongMore();shareCreatorById('${e(id)}')">Share profile</button>`;
+ document.body.appendChild(m);miniMenu=m;miniFor='c'+String(id);
+ const r=btn.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight;
+ let left=Math.min(Math.max(8,r.right-w),window.innerWidth-w-8),top=r.bottom+4;
+ if(top+h>window.innerHeight-8)top=Math.max(8,r.top-h-4);
+ m.style.left=left+'px';m.style.top=top+'px';
+ ['pointerdown','scroll','resize','keydown'].forEach(n=>document.addEventListener(n,miniAway,true));
+}
+function shareCreatorById(id){const a=artists.find(x=>String(x.id)===String(id)),n=a?a.name:'Creator';shareLink(profileLink(id),n+' on ShalomStream',n+' · Creator on Shalom Stream')}
+function songMore(id,btn){
+ if(miniMenu&&miniFor===String(id)){closeSongMore();return}
+ closeSongMore();
+ const x=songs.find(y=>String(y.id)===String(id));if(!x||!btn)return;
+ const m=document.createElement('div');m.className='mini-menu';m.setAttribute('role','menu');
+ m.innerHTML=(x.creatorId?`<button type="button" role="menuitem" onclick="closeSongMore();openCreator('${e(x.creatorId)}')">View profile</button>`:'')+`<button type="button" role="menuitem" onclick="closeSongMore();shareContent('${e(x.id)}')">Share this song</button>`;
+ document.body.appendChild(m);miniMenu=m;miniFor=String(id);
+ const r=btn.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight;
+ let left=Math.min(Math.max(8,r.right-w),window.innerWidth-w-8),top=r.bottom+4;
+ if(top+h>window.innerHeight-8)top=Math.max(8,r.top-h-4);
+ m.style.left=left+'px';m.style.top=top+'px';
+ ['pointerdown','scroll','resize','keydown'].forEach(n=>document.addEventListener(n,miniAway,true));
+}
 /* Older uploads got an auto-made 16:9 "Shalom Stream" picture. Real covers are square. Swap the auto-made ones for the music icon. */
 const GENT=new Map();
 function genThumb(u){
@@ -1074,7 +1173,7 @@ function scanMusicThumbs(){
  document.querySelectorAll('[data-mus].has-thumb').forEach(el=>{
   const m=/url\(['"]?([^'")]+)/.exec(el.getAttribute('style')||'');if(!m||!genThumb(m[1]))return;
   el.classList.remove('has-thumb');el.style.removeProperty('--thumb');
-  el.insertAdjacentHTML('afterbegin',musicArt(m[1],el.classList.contains('track-art')?'sm':''))})}
+  const sc=el.closest('.song-card');el.insertAdjacentHTML('afterbegin',sc?songArt({id:sc.dataset.sid,creatorId:sc.dataset.cid,artist:sc.dataset.by}):musicArt(m[1],el.classList.contains('track-art')?'sm':''))})}
 let scanT=0;new MutationObserver(()=>{clearTimeout(scanT);scanT=setTimeout(scanMusicThumbs,60)}).observe(document.documentElement,{childList:true,subtree:true});
 
 
@@ -1131,7 +1230,7 @@ async function makeThumbBlob(file,seed){
 
 /* Listener accounts: full name, username, phone number and a password of 6 to 10 characters.
    The username becomes a private sign-in address; the password is padded so the server accepts it. */
-function phoneKey(v){const d=String(v||'').replace(/\D/g,'');if(d.length<7||d.length>15)throw apiError('Enter a valid phone number with your country code.');return d}
+function phoneKey(v){let d=String(v||'').replace(/\D/g,'');if(/^0\d{9}$/.test(d))d='256'+d.slice(1);else if(/^\d{9}$/.test(d))d='256'+d;if(d.length<7||d.length>15)throw apiError('Enter a valid phone number with your country code.');return d}
 function userKey(v){const u=String(v||'').trim().toLowerCase();if(!/^[a-z][a-z0-9_]{2,19}$/.test(u))throw apiError('Username: 3 to 20 letters, numbers or underscores, starting with a letter.');return u}
 const userEmail=u=>'l'+u+'@listener.shalomstream.app';
 function shortPw(v){v=String(v||'');if(v.length<6||v.length>10)throw apiError('Your password must be 6 to 10 characters.');return v+'~shalom-stream'}
@@ -1139,10 +1238,23 @@ function squareBlob(file,size){return new Promise((res,rej)=>{const im=new Image
 const av=(url,name,cls='')=>okThumb(url)?`<span class="av ${cls}" style="background-image:url('${okThumb(url)}')"></span>`:`<span class="av ${cls}">${e(String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase())}</span>`;
 /* ============ TEMPLATES ============ */
 const SSWORD=Array.from('ShalomStream').map((c,i)=>`<span class="ss-l${i>=6?' g':''}" style="--i:${i}">${c}</span>`).join('');
-const songCard=(s,i)=>`<div class="card song-card" data-sid="${e(s.id)}"><div class="cover${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title)}<span class="ss-live" aria-hidden="true"><span class="ss-word">${SSWORD}</span><span class="ss-eq"><i></i><i></i><i></i><i></i></span></span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(s.title)}" onclick="event.stopPropagation();songInfo('${e(s.id)}');return false">${e(short14(s.title))}</a></div><div class="card-meta">${s.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</div><div class="badge">${e(s.plays)} plays</div></div></div>`;
+const songCard=(s,i)=>`<div class="card song-card" data-sid="${e(s.id)}" data-cid="${e(s.creatorId||'')}" data-by="${e(s.artist)}"><div class="cover">${songArt(s)}<span class="ss-live" aria-hidden="true"><span class="ss-word">${SSWORD}</span><span class="ss-eq"><i></i><i></i><i></i><i></i></span></span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(s.title)}" onclick="event.stopPropagation();songInfo('${e(s.id)}');return false">${e(s.title)}</a></div><div class="card-meta">${s.description?e(s.description):'ShalomStream'}</div><div class="card-foot"><div class="badge">${e(s.plays)} plays</div><button type="button" class="card-more" aria-label="More options for ${e(s.title)}" aria-haspopup="true" onclick="event.stopPropagation();songMore('${e(s.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div></div></div>`;
 const track=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
-const artistCard=(a,i)=>`<div class="card artist-card" onclick="openCreator('${e(a.id)}')"><div class="cover c${(i+1)%6}"><div class="avatar"${okThumb(a.avatar)?` style="background:url('${okThumb(a.avatar)}') center/cover;color:transparent"`:''}>${okThumb(a.avatar)?'':e(a.name.split(' ').slice(0,2).map(w=>w[0]).join(''))}</div></div><div class="card-body"><div class="card-title">${e(a.name)}</div><div class="card-meta">${e(a.meta)}</div><span class="badge">${a.followers?e(a.followers)+' followers':'Verified ministry'}</span><button class="outline-btn follow-btn${following.has(String(a.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(a.id)}',this)">${following.has(String(a.id))?'Following':'Follow'}</button></div></div>`;
-const churchCard=(c,i)=>`<div class="card church-card"><div class="cover c${(i+3)%6}"><span class="church-icon">${I.church}</span></div><div class="card-body"><div class="card-title">${e(c.name)}</div><div class="card-meta">${e(c.meta)}</div><span class="badge">Official profile</span></div></div>`;
+const artistCard=(a,i)=>`<div class="card artist-card" onclick="openCreator('${e(a.id)}')"><div class="cover c${(i+1)%6}">${a.top?'<span class="top-tag">Top</span>':''}<div class="avatar"${okThumb(a.avatar)?` style="background:url('${okThumb(a.avatar)}') center/cover;color:transparent"`:''}>${okThumb(a.avatar)?'':e(a.name.split(' ').slice(0,2).map(w=>w[0]).join(''))}</div></div><div class="card-body"><div class="card-title"><span class="mq-in">${e(a.name)}</span></div><div class="card-meta">${e(a.meta)}</div><div class="card-foot"><span class="badge">${e(a.followers||'0')} followers</span><button type="button" class="card-more" aria-label="More options for ${e(a.name)}" aria-haspopup="true" onclick="event.stopPropagation();creatorMore('${e(a.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div><button class="outline-btn follow-btn${following.has(String(a.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(a.id)}',this)">${following.has(String(a.id))?'Following':'Follow'}</button></div></div>`;
+const churchCard=(c,i)=>c.creatorId?`<div class="card church-card" onclick="openCreator('${e(c.id)}')"><div class="cover c${(i+3)%6}"${okThumb(c.avatar)?` style="background:url('${okThumb(c.avatar)}') center/cover"`:''}>${okThumb(c.avatar)?'':`<span class="church-icon">${I.church}</span>`}</div><div class="card-body"><div class="card-title">${e(c.name)}</div><div class="card-meta">${e(c.meta)}</div><div class="card-foot"><span class="badge">${e(c.followers||'0')} followers</span></div><button class="outline-btn follow-btn${following.has(String(c.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(c.id)}',this)">${following.has(String(c.id))?'Following':'Follow'}</button></div></div>`:`<div class="card church-card"><div class="cover c${(i+3)%6}"><span class="church-icon">${I.church}</span></div><div class="card-body"><div class="card-title">${e(c.name)}</div><div class="card-meta">${e(c.meta)}</div><span class="badge">Official profile</span></div></div>`;
+/* Churches = church creator accounts + churches registered on the old list (no duplicates). */
+let churchRows=[];
+function buildChurches(){
+ const cc=artists.filter(a=>a.type==='church').map(a=>({id:a.id,creatorId:a.id,name:a.name,meta:String(a.meta||'').replace(/^Church,?\s*/,''),avatar:a.avatar,followers:a.followers}));
+ const names=new Set(cc.map(c=>String(c.name).toLowerCase()));
+ churches=cc.concat(churchRows.filter(c=>!names.has(String(c.name).toLowerCase())));
+}
+/* Everything the church accounts have posted, shown under the church cards. */
+function renderChurchContent(){
+ const ids=new Set(artists.filter(a=>a.type==='church').map(a=>String(a.id))),mine=x=>ids.has(String(x.creatorId));
+ const L=[['Songs from churches',songs.filter(mine),'cards',songCard],['Messages from churches',messages.filter(mine),'row-list',messageCard],['Videos from churches',videos.filter(mine),'cards',videoCard],['Live from churches',live.filter(mine),'cards',liveCard]];
+ $('churchContent').innerHTML=L.filter(x=>x[1].length).map(x=>`<div class="s-sec"><h3>${x[0]}<small>${x[1].length}</small></h3><div class="${x[2]}">${x[1].slice(0,24).map(x[3]).join('')}</div></div>`).join('');
+}
 const messageCard=m=>`<div class="message"><div class="msg-cover${okThumb(m.thumbnailUrl)?' has-thumb':''}"${thumbStyle(m.thumbnailUrl)} onclick="playMessage('${e(m.id)}')">${coverInner(m.thumbnailUrl,m.id||m.title)}</div><h3>${e(m.title)}</h3><p>${e(m.speaker)}, ${e(m.church)}<br>${e(m.length)}</p><button class="outline-btn" onclick="playMessage('${e(m.id)}')">${I.play} Listen</button> <button class="outline-btn" onclick="shareContent('${e(m.id)}')">Share link</button></div>`;
 const videoCard=v=>{const t=thumbOf(v.thumbnailUrl,v.videoUrl);return `<div class="card video-card" data-vid="${e(v.id)}"><div class="video${t?' has-thumb':''}"${t}${v.videoUrl?` data-prev="${e(v.videoUrl)}"`:''}>${t?'':brandArt(v.id||v.title,'video')}<button class="video-play" aria-label="Play ${e(v.title)}">${I.play}</button><span class="video-label">${e(v.title)}</span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(v.title)}" onclick="event.stopPropagation();videoInfo('${e(v.id)}');return false">${e(v.title)}</a></div><div class="card-meta">${v.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(v.creatorId)}');return false">${e(v.channel)}</a>`:e(v.channel)}</div></div></div>`};
 const parseUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'||x.protocol==='http:'?x:null}catch(_){return null}};
@@ -1195,16 +1307,78 @@ const liveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl);return `<div clas
 const heroLiveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl);return `<div class="live-item${t?' has-thumb':''}"${t} onclick="openLive('${e(l.id)}')"><div class="live-tag"><span class="pulse" aria-hidden="true"></span>Live${l.viewers?`<span class="views">${e(l.viewers)} watching</span>`:''}</div><div><h3>${e(l.title||l.name)}</h3><p>${e(l.name)}, ${e(l.meta)}</p></div><button class="gold-btn" aria-label="Join ${e(l.title||l.name)}">Join stream</button></div>`};
 
 function fill(id,arr,fn,msg){$(id).innerHTML=arr.length?arr.map(fn).join(''):`<div class="empty" style="grid-column:1/-1">${msg}</div>`}
+/* Booming creators first: followers count most, plays of their songs add to it. The top three get a "Top" tag. */
+/* ============ WEEKLY TREND ROTATION (decided by Supabase) ============
+   The database decides the phase of the week and the order (functions current_trend, trend_order,
+   trend_creator_order). The 3 phases repeat: RISE (small accounts first) -> BOOM (most popular first)
+   -> MIX (one booming, one small, one booming, one small ...). If Supabase can't be reached,
+   the same rule is worked out here from the date so the page still rotates. */
+const TREND_START=Date.UTC(2026,8,28),TREND_CYCLE=['rise','boom','mix'];
+let trendSrv=null;   /* {phase,week,songs:Map,video:Map,message:Map,creators:Map} from Supabase */
+const trendWeek=()=>trendSrv?trendSrv.week:Math.floor((Date.now()-TREND_START)/(7*864e5));
+const trendPhase=()=>trendSrv?trendSrv.phase:TREND_CYCLE[((trendWeek()%3)+3)%3];
+const wkTieBreak=()=>{const w=trendWeek();return id=>hashStr(String(id)+':'+w)};
+/* Local ordering: rise = lowest first, boom = highest first, mix = alternate between the two ends. */
+function trendSort(list,score,id){
+ const ph=trendPhase(),tb=wkTieBreak();
+ const hi=list.slice().sort((x,y)=>score(y)-score(x)||tb(id(x))-tb(id(y))),lo=list.slice().sort((x,y)=>score(x)-score(y)||tb(id(x))-tb(id(y)));
+ if(ph==='boom')return hi;if(ph==='rise')return lo;
+ const hr=new Map(hi.map((x,i)=>[x,i+1])),lr=new Map(lo.map((x,i)=>[x,i+1]));
+ return list.slice().sort((x,y)=>Math.min(hr.get(x)*2-1,lr.get(x)*2)-Math.min(hr.get(y)*2-1,lr.get(y)*2));
+}
+function bySrv(list,map){const n=list.length+1;return list.slice().sort((x,y)=>(map.get(String(x.id))||n)-(map.get(String(y.id))||n))}
+async function loadTrend(){
+ if(!sb)return;
+ try{
+  const ct=ok(await sb.rpc('current_trend'));
+  const get=async(fn,args)=>{const rows=ok(await sb.rpc(fn,args))||[];return new Map(rows.map(r=>[String(r.id),r.pos]))};
+  const[so,vi,me,cr]=await Promise.all([get('trend_order',{p_kind:'song'}),get('trend_order',{p_kind:'video'}),get('trend_order',{p_kind:'message'}),get('trend_creator_order')]);
+  trendSrv={phase:ct.phase,week:ct.week,song:so,video:vi,message:me,creators:cr};
+ }catch(_){trendSrv=null}
+}
+function rankArtists(A,S){
+ const pl={};S.forEach(x=>{if(x.creatorId)pl[x.creatorId]=(pl[x.creatorId]||0)+(x.pc||0)});
+ const sc=A.map(a=>Object.assign({},a,{score:(a.fc||0)*10+(pl[a.id]||0)}));
+ const out=trendSrv&&trendSrv.creators.size?bySrv(sc,trendSrv.creators):trendSort(sc,a=>a.score,a=>a.id);
+ /* "Top" tags only on the most popular, and only when popular accounts lead */
+ const best=sc.slice().sort((x,y)=>y.score-x.score).slice(0,3).filter(a=>a.score>0).map(a=>a.id);
+ out.forEach(a=>{a.top=trendPhase()!=='rise'&&best.includes(a.id)});return out;
+}
+function applyTrends(){
+ const ph=trendPhase(),cs={};
+ artists.forEach(a=>cs[a.id]=a.score||0);
+ const score=x=>(x.pc||0)+(cs[x.creatorId]||0);
+ const sets=[['song','songs'],['video','videos'],['message','messages']];
+ songs=trendSrv?bySrv(songs,trendSrv.song):trendSort(songs,score,x=>x.id);
+ videos=trendSrv?bySrv(videos,trendSrv.video):trendSort(videos,score,x=>x.id);
+ messages=trendSrv?bySrv(messages,trendSrv.message):trendSort(messages,score,x=>x.id);
+ const sub=document.getElementById('trendSub');
+ if(sub)sub.textContent=ph==='rise'?'Rising voices worth discovering this week':ph==='mix'?'A mix of rising voices and crowd favourites':'What listeners are playing this week';
+}
+/* When a new week starts while the page is open, ask Supabase again and re-order without a reload. */
+let shownPhase=null;
+setInterval(async()=>{if(shownPhase===null||!songs.length)return;const before=trendWeek();await loadTrend();const k=trendWeek();if(k!==shownPhase){shownPhase=k;artists=rankArtists(artists,songs);applyTrends();render()}},600000);
+const ART_CATS=[['artist','Artists'],['ministry','Ministries'],['choir','Choirs'],['other','Groups']];
+let artCat='all';
+function setArtCat(k){artCat=k;renderArtists()}
+function renderArtists(){
+ const AL=artists.filter(a=>a.type!=='church'),have=new Set(AL.map(a=>a.type)),chips=[['all','All']].concat(ART_CATS.filter(c=>have.has(c[0])));
+ if(!chips.some(c=>c[0]===artCat))artCat='all';
+ $('artistCats').innerHTML=chips.length>2?chips.map(c=>`<button type="button" role="tab" aria-selected="${c[0]===artCat}" class="cat-chip${c[0]===artCat?' on':''}" onclick="setArtCat('${c[0]}')">${c[1]}</button>`).join(''):'';
+ fill('artistCards',artCat==='all'?AL:AL.filter(a=>a.type===artCat),artistCard,'No creators in this category yet.');
+}
 function render(){
+ buildChurches();
  fill('heroLive',live,heroLiveCard,'Nothing is live right now.');
- fill('homeSongs',songs.slice(0,4),songCard,'No songs yet.');
- fill('newSongs',songs.slice(4,8),track,'No new releases yet.');
+ fill('homeSongs',songs.slice(0,10),songCard,'No songs yet.');
+ fill('newSongs',songs.slice(10,14),track,'No new releases yet.');
  fill('newVideos',videos.slice(0,4),videoCard,'No videos yet.');
  fill('homeChurches',churches,churchCard,'No churches yet.');
  fill('homeMessages',messages.slice(0,2),messageCard,'No messages yet.');
  fill('musicCards',songs,songCard,'No songs yet.');
- fill('artistCards',artists,artistCard,'No artists yet.');
+ renderArtists();
  fill('churchCards',churches,churchCard,'No churches yet.');
+ renderChurchContent();
  fill('messageList',messages,messageCard,'No messages yet.');
  fill('videoCards',videos,videoCard,'No videos yet.');
  fill('liveList',live,liveCard,'Nothing is live right now.');
@@ -1225,11 +1399,11 @@ async function loadAll(){
  $('notice').hidden=true;
  ['heroLive','homeSongs','newSongs','newVideos','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='<div class="empty" style="grid-column:1/-1">Loading…</div>');
  try{
-  [songs,artists,churches,messages,videos,live]=await Promise.all(['/songs','/artists','/churches','/messages','/videos','/live'].map(p=>api.get(p)));
-  messages.forEach(m=>m.artist=m.speaker);mergeLinked();
+  [songs,artists,churchRows,messages,videos,live]=await Promise.all(['/songs','/artists','/churches','/messages','/videos','/live'].map(p=>api.get(p)));
+  messages.forEach(m=>m.artist=m.speaker);mergeLinked();await loadTrend();artists=rankArtists(artists,songs);applyTrends();shownPhase=trendWeek();
   savedIds.clear();following.clear();try{(await api.get('/library/songs')).forEach(id=>savedIds.add(id));(await api.get('/follows')).forEach(id=>following.add(id))}catch(_){}
   try{const me=await api.get('/auth/me');if(me&&me.user)setUser(me.user)}catch(_){}
-  render();loadCreator();
+  await primeAvatars(songs);render();loadCreator();
  }catch(err){
   ['heroLive','homeSongs','newSongs','newVideos','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='');
   $('noticeText').textContent=err.message;$('notice').hidden=false;cLoading=false;renderCreator();
@@ -1425,7 +1599,7 @@ audio.addEventListener('error',()=>{if(cur&&cur.audioUrl){
 initSheet();$('seek').addEventListener('click',seekTo);$('vol').addEventListener('click',setVolume);
 
 /* ============ ACCOUNT, FORMS, MODALS ============ */
-function setUser(u){if(!u||!user||user.id!==u.id){pl=[];plReady=false;plOpen=null;setTimeout(()=>{const pg=$('page-playlists');if(pg&&pg.classList.contains('active'))loadPlaylists()},0)}user=u;if(!u){creator=null;cData=null;cFeed=null;cContent=[];renderCreator()}$('authBtn').textContent=u?'Sign out':'Sign in';$('authBtn').title=u?'Signed in as '+u.name:'';if(u){updateAcctBtn();loadReplies()}else{replies={unread:0,items:[]};updateAcctBtn()}}
+function setUser(u){if(!u||!user||user.id!==u.id){pl=[];plReady=false;plOpen=null;setTimeout(()=>{const pg=$('page-playlists');if(pg&&pg.classList.contains('active'))loadPlaylists()},0)}user=u;if(!u){creator=null;cData=null;cFeed=null;cContent=[];renderCreator()}$('authBtn').textContent=u?'Sign out':'Sign in';$('authBtn').title=u?'Signed in as '+u.name:'';if(u){updateAcctBtn();loadReplies();loadMyAvatar()}else{myAvUrl='';replies={unread:0,items:[]};updateAcctBtn()}}
 async function authClick(){
  if(!user)return openListenerAuth('in');
  try{await api.post('/auth/logout');setUser(null);toast('Signed out')}catch(err){toast(err.message)}
@@ -1480,14 +1654,30 @@ document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeModal()});
 
 /* ============ SEARCH ============ */
 let searchTick=0,searchTimer;
+const sNorm=t=>String(t==null?'':t).toLowerCase();
+const sHit=(q,fields)=>{const hay=sNorm(fields.join(' '));return sNorm(q).split(/\s+/).filter(Boolean).every(w=>hay.includes(w))};
+function paintSearch(q,serverSongs){
+ const typeName=a=>TYPE_LABEL[a.type]||'';
+ const cr=artists.filter(a=>a.type!=='church'&&sHit(q,[a.name,a.meta,typeName(a)]));
+ const seen=new Set(),so=[];
+ songs.concat(serverSongs||[]).forEach(x=>{if(seen.has(String(x.id)))return;if((serverSongs&&serverSongs.some(y=>String(y.id)===String(x.id)))||sHit(q,[x.title,x.artist,x.album,x.genre,x.description])){seen.add(String(x.id));so.push(x)}});
+ const ch=churches.filter(c=>sHit(q,[c.name,c.meta]));
+ const ms=messages.filter(m=>sHit(q,[m.title,m.speaker,m.church,m.artist]));
+ const vd=videos.filter(v=>sHit(q,[v.title,v.channel,v.description]));
+ const sec=(t,arr,cls,fn)=>arr.length?`<div class="s-sec"><h3>${t}<small>${arr.length}</small></h3><div class="${cls}">${arr.slice(0,24).map(fn).join('')}</div></div>`:'';
+ const html=sec('Creators',cr,'cards',artistCard)+sec('Songs',so,'cards',songCard)+sec('Churches',ch,'cards',churchCard)+sec('Messages',ms,'row-list',messageCard)+sec('Videos',vd,'cards',videoCard);
+ $('searchSub').textContent='Results for “'+q+'”';
+ $('searchOut').innerHTML=html||`<div class="empty">No results for “${e(q)}”. Try a song title, a creator's name, a church or any keyword.</div>`;
+}
 $('searchInput').addEventListener('input',ev=>{
  clearTimeout(searchTimer);const q=ev.target.value.trim();
  searchTimer=setTimeout(async()=>{
   const my=++searchTick;
-  if(!q){fill('musicCards',songs,songCard,'No songs yet.');return}
-  showPage('music');
-  try{const res=await api.get('/search?q='+encodeURIComponent(q));if(my!==searchTick)return;fill('musicCards',res,songCard,`No results for “${e(q)}”. Try a song title or an artist name.`);res.forEach(r=>{if(!songs.some(s=>String(s.id)===String(r.id)))songs.push(r)})}
-  catch(err){if(my===searchTick)$('musicCards').innerHTML=`<div class="empty" style="grid-column:1/-1">${e(err.message)}</div>`}
+  if(!q){const pg=$('page-search');if(pg&&pg.classList.contains('active'))showPage('home');return}
+  if(!$('page-search').classList.contains('active'))showPage('search');
+  paintSearch(q,null);
+  try{const res=await api.get('/search?q='+encodeURIComponent(q));if(my!==searchTick)return;await primeAvatars(res);if(my!==searchTick)return;res.forEach(r=>{if(!songs.some(s=>String(s.id)===String(r.id)))songs.push(r)});paintSearch(q,res)}
+  catch(err){/* the instant results from the loaded lists stay on screen */}
  },250);
 });
 
@@ -1522,7 +1712,7 @@ function updateAcctBtn(){
  if(isViewer){const pg=$('page-creator');if(pg&&pg.classList.contains('active'))showPage('home')}
  if(btn)btn.hidden=false;
   if(!user){b.innerHTML=PERSON_SVG;if(d)d.hidden=true;return}
- b.innerHTML=av((creator&&creator.avatar_url)||user.avatar||'',(creator&&creator.name)||user.name,'');
+ b.innerHTML=av((creator&&creator.avatar_url)||myAvUrl||user.avatar||'',(creator&&creator.name)||user.name,'');
  if(d)d.hidden=!(replies.unread>0);
 }
 async function loadReplies(){
@@ -1530,14 +1720,34 @@ async function loadReplies(){
  try{const r=await api.get('/replies');replies=r&&Array.isArray(r.items)?r:{unread:0,items:[]}}catch(_){}
  updateAcctBtn();if($('acctBody')&&acctTab==='replies')paintAcct();
 }
-function acctClick(){if(!user)return openGuestMenu();openAccount(replies.unread>0?'replies':acctTab)}
+let myAvUrl='';
+async function loadMyAvatar(){
+ if(!user||user.listener){myAvUrl='';return}
+ try{const u=await sessionUser(),c=u&&await myCreator(u,'id,name,avatar_url');myAvUrl=(c&&c.avatar_url)||'';if(c&&c.id&&c.avatar_url)CAV.set(String(c.id),c.avatar_url);updateAcctBtn()}catch(_){}
+}
+async function uploadMyPhoto(inp){
+ const fl=inp.files&&inp.files[0];inp.value='';if(!fl||!user)return;
+ if(!/^image\//.test(fl.type)){toast('Choose an image file');return}
+ const lab=$('acctUpTxt');if(lab)lab.textContent='Uploading…';
+ try{
+  const blob=await squareBlob(fl,256);
+  if(user.listener){const r=await api.post('/me/profile',{name:user.name,avatar:blob});setUser(r.user)}
+  else{
+   const u=await needUser(),c=await myCreator(u,'id,name,location,description');if(!c)throw new Error('Creator profile not found.');
+   await api.post('/creators/me/profile',{name:c.name,location:c.location,description:c.description,avatar:blob});
+   CAV.delete(String(c.id));await loadMyAvatar();try{render()}catch(_){}
+  }
+  toast('Photo updated');openAccount(acctTab)
+ }catch(err){toast((err&&err.message)||'Upload failed');if(lab)lab.textContent='Upload photo'}
+}
+function acctClick(){if(!user)return openGuestMenu();openAccount('replies')}
 function openGuestMenu(){
  showModal(`<h2>Welcome</h2><p>Sign in to like songs, comment, follow creators and get replies in your inbox.</p><div class="btn-row"><button class="gold-btn" type="button" onclick="openListenerAuth('in')">Sign in or create account</button></div>`);
  paintThemeSeg();
 }
 function openAccount(tab){
  if(!user)return openListenerAuth('in');
- acctTab=tab||'replies';const url=(creator&&creator.avatar_url)||user.avatar||'',nm=(creator&&creator.name)||user.name;
+ acctTab=tab||'replies';const url=(creator&&creator.avatar_url)||myAvUrl||user.avatar||'',nm=(creator&&creator.name)||user.name;
  showModal(`<h2>My account</h2><div class="acct-head">${av(url,nm,'lg')}<div><strong>${e(nm)}</strong><span>${user.username?'@'+e(user.username):e(user.email||'')}</span></div></div><div class="ptabs" role="tablist"><button class="ptab${acctTab==='replies'?' on':''}" role="tab" onclick="openAccount('replies')">Inbox${replies.unread>0?' ('+replies.unread+')':''}</button><button class="ptab${acctTab==='account'?' on':''}" role="tab" onclick="openAccount('account')">Account</button></div><div id="acctBody"></div>`);
  paintAcct();if(acctTab==='replies')loadReplies();
 }
@@ -1563,7 +1773,15 @@ function paintAcct(){
  f.elements.photo.addEventListener('change',()=>{const fl=f.elements.photo.files[0];if(fl){const u=URL.createObjectURL(fl);$('acctPrev').innerHTML=`<span class="av xl" style="background-image:url('${u}')"></span>`}});
  f.addEventListener('submit',async ev=>{ev.preventDefault();const nm=f.elements.dname.value.trim();$('acctErr').textContent='';if(nm.length<2){$('acctErr').textContent='Enter your name.';return}
   const b=$('acctSave');b.disabled=true;b.textContent='Saving…';
-  try{const body={name:nm},fl=f.elements.photo.files[0];if(fl&&fl.size)body.avatar=await squareBlob(fl,256);const r=await api.post('/me/profile',body);setUser(r.user);toast('Account saved');openAccount('account')}
+  try{const body={name:nm},fl=f.elements.photo.files[0];
+   if(!user.listener&&fl&&fl.size){
+    const blob=await squareBlob(fl,256),u=await needUser(),c=await myCreator(u,'id,name,location,description');if(!c)throw new Error('Creator profile not found.');
+    await api.post('/creators/me/profile',{name:c.name,location:c.location,description:c.description,avatar:blob});
+    CAV.delete(String(c.id));await loadMyAvatar();try{render()}catch(_){}
+    if(nm===user.name){toast('Account saved');openAccount('account');return}
+   }
+   if(fl&&fl.size&&user.listener)body.avatar=await squareBlob(fl,256);
+   const r=await api.post('/me/profile',body);setUser(r.user);toast('Account saved');openAccount('account')}
   catch(err){$('acctErr').textContent=err.message;b.disabled=false;b.textContent='Save changes'}});
  $('pwForm').addEventListener('submit',async ev=>{ev.preventDefault();$('pwErr').textContent='';const b=$('pwSave');b.disabled=true;
   try{await api.post('/me/password',{password:ev.target.elements.npw.value});toast('Password updated');ev.target.reset()}
@@ -1665,7 +1883,7 @@ function songActions(id){
  const card=t=>t&&t.closest?t.closest('.song-card,.video-card'):null,act=c=>c.dataset.vid?videoActions(c.dataset.vid):songActions(c.dataset.sid);
  const clear=()=>{clearTimeout(timer);timer=null};
  document.addEventListener('pointerdown',ev=>{
-  const c=card(ev.target);if(!c||ev.target.closest('a'))return;
+  const c=card(ev.target);if(!c||ev.target.closest('a,.card-more'))return;
   fired=false;sx=ev.clientX;sy=ev.clientY;clear();
   timer=setTimeout(()=>{fired=true;if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}act(c)},500);
  });
@@ -1673,7 +1891,7 @@ function songActions(id){
  ['pointerup','pointercancel','pointerleave'].forEach(n=>document.addEventListener(n,clear));
  document.addEventListener('contextmenu',ev=>{if(card(ev.target)){ev.preventDefault();if(!fired){act(card(ev.target))}}});
  document.addEventListener('click',ev=>{
-  const c=card(ev.target);if(!c||ev.target.closest('a'))return;
+  const c=card(ev.target);if(!c||ev.target.closest('a,.card-more'))return;
   if(fired){fired=false;return}
   if(c.dataset.vid)openVideo(c.dataset.vid);else playSong(c.dataset.sid);
  });
@@ -1748,7 +1966,7 @@ function listenerAuth(host,mode,done){
  const T={join:['Create your account','Create account'],in:['Sign in','Sign in'],reset:['Reset your password','Save new password']}[mode];
  const inp=(n,ph,t,ac,x)=>`<input name="${n}" type="${t}" placeholder="${ph}" aria-label="${ph}" autocomplete="${ac}" ${x||''} required>`;
  const pw=(ph,ac)=>`<input name="password" type="password" placeholder="${ph}" aria-label="${ph}" autocomplete="${ac}" minlength="6" maxlength="10" required>`;
- const uname=inp('username','Username','text','username','maxlength="20" autocapitalize="none" spellcheck="false"'),phone=inp('phone','Phone number, e.g. 255712345678','tel','tel','inputmode="tel"');
+ const uname=inp('username','Username','text','username','maxlength="20" autocapitalize="none" spellcheck="false"'),phone=inp('phone','Phone number, e.g. 256772123456','tel','tel','inputmode="tel" value="256"');
  const fields=mode==='join'?inp('name','Full name','text','name','maxlength="80"')+uname+phone+pw('Password, 6 to 10 characters','new-password'):mode==='reset'?uname+phone+pw('New password, 6 to 10 characters','new-password'):uname+pw('Password','current-password');
  host.innerHTML=`<h4>${T[0]}</h4><form class="gateForm" novalidate>${fields}${mode==='join'?'<small class="gate-hint">Username: letters, numbers and underscores, starting with a letter.</small>':''}<div class="form-error gateErr" role="alert"></div><button class="gold-btn" type="submit">${T[1]}</button></form>
  <div class="gate-links">${mode==='in'?`<button type="button" class="eng-del" data-m="reset">Forgot password?</button>`:''}<button type="button" class="eng-del" data-m="${mode==='in'?'join':'in'}">${mode==='join'?'Already have an account? Sign in':mode==='in'?'New here? Create an account':'Back to sign in'}</button></div>`;
