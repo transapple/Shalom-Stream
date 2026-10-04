@@ -656,6 +656,61 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
 .footer-bottom{padding-top:12px!important}
 .main,body.has-player .main{padding-bottom:5px!important}
 
+
+/* ===== Account panel (profile button) ===== */
+.prof-btn{width:42px;height:42px}.prof-btn.in{border:2px solid var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.14)}.prof-btn.in .av{width:36px;height:36px}
+.prof-dot{min-width:18px;height:18px;top:-5px;right:-5px;display:flex;align-items:center;justify-content:center;font:700 10px/1 system-ui,sans-serif;color:#fff;padding:0 4px;box-sizing:border-box}.prof-dot[hidden]{display:none}
+.acct-panel{display:flex;flex-direction:column;max-height:80vh}
+.acct-panel .acct-head{margin:0 0 14px;gap:12px}.acct-who{flex:1;min-width:0}.acct-who strong,.acct-who span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-edit{flex:none;background:none;border:1px solid var(--line2);color:var(--gold);border-radius:999px;padding:7px 14px;font-weight:650;font-size:13px;cursor:pointer}.acct-edit:hover{border-color:var(--gold)}
+.acct-title{margin:6px 0 10px;font-size:15px;font-weight:650;color:var(--muted)}
+.acct-chat{flex:1;min-height:150px;max-height:46vh;overflow-y:auto;padding:4px 2px;margin:0}
+.chat-grp{margin-bottom:18px}.chat-ctx{text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px}.chat-ctx b{color:var(--text);font-weight:600}
+.chat-me{display:flex;justify-content:flex-end;margin-bottom:6px}.chat-me span{max-width:82%;background:rgba(184,134,11,.16);border:1px solid rgba(184,134,11,.35);color:var(--text);padding:8px 12px;border-radius:16px 16px 4px 16px;font-size:13.5px;line-height:1.45;overflow-wrap:anywhere}
+.chat-cr{display:flex;gap:8px;align-items:flex-end}.chat-cr .av{width:32px;height:32px;font-size:11px;flex:none}
+.chat-bub{max-width:82%;background:var(--bg);border:1px solid var(--line);padding:9px 13px;border-radius:16px 16px 16px 4px}.chat-bub strong{display:block;font-size:12.5px;color:var(--gold);margin-bottom:2px}.chat-bub span{display:block;font-size:14.5px;line-height:1.5;overflow-wrap:anywhere}
+.chat-new{font-style:normal;background:var(--danger);color:#fff;border-radius:999px;font-size:10px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+.chat-empty{text-align:center;padding:26px 10px 18px}.chat-empty-ic{font-size:34px;margin-bottom:6px}.chat-empty strong{display:block;font-size:16px}.chat-empty p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.5}
+.acct-foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.acct-logout{width:100%;height:48px;border-radius:14px;border:1.5px solid var(--danger);background:transparent;color:var(--danger);font-weight:700;font-size:15px;cursor:pointer}.acct-logout:hover{background:var(--danger);color:#fff}.acct-logout:disabled{opacity:.6}
+.acct-top{margin:-6px 0 6px}.acct-back{background:none;border:0;color:var(--gold);font-weight:650;font-size:15px;padding:6px 0;cursor:pointer}
+.acct-guest{text-align:center;padding:6px 0 2px}.acct-guest-ic{width:64px;height:64px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:var(--bg);border:2px solid var(--gold);color:var(--gold)}.acct-guest-ic svg{width:30px;height:30px}.acct-guest h2{margin:0 0 6px}.acct-guest p{margin:0 0 18px;color:var(--muted)}
+.acct-guest-btns{display:grid;gap:10px}.acct-guest-btns .gold-btn,.acct-guest-btns .outline-btn{width:100%;height:48px}
+
+/* One-line song names; tap to read in full */
+.track-info .tx{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.track-info .tx.open{white-space:normal;overflow:visible;overflow-wrap:anywhere}
+.track-info span.tx{color:var(--muted);font-size:13px;margin-top:2px}
+.track{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+
+#newSongs .track{grid-template-columns:36px 44px minmax(0,1fr) auto!important;cursor:pointer}
+#newSongs .track:active{background:var(--bg)}
+
+/* Home: blocks of six (2 across on phones, 3 across on wider screens) */
+#homeSongs,#newVideos,#homeChurches{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px}
+@media(max-width:700px){#homeSongs,#newVideos,#homeChurches{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px}}
+#heroLive{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;overflow:visible;padding-bottom:0}
+#heroLive .live-item{min-width:0;width:auto;max-width:none;flex:none}
+@media(max-width:700px){#heroLive{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Pop-up titles start below the red close button and use the full width */
+.modal h2.ttl-below{margin-top:46px;padding-right:0;font-size:24px;line-height:1.25;overflow-wrap:anywhere;word-break:break-word}
+
+/* Behave like a normal app: no text cursor, no text selection or highlight when tapping text */
+html,body,body *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;caret-color:transparent}
+input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;user-select:text;caret-color:auto;-webkit-touch-callout:default}
+img,svg,a{-webkit-user-drag:none}
+::selection{background:transparent}
+input::selection,textarea::selection{background:rgba(184,134,11,.35)}
+
+/* Replies: what was replied to is highlighted, time on its own line */
+.chat-ctx{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.chat-rt{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.chat-ctx b.chat-title{display:inline-block;max-width:100%;background:rgba(184,134,11,.18);color:var(--text);border:1px solid rgba(184,134,11,.4);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:800;overflow-wrap:anywhere}
+.chat-time{display:block;font-size:12px;color:var(--muted)}
+/* Copyright name with a slowly moving colour gradient */
+.tfg-grad{font-weight:800;letter-spacing:.02em;background:linear-gradient(90deg,#1e4fb3,#00a6d6,#b8860b,#e0a800,#c2410c,#1e4fb3);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:tfgFlow 6s linear infinite}
+@keyframes tfgFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+@media(prefers-reduced-motion:reduce){.tfg-grad{animation:none}}
 </style>
 </head>
 <body>
@@ -733,25 +788,25 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
   </div>
 
   <div class="section">
-    <div class="section-head"><div><h2>Trending Worship</h2><p id="trendSub">What listeners are playing this week</p></div><a class="view-all" href="#" onclick="showPage('music')">View all</a></div>
-    <div class="cards h-scroll" id="homeSongs"></div>
+    <div class="section-head"><div><h2>Trending Worship</h2><p id="trendSub">What listeners are playing this week</p></div><a class="view-all" id="moreSongs" href="#" onclick="showPage('music');return false">Explore music</a></div>
+    <div class="cards" id="homeSongs"></div>
   </div>
 
   <div class="section">
-    <div class="section-head"><div><h2>New Releases</h2><p>Fresh songs and videos from Christian artists and choirs</p></div></div>
+    <div class="section-head"><div><h2>New Releases</h2><p>The newest songs from Christian artists and choirs</p></div><a class="view-all" id="moreNew" href="#" onclick="showPage('music');return false">Explore music</a></div>
     <div class="row-list" id="newSongs"></div>
-    <div class="section-head" style="margin-top:40px"><div><h2>New Videos</h2><p>Fresh videos from ministries and creators</p></div><a class="view-all" href="#" onclick="showPage('videos')">Explore videos</a></div>
+    <div class="section-head" style="margin-top:40px"><div><h2>New Videos</h2><p>Fresh videos from ministries and creators</p></div><a class="view-all" id="moreVideos" href="#" onclick="showPage('videos');return false">Explore videos</a></div>
     <div class="cards" id="newVideos"></div>
   </div>
 
   <div class="section">
-    <div class="section-head"><div><h2>Featured Churches</h2><p>Churches sharing the message</p></div><a class="view-all" href="#" onclick="showPage('churches')">Explore churches</a></div>
+    <div class="section-head"><div><h2>Featured Churches</h2><p>Churches sharing the message</p></div><a class="view-all" id="moreChurches" href="#" onclick="showPage('churches');return false">Explore churches</a></div>
     <div class="cards" id="homeChurches"></div>
   </div>
 
   <div class="section">
     <div>
-      <div><div class="section-head"><div><h2>Latest Messages</h2><p>Teachings and sermons</p></div></div><div id="homeMessages"></div></div>
+      <div><div class="section-head"><div><h2>Latest Messages</h2><p>Teachings and sermons</p></div><a class="view-all" id="moreMessages" href="#" onclick="showPage('sermons');return false">Explore messages</a></div><div id="homeMessages"></div></div>
     </div>
   </div>
 </section>
@@ -812,7 +867,7 @@ button[onclick="closeProfile()"]{background:#e5382f!important;color:#fff!importa
   <div class="footer-about"><h4><span class="wm"><i>Shalom</i><b>Stream</b></span></h4><p>A Christian-first media platform for worship music, churches, artists, choirs, sermons and live ministry.</p></div>
   <div class="footer-col"><h4>Explore</h4><a href="#" onclick="showPage('music')">Music</a><a href="#" onclick="showPage('artists')">Artists</a><a href="#" onclick="showPage('churches')">Churches</a><a href="#" onclick="showPage('sermons')">Messages</a></div>
   <div class="footer-col"><h4>Platform</h4><a href="#" onclick="openModal('about')">About</a><a href="#" onclick="openModal('copyright')">Copyright & Permissions</a><a href="#" onclick="openModal('contact')">Contact</a></div>
-  <div class="footer-bottom"><span>© <span id="copyYear">2026</span> <span class="wm"><i>TFG</i> <b>Administering</b></span></span></div>
+  <div class="footer-bottom"><span>© <span id="copyYear">2026</span> <span class="tfg-grad">TFG Administering</span></span></div>
 </footer>
 </main>
 </div>
@@ -922,13 +977,14 @@ async function myCreator(u,cols){return ok(await sb.from('creators').select(cols
 
 /* Database rows -> the shapes the page renders */
 const TYPE_LABEL={church:'Church',ministry:'Ministry',choir:'Choir',artist:'Gospel artist',other:'Christian group'};
-const rowSong=r=>({creatorId:r.creator_id,genre:r.genre||'',album:r.album||'',description:r.description||'',id:r.id,title:r.title,artist:r.artist_name,plays:kfmt(r.period_plays!=null?r.period_plays:r.play_count),pc:Number(r.play_count)||0,duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowSong=r=>({createdAt:r.created_at||'',creatorId:r.creator_id,genre:r.genre||'',album:r.album||'',description:r.description||'',id:r.id,title:r.title,artist:r.artist_name,plays:kfmt(r.period_plays!=null?r.period_plays:r.play_count),pc:Number(r.play_count)||0,duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowMessage=r=>({pc:Number(r.play_count)||0,creatorId:r.creator_id,id:r.id,title:r.title,speaker:r.speaker||r.artist_name,church:r.church_name||'',length:r.duration_seconds?Math.max(1,Math.round(r.duration_seconds/60))+' min':'',duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowVideo=r=>({watch:kfmt(r.period_plays!=null?r.period_plays:r.play_count),pc:Number(r.play_count)||0,creatorId:r.creator_id,description:r.description||'',id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const watchLbl=v=>{const n=Number(v.vc)||0;return kfmt(n)+(n===1?' watch':' watches')};
+const rowVideo=r=>({createdAt:r.created_at||'',vc:Number(r.view_count)||0,watch:kfmt(Number(r.view_count)||0),pc:Number(r.view_count)||0,creatorId:r.creator_id,description:r.description||'',id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowLive=r=>({creatorId:r.creator_id,id:r.id,title:r.title,name:r.artist_name,meta:r.meta||'Live now',viewers:r.viewers?kfmt(r.viewers):null,streamUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowCreator=r=>({type:TYPE_LABEL[r.type]?r.type:'ministry',fc:Number(r.follower_count)||0,avatar:r.avatar_url||'',id:r.id,name:r.name,followers:r.follower_count?kfmt(r.follower_count):'',meta:[TYPE_LABEL[r.type]||'Ministry',r.location].filter(Boolean).join(', ')});
 
-const COLS='id,title,artist_name,speaker,church_name,duration_seconds,media_url,thumbnail_url,meta,viewers,play_count,creator_id,genre,album,description';
+const COLS='id,title,artist_name,speaker,church_name,duration_seconds,media_url,thumbnail_url,meta,viewers,play_count,view_count,created_at,creator_id,genre,album,description';
 async function feed(kind,extra){
  let q=sb.from('content').select(COLS).eq('kind',kind).eq('status','published');
  if(extra)q=extra(q);
@@ -1264,7 +1320,14 @@ const av=(url,name,cls='')=>okThumb(url)?`<span class="av ${cls}" style="backgro
 /* ============ TEMPLATES ============ */
 const SSWORD=Array.from('ShalomStream').map((c,i)=>`<span class="ss-l${i>=6?' g':''}" style="--i:${i}">${c}</span>`).join('');
 const songCard=(s,i)=>`<div class="card song-card" data-sid="${e(s.id)}" data-cid="${e(s.creatorId||'')}" data-by="${e(s.artist)}"><div class="cover">${songArt(s)}<span class="ss-live" aria-hidden="true"><span class="ss-word">${SSWORD}</span><span class="ss-eq"><i></i><i></i><i></i><i></i></span></span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(s.title)}" onclick="event.stopPropagation();songInfo('${e(s.id)}');return false">${e(s.title)}</a></div><div class="card-meta">${s.description?e(s.description):'ShalomStream'}</div><div class="card-foot"><div class="badge">${e(s.plays)} plays</div><button type="button" class="card-more" aria-label="More options for ${e(s.title)}" aria-haspopup="true" onclick="event.stopPropagation();songMore('${e(s.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div></div></div>`;
-const track=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${s.creatorId?`<a href="#" class="lnk" onclick="openCreator('${e(s.creatorId)}');return false">${e(s.artist)}</a>`:e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
+/* New Releases row: no side buttons. One tap plays; a tap on a cut-off name shows it in full first. */
+const trackTap=(s,i)=>track(s,i).replace('class="track"','class="track track-tap"').replace(/<button class="add-mini"[\s\S]*?<\/button>/,'').replace(/<button class="play-mini"[\s\S]*?<\/button>/,'').replace(/ onclick="this\.classList\.toggle\('open'\)"/g,'');
+function tapTrack(ev,c){
+ const tx=ev.target.closest('.tx');
+ if(tx){if(tx.classList.contains('open')){tx.classList.remove('open');return}if(tx.scrollWidth>tx.clientWidth+1){tx.classList.add('open');return}}
+ playSong(c.dataset.sid);
+}
+const track=(s,i)=>`<div class="track" data-sid="${e(s.id)}"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong class="tx" title="${e(s.title)}" onclick="this.classList.toggle('open')">${e(s.title)}</strong><span class="tx" title="${e(s.artist)}" onclick="this.classList.toggle('open')">${e(s.artist)}</span></div><div class="track-stat">${e(s.plays)}</div><button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="playSong('${e(s.id)}')">${I.play}</button></div>`;
 const artistCard=(a,i)=>`<div class="card artist-card" onclick="openCreator('${e(a.id)}')"><div class="cover c${(i+1)%6}">${a.top?'<span class="top-tag">Top</span>':''}<div class="avatar"${okThumb(a.avatar)?` style="background:url('${okThumb(a.avatar)}') center/cover;color:transparent"`:''}>${okThumb(a.avatar)?'':e(a.name.split(' ').slice(0,2).map(w=>w[0]).join(''))}</div></div><div class="card-body"><div class="card-title"><span class="mq-in">${e(a.name)}</span></div><div class="card-meta">${e(a.meta)}</div><div class="card-foot"><span class="badge">${e(a.followers||'0')} followers</span><button type="button" class="card-more" aria-label="More options for ${e(a.name)}" aria-haspopup="true" onclick="event.stopPropagation();creatorMore('${e(a.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div><button class="outline-btn follow-btn${following.has(String(a.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(a.id)}',this)">${following.has(String(a.id))?'Following':'Follow'}</button></div></div>`;
 const churchCard=(c,i)=>c.creatorId?`<div class="card church-card" onclick="openCreator('${e(c.id)}')"><div class="cover c${(i+3)%6}"${okThumb(c.avatar)?` style="background:url('${okThumb(c.avatar)}') center/cover"`:''}>${okThumb(c.avatar)?'':`<span class="church-icon">${I.church}</span>`}</div><div class="card-body"><div class="card-title"><span class="mq-in">${e(c.name)}</span></div><div class="card-meta"><span class="mq-in">${e(c.meta)}</span></div><div class="card-foot"><span class="badge">${e(c.followers||'0')} followers</span><button type="button" class="card-more" aria-label="More options for ${e(c.name)}" aria-haspopup="true" onclick="event.stopPropagation();churchMore('${e(c.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div><button class="outline-btn follow-btn${following.has(String(c.id))?' on':''}" onclick="event.stopPropagation();toggleFollow('${e(c.id)}',this)">${following.has(String(c.id))?'Following':'Follow'}</button></div></div>`:`<div class="card church-card"><div class="cover c${(i+3)%6}"><span class="church-icon">${I.church}</span></div><div class="card-body"><div class="card-title"><span class="mq-in">${e(c.name)}</span></div><div class="card-meta"><span class="mq-in">${e(c.meta)}</span></div><span class="badge">Official profile</span></div></div>`;
 /* Churches = church creator accounts + churches registered on the old list (no duplicates). */
@@ -1281,7 +1344,7 @@ function renderChurchContent(){
  $('churchContent').innerHTML=L.filter(x=>x[1].length).map(x=>`<div class="s-sec"><h3>${x[0]}<small>${x[1].length}</small></h3><div class="${x[2]}">${x[1].slice(0,24).map(x[3]).join('')}</div></div>`).join('');
 }
 const messageCard=m=>`<div class="message"><div class="msg-cover${okThumb(m.thumbnailUrl)?' has-thumb':''}"${thumbStyle(m.thumbnailUrl)} onclick="playMessage('${e(m.id)}')">${coverInner(m.thumbnailUrl,m.id||m.title)}</div><h3>${e(m.title)}</h3><p>${e(m.speaker)}, ${e(m.church)}<br>${e(m.length)}</p><button class="outline-btn" onclick="playMessage('${e(m.id)}')">${I.play} Listen</button> <button class="outline-btn" onclick="shareContent('${e(m.id)}')">Share link</button></div>`;
-const videoCard=v=>{const t=thumbOf(v.thumbnailUrl,v.videoUrl);return `<div class="card video-card" data-vid="${e(v.id)}"><div class="video${t?' has-thumb':''}"${t}${v.videoUrl?` data-prev="${e(v.videoUrl)}"`:''}>${t?'':brandArt(v.id||v.title,'video')}<button class="video-play" aria-label="Play ${e(v.title)}">${I.play}</button><span class="video-label">${e(v.title)}</span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(v.title)}" onclick="event.stopPropagation();videoInfo('${e(v.id)}');return false">${e(v.title)}</a></div><div class="card-meta"><span class="mq-in">${v.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(v.creatorId)}');return false">${e(v.channel)}</a>`:e(v.channel)}</span></div><div class="card-foot"><div class="badge">${e(v.watch||'0')} watch</div><button type="button" class="card-more" aria-label="More options for ${e(v.title)}" aria-haspopup="true" onclick="event.stopPropagation();videoMore('${e(v.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div></div></div>`};
+const videoCard=v=>{const t=thumbOf(v.thumbnailUrl,v.videoUrl);return `<div class="card video-card" data-vid="${e(v.id)}"><div class="video${t?' has-thumb':''}"${t}${v.videoUrl?` data-prev="${e(v.videoUrl)}"`:''}>${t?'':brandArt(v.id||v.title,'video')}<button class="video-play" aria-label="Play ${e(v.title)}">${I.play}</button><span class="video-label">${e(v.title)}</span></div><div class="card-body"><div class="card-title"><a href="#" class="lnk song-title" title="${e(v.title)}" onclick="event.stopPropagation();videoInfo('${e(v.id)}');return false">${e(v.title)}</a></div><div class="card-meta"><span class="mq-in">${v.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(v.creatorId)}');return false">${e(v.channel)}</a>`:e(v.channel)}</span></div><div class="card-foot"><div class="badge">${watchLbl(v)}</div><button type="button" class="card-more" aria-label="More options for ${e(v.title)}" aria-haspopup="true" onclick="event.stopPropagation();videoMore('${e(v.id)}',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></div></div></div>`};
 const parseUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'||x.protocol==='http:'?x:null}catch(_){return null}};
 const bareHost=x=>x.hostname.replace(/^(?:www|m|web|mbasic|music|business|touch)\./,'');
 function ytId(u){
@@ -1331,6 +1394,8 @@ const thumbOf=(t,u)=>{const s=t&&/^https:\/\/[^\s"'()\\]+$/.test(t)?t:(ytId(u)?`
 const liveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl);return `<div class="message"><div class="video${t?' has-thumb':''}"${t} onclick="openLive('${e(l.id)}')">${t?'':brandArt(l.id||l.title,'video')}<span class="live-badge">Live</span><button class="video-play" aria-label="Join ${e(l.title||l.name)}">${I.play}</button><span class="video-label">${e(l.title||l.name)}</span></div><h3>${e(l.title||l.name)}</h3><p>${e(l.name)}, ${e(l.meta)}</p></div>`};
 const heroLiveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl);return `<div class="live-item${t?' has-thumb':''}"${t} onclick="openLive('${e(l.id)}')"><div class="live-tag"><span class="pulse" aria-hidden="true"></span>Live${l.viewers?`<span class="views">${e(l.viewers)} watching</span>`:''}</div><div><h3>${e(l.title||l.name)}</h3><p>${e(l.name)}, ${e(l.meta)}</p></div><button class="gold-btn" aria-label="Join ${e(l.title||l.name)}">Join stream</button></div>`};
 
+const HOME_MAX=6;
+const newestFirst=L=>L.slice().sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
 function fill(id,arr,fn,msg){$(id).innerHTML=arr.length?arr.map(fn).join(''):`<div class="empty" style="grid-column:1/-1">${msg}</div>`}
 /* Booming creators first: followers count most, plays of their songs add to it. The top three get a "Top" tag. */
 /* ============ WEEKLY TREND ROTATION (decided by Supabase) ============
@@ -1394,12 +1459,12 @@ function renderArtists(){
 }
 function render(){
  buildChurches();
- fill('heroLive',live,heroLiveCard,'Nothing is live right now.');
- fill('homeSongs',songs.slice(0,10),songCard,'No songs yet.');
- fill('newSongs',songs.slice(10,14),track,'No new releases yet.');
- fill('newVideos',videos.slice(0,4),videoCard,'No videos yet.');
- fill('homeChurches',churches,churchCard,'No churches yet.');
- fill('homeMessages',messages.slice(0,2),messageCard,'No messages yet.');
+ fill('heroLive',live.slice(0,HOME_MAX),heroLiveCard,'Nothing is live right now.');
+ fill('homeSongs',songs.slice(0,HOME_MAX),songCard,'No songs yet.');
+ fill('newSongs',newestFirst(songs).slice(0,HOME_MAX),trackTap,'No new releases yet.');
+ fill('newVideos',newestFirst(videos).slice(0,HOME_MAX),videoCard,'No videos yet.');
+ fill('homeChurches',churches.slice(0,HOME_MAX),churchCard,'No churches yet.');
+ fill('homeMessages',messages.slice(0,HOME_MAX),messageCard,'No messages yet.');
  fill('musicCards',songs,songCard,'No songs yet.');
  renderArtists();
  fill('churchCards',churches,churchCard,'No churches yet.');
@@ -1436,15 +1501,48 @@ async function loadAll(){
 }
 
 /* ============ NAVIGATION ============ */
-function showPage(page){
+/* ============ DEVICE BACK BUTTON ============
+   Every screen change is a history step, so the phone's Back button goes to the screen before,
+   closes a pop-up, or closes the side menu. Nothing on the page needs its own Back button. */
+let ovl=0,popIgnore=0,pendingPush=null,modalSub=false;
+const navUrl=()=>location.pathname+location.search;
+function ovlPush(){try{history.pushState({ss:1,ovl:1},'',location.href)}catch(_){}ovl++}
+function ovlPop(){if(!ovl)return;const n=ovl;ovl=0;popIgnore++;try{history.go(-n)}catch(_){popIgnore--}}
+function navPush(page,extra){
+ const st=Object.assign({ss:1,page},extra||{});
+ if(popIgnore>0){pendingPush=st;return}
+ try{history.pushState(st,'',navUrl())}catch(_){}
+}
+function sideOpen(){return $('sidebar').classList.contains('open')}
+function openSide(){if(sideOpen())return;$('sidebar').classList.add('open');ovlPush()}
+function closeSide(){if(!sideOpen())return;$('sidebar').classList.remove('open');ovlPop()}
+try{history.replaceState({ss:1,page:'home'},'',location.href)}catch(_){}
+window.addEventListener('popstate',ev=>{
+ if(popIgnore>0){popIgnore--;const pp=pendingPush;pendingPush=null;if(pp){try{history.pushState(pp,'',navUrl())}catch(_){}}return}
+ if(ovl>0){
+  ovl--;
+  if(modalSub&&ovl>0){modalSub=false;openAccount('replies',true);return}
+  if(ovl===0){modalSub=false;if(sideOpen())$('sidebar').classList.remove('open');if($('modalBackdrop').style.display==='flex')hideModalDom()}
+  return;
+ }
+ const st=ev.state;
+ if(st&&st.page){
+  const pg=st.page==='profile'&&!prof?'home':st.page;
+  showPage(pg,true);
+  if(pg==='playlists'){plOpen=st.pl||null;plRender()}
+ }
+});
+function showPage(page,fromPop){
  if(page==='creator'&&typeof user!=='undefined'&&user&&user.listener&&!creator)return;   /* listeners are never pushed to creator sign-in */
+ const was=document.querySelector('.page.active'),changed=!was||was.id!=='page-'+page;
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  const el=$('page-'+page);if(el)el.classList.add('active');
  document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
- window.scrollTo({top:0,behavior:'smooth'});$('sidebar').classList.remove('open');if(page==='playlists')loadPlaylists();
+ window.scrollTo({top:0,behavior:'smooth'});closeSide();if(page==='playlists')loadPlaylists();
+ if(changed&&!fromPop)navPush(page);
 }
 document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-$('menuBtn').addEventListener('click',()=>$('sidebar').classList.toggle('open'));
+$('menuBtn').addEventListener('click',()=>{sideOpen()?closeSide():openSide()});
 function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',2600)}
 
 /* ============ PLAYER ============ */
@@ -1611,6 +1709,13 @@ async function toggleFollow(id,btn){
  try{await(was?api.del:api.post)('/follows/'+encodeURIComponent(id))}catch(err){was?following.add(id):following.delete(id);paint(was);toast(err.message)}
 }
 function markSaved(){$('saveBtn').classList.toggle('on',!!cur&&savedIds.has(cur.id))}
+async function saveSongId(id){
+ if(!user){closeModal();toast('Log in to save songs');openListenerAuth('in');return}
+ const was=savedIds.has(id);was?savedIds.delete(id):savedIds.add(id);renderSaved();if(cur)markSaved();
+ closeModal();toast(was?'Removed from favorites':'Saved to favorites');
+ try{await(was?api.del:api.post)('/library/songs/'+encodeURIComponent(id))}
+ catch(err){was?savedIds.add(id):savedIds.delete(id);renderSaved();if(cur)markSaved();toast(err.message)}
+}
 async function toggleSave(){
  if(!cur)return;
  const id=cur.id,was=savedIds.has(id);was?savedIds.delete(id):savedIds.add(id);markSaved();renderSaved();
@@ -1643,7 +1748,7 @@ function fieldHtml([n,l,t,x]){
  const ctl=t==='select'?`<select name="${n}"${req}>${x.map(o=>`<option>${e(o)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name="${n}" rows="3"${req}></textarea>`:`<input name="${n}" type="${t}"${t==='file'?' onchange="upPick(this)"':''}${req}>`;
  return `<div class="field"><label>${e(l)}</label>${ctl}</div>`;
 }
-function showModal(html){$('modalContent').innerHTML=html;$('modalBackdrop').style.display='flex';const f=$('modalContent').querySelector('input,select,textarea,button');if(f)f.focus()}
+function showModal(html){if($('modalBackdrop').style.display!=='flex'&&!sideOpen())ovlPush();$('modalContent').innerHTML=html;$('modalBackdrop').style.display='flex';const f=$('modalContent').querySelector('input,select,textarea,button');if(f)f.focus()}
 function openModal(type){
  if(type==='video')return openVideo((videos[1]||videos[0]||{}).id);
  const F=FORMS[type];
@@ -1672,9 +1777,10 @@ function mediaModal(title,url,missing,id){
  }
  showModal(`<h2 class="media-title">${e(title)}</h2>${body}${id?`<div class="btn-row" style="margin:10px 0"><button class="outline-btn" onclick="shareContent('${e(id)}')">Share link</button></div>`+engHtml():''}`);if(id)engLoad(id);
 }
-function openVideo(id){const v=videos.find(x=>String(x.id)===String(id));if(v){recordEvent(v.id,'view');if(v.videoUrl)setPresence('modal',v.id)}if(v)mediaModal(v.title,v.videoUrl,'This video is not available yet.',v.id)}
+function openVideo(id){const v=videos.find(x=>String(x.id)===String(id));if(v){recordEvent(v.id,'view');v.vc=(v.vc||0)+1;v.watch=kfmt(v.vc);document.querySelectorAll('[data-vid="'+String(v.id).replace(/"/g,'')+'"] .card-foot .badge').forEach(b=>b.textContent=watchLbl(v));if(v.videoUrl)setPresence('modal',v.id)}if(v)mediaModal(v.title,v.videoUrl,'This video is not available yet.',v.id)}
 function openLive(id){const l=live.find(x=>String(x.id)===String(id));if(l){recordEvent(l.id,'view');if(l.streamUrl)setPresence('modal',l.id)}if(l)mediaModal(l.name,l.streamUrl,'This stream has not started yet. Check back at service time.',l.id)}
-function closeModal(){setPresence('modal',null);$('modalBackdrop').style.display='none';const v=$('modalContent').querySelector('video');if(v)v.pause();$('modalContent').innerHTML=''}
+function hideModalDom(){setPresence('modal',null);$('modalBackdrop').style.display='none';const v=$('modalContent').querySelector('video');if(v)v.pause();$('modalContent').innerHTML='';modalSub=false}
+function closeModal(){const open=$('modalBackdrop').style.display==='flex';hideModalDom();if(open)ovlPop()}
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeModal()});
 
 /* ============ SEARCH ============ */
@@ -1736,9 +1842,11 @@ function updateAcctBtn(){
  document.querySelectorAll('.creator-entry').forEach(x=>x.style.display=isViewer?'none':'');
  if(isViewer){const pg=$('page-creator');if(pg&&pg.classList.contains('active'))showPage('home')}
  if(btn)btn.hidden=false;
-  if(!user){b.innerHTML=PERSON_SVG;if(d)d.hidden=true;return}
+  if(btn)btn.classList.toggle('in',!!user);
+  if(!user){b.innerHTML=PERSON_SVG;if(d)d.hidden=true;if(btn)btn.title='Log in';return}
  b.innerHTML=av((creator&&creator.avatar_url)||myAvUrl||user.avatar||'',(creator&&creator.name)||user.name,'');
- if(d)d.hidden=!(replies.unread>0);
+ if(d){d.hidden=!(replies.unread>0);d.textContent=replies.unread>9?'9+':String(replies.unread||'')}
+ if(btn)btn.title='My account';
 }
 async function loadReplies(){
  if(!user){replies={unread:0,items:[]};updateAcctBtn();return}
@@ -1767,14 +1875,24 @@ async function uploadMyPhoto(inp){
 }
 function acctClick(){if(!user)return openGuestMenu();openAccount('replies')}
 function openGuestMenu(){
- showModal(`<h2>Welcome</h2><p>Sign in to like songs, comment, follow creators and get replies in your inbox.</p><div class="btn-row"><button class="gold-btn" type="button" onclick="openListenerAuth('in')">Sign in or create account</button></div>`);
- paintThemeSeg();
+ showModal(`<div class="acct-guest"><div class="acct-guest-ic">${PERSON_SVG}</div><h2>Welcome to ShalomStream</h2><p>Log in to like songs, comment, follow creators and get replies from them.</p><div class="acct-guest-btns"><button class="gold-btn" type="button" onclick="openListenerAuth('in')">Log in</button><button class="outline-btn" type="button" onclick="openListenerAuth('join')">Create account</button></div></div>`);
 }
-function openAccount(tab){
- if(!user)return openListenerAuth('in');
- acctTab=tab||'replies';const url=(creator&&creator.avatar_url)||myAvUrl||user.avatar||'',nm=(creator&&creator.name)||user.name;
- showModal(`<h2>My account</h2><div class="acct-head">${av(url,nm,'lg')}<div><strong>${e(nm)}</strong><span>${user.username?'@'+e(user.username):e(user.email||'')}</span></div></div><div class="ptabs" role="tablist"><button class="ptab${acctTab==='replies'?' on':''}" role="tab" onclick="openAccount('replies')">Inbox${replies.unread>0?' ('+replies.unread+')':''}</button><button class="ptab${acctTab==='account'?' on':''}" role="tab" onclick="openAccount('account')">Account</button></div><div id="acctBody"></div>`);
- paintAcct();if(acctTab==='replies')loadReplies();
+async function doLogout(){
+ const b=$('logoutBtn');if(b){b.disabled=true;b.textContent='Logging out…'}
+ try{await api.post('/auth/logout');setUser(null);replies={unread:0,items:[]};myAvUrl='';updateAcctBtn();closeModal();toast('You have logged out')}
+ catch(err){toast((err&&err.message)||'Could not log out');if(b){b.disabled=false;b.textContent='Log out'}}
+}
+function openAccount(tab,fromPop){
+ if(!user)return openGuestMenu();
+ acctTab=tab==='account'?'account':'replies';
+ if(acctTab==='account'&&!modalSub&&$('modalBackdrop').style.display==='flex'){ovlPush();modalSub=true}
+ const url=(creator&&creator.avatar_url)||myAvUrl||user.avatar||'',nm=(creator&&creator.name)||user.name,who=user.username?'@'+e(user.username):e(user.email||'');
+ if(acctTab==='account'){
+  showModal(`<h2 class="ttl-below">Edit profile</h2><div id="acctBody"></div>`);
+  paintAcct();return;
+ }
+ showModal(`<div class="acct-panel"><div class="acct-head">${av(url,nm,'lg')}<div class="acct-who"><strong>${e(nm)}</strong><span>${who}</span></div><button class="acct-edit" type="button" onclick="openAccount('account')">Edit profile</button></div><h3 class="acct-title">Messages from creators</h3><div id="acctBody" class="acct-chat"></div><div class="acct-foot"><button id="logoutBtn" class="acct-logout" type="button" onclick="doLogout()">Log out</button></div></div>`);
+ paintAcct();loadReplies();
 }
 function curTheme(){return document.documentElement.getAttribute('data-theme')==='light'?'light':'dark'}
 function paintThemeSeg(){document.querySelectorAll('.acct-theme .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.th===curTheme()))}
@@ -1783,7 +1901,7 @@ function paintAcct(){
  const host=$('acctBody');if(!host)return;
  if(acctTab==='replies'){
   const L=replies.items||[];
-  host.innerHTML=L.length?'<div class="acct-list">'+L.map(r=>`<div class="rp-card${r.read_at?'':' new'}"><div class="rp-top">${av(r.creator_avatar,r.creator_name,'')}<div><strong>${e(r.creator_name)}</strong><small>replied to your comment on ${e(r.content_title)} · ${ago(r.created_at)}</small></div>${r.read_at?'':'<span class="badge rp-badge">New</span>'}</div><p class="rp-quote">${e(r.comment_body)}</p><p class="rp-text">${e(r.body)}</p></div>`).join('')+'</div>':'<p class="acct-empty">Your inbox is empty. When a creator replies to one of your comments, the reply lands here and only you can see it.</p>';
+  host.innerHTML=L.length?L.map(r=>`<div class="chat-grp${r.read_at?'':' new'}"><div class="chat-ctx"><span class="chat-rt">Replied to</span><b class="chat-title">${e(r.content_title)}</b><small class="chat-time">${ago(r.created_at)}</small></div><div class="chat-me"><span>${e(r.comment_body)}</span></div><div class="chat-cr">${av(r.creator_avatar,r.creator_name,'')}<div class="chat-bub"><strong>${e(r.creator_name)}${r.read_at?'':'<i class="chat-new">New</i>'}</strong><span>${e(r.body)}</span></div></div></div>`).join(''):'<div class="chat-empty"><div class="chat-empty-ic">\u{1F4AC}</div><strong>No messages yet</strong><p>When a creator replies to your comment, their reply will show up here.</p></div>';
   if(replies.unread>0){api.post('/replies/read').then(()=>{replies.unread=0;updateAcctBtn()}).catch(()=>{})}
   return;
  }
@@ -1791,8 +1909,7 @@ function paintAcct(){
  <div class="field"><label for="acctName">Your name</label><input id="acctName" name="dname" value="${e(user.name)}" maxlength="80" autocomplete="name"></div>
  <div class="field"><label>Username</label><input value="${e(user.username||'')}" disabled></div>
  <div class="form-error" id="acctErr" role="alert"></div><button class="gold-btn" type="submit" id="acctSave">Save changes</button></form>
- <form id="pwForm" novalidate class="acct-sec"><h3>Change password</h3><div class="field"><label for="acctPw">New password (6 to 10 characters)</label><input id="acctPw" name="npw" type="password" autocomplete="new-password" maxlength="10"></div><div class="form-error" id="pwErr" role="alert"></div><button class="outline-btn" type="submit" id="pwSave">Update password</button></form>
- <div class="acct-sec"><button class="outline-btn acct-out" type="button" onclick="closeModal();authClick()">Sign out</button></div>`;
+ <form id="pwForm" novalidate class="acct-sec"><h3>Change password</h3><div class="field"><label for="acctPw">New password (6 to 10 characters)</label><input id="acctPw" name="npw" type="password" autocomplete="new-password" maxlength="10"></div><div class="form-error" id="pwErr" role="alert"></div><button class="outline-btn" type="submit" id="pwSave">Update password</button></form>`;
  paintThemeSeg();
  const f=$('acctForm');
  f.elements.photo.addEventListener('change',()=>{const fl=f.elements.photo.files[0];if(fl){const u=URL.createObjectURL(fl);$('acctPrev').innerHTML=`<span class="av xl" style="background-image:url('${u}')"></span>`}});
@@ -1819,7 +1936,7 @@ $('copyYear').textContent=new Date().getFullYear();
 if(sb)sb.auth.onAuthStateChange(ev=>{if(ev==='SIGNED_OUT'&&user)setUser(null)});
 loadAll();
 function toggleTheme(){var r=document.documentElement,t=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',t);try{localStorage.setItem('ss-theme',t)}catch(_){}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light'?'#f5f6f8':'#0c0f14';if(typeof toast==='function')toast(t==='light'?'Day mode':'Night mode')}
-document.addEventListener('click',ev=>{const sb=$('sidebar');if(sb&&sb.classList.contains('open')&&!sb.contains(ev.target)&&!ev.target.closest('#menuBtn'))sb.classList.remove('open')});
+document.addEventListener('click',ev=>{const sb=$('sidebar');if(sb&&sb.classList.contains('open')&&!sb.contains(ev.target)&&!ev.target.closest('#menuBtn'))closeSide()});
 
 /* ============ ENGAGEMENT: viewer likes & comments, creator feedback ============ */
 const ago=d=>{const t=Math.max(0,(Date.now()-new Date(d))/1000);return t<60?'just now':t<3600?Math.floor(t/60)+' min ago':t<86400?Math.floor(t/3600)+' h ago':t<2592000?Math.floor(t/86400)+' d ago':new Date(d).toLocaleDateString()};
@@ -1863,7 +1980,7 @@ async function openContentLink(raw){
    linked=Object.assign(x,{_kind:kind});mergeLinked()}
   catch(_){toast('This link is not available.');return}
  }
- try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}/* clear the hash so the same link works again next time */
+ try{history.replaceState(history.state,'',location.pathname+location.search)}catch(_){}/* clear the hash so the same link works again next time */
  closeModal();
  if(kind==='video')openVideo(id);
  else if(kind==='live')openLive(id);
@@ -1876,10 +1993,10 @@ async function openCreator(id){
  closeModal();closeSheet();showPage('profile');$('profileRoot').innerHTML='<div class="empty">Loading…</div>';
  try{prof=await api.get('/creator?id='+encodeURIComponent(id));if(!prof)throw new Error('This profile is not available yet.');
   (prof.content||[]).forEach(r=>{const L=r.kind==='song'?songs:r.kind==='message'?messages:videos;if(!L.some(x=>String(x.id)===String(r.id))){const x={...r,creator_id:prof.id};L.push(r.kind==='song'?rowSong(x):r.kind==='message'?Object.assign(rowMessage(x),{artist:r.speaker||r.artist_name}):rowVideo(x))}});
-  profTab='music';renderProfile();try{history.replaceState(null,'','#creator='+prof.id)}catch(_){}}
- catch(err){$('profileRoot').innerHTML=`<button class="outline-btn" onclick="closeProfile()">Back</button><div class="empty">${e(err.message)}</div>`}
+  profTab='music';renderProfile();try{history.replaceState({ss:1,page:'profile'},'','#creator='+prof.id)}catch(_){}}
+ catch(err){$('profileRoot').innerHTML=`<div class="empty">${e(err.message)}</div>`}
 }
-function closeProfile(){showPage(profBack||'home');try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}}
+function closeProfile(){history.back()}
 function profPlay(id,kind){if(kind==='video')return openVideo(id);playFrom((kind==='song'?songs:messages).filter(x=>String(x.creatorId)===String(prof.id)),id)}
 function profMenu(ev){if(ev)ev.stopPropagation();const m=$('profMenu');if(!m)return;m.classList.toggle('open',ev?!m.classList.contains('open'):false)}
 function profCopy(){const u=profileLink(prof.id);try{navigator.clipboard.writeText(u).then(()=>toast('Profile link copied'),()=>toast('Could not copy the link'))}catch(_){toast('Could not copy the link')}}
@@ -1889,26 +2006,27 @@ document.addEventListener('click',()=>{const m=document.getElementById('profMenu
 function songInfo(id){
  const x=songs.find(y=>String(y.id)===String(id));if(!x)return;
  const meta=[x.genre,x.album].filter(Boolean).map(e).join(' · ');
- showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.artist)}</a>`:e(x.artist)}${meta?' · '+meta:''}</p><p>${e(x.plays)} plays${x.duration?' · '+Math.floor(x.duration/60)+':'+String(Math.round(x.duration%60)).padStart(2,'0'):''}</p><p>${x.description?e(x.description):'No description has been added for this song.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playSong('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="plAdd('${e(x.id)}')">${ic(PLUS,18,2)} Add to playlist</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share link</button></div>`);
+ showModal(`<h2 class="ttl-below">${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.artist)}</a>`:e(x.artist)}${meta?' · '+meta:''}</p><p>${e(x.plays)} plays${x.duration?' · '+Math.floor(x.duration/60)+':'+String(Math.round(x.duration%60)).padStart(2,'0'):''}</p><p>${x.description?e(x.description):'No description has been added for this song.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();playSong('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="plAdd('${e(x.id)}')">${ic(PLUS,18,2)} Add to playlist</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share link</button></div>`);
 }
 function videoInfo(id){
  const x=videos.find(y=>String(y.id)===String(id));if(!x)return;
- showModal(`<h2>${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.channel)}</a>`:e(x.channel)}</p><p>${x.description?e(x.description):'No description has been added for this video.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();openVideo('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share link</button></div>`);
+ showModal(`<h2 class="ttl-below">${e(x.title)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.channel)}</a>`:e(x.channel)}</p><p>${x.description?e(x.description):'No description has been added for this video.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();openVideo('${e(x.id)}')">${I.play} Play</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share link</button></div>`);
 }
 function videoActions(id){
  const x=videos.find(y=>String(y.id)===String(id));if(!x)return;
- showModal(`<h2>${e(x.title)}</h2><p>${e(x.channel)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();openVideo('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="videoInfo('${e(x.id)}')"><span>About this video</span></button><button type="button" class="pl-opt" onclick="shareContent('${e(x.id)}')"><span>Share link</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.channel)}</span></button>`:''}</div>`);
+ showModal(`<h2 class="ttl-below">${e(x.title)}</h2><p>${e(x.channel)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();openVideo('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="videoInfo('${e(x.id)}')"><span>About this video</span></button><button type="button" class="pl-opt" onclick="shareContent('${e(x.id)}')"><span>Share link</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.channel)}</span></button>`:''}</div>`);
 }
 function songActions(id){
  const x=songs.find(y=>String(y.id)===String(id));if(!x)return;
- showModal(`<h2>${e(x.title)}</h2><p>${e(x.artist)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();playSong('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="plAdd('${e(x.id)}')"><span>Add to playlist</span></button><button type="button" class="pl-opt" onclick="songInfo('${e(x.id)}')"><span>About this song</span></button><button type="button" class="pl-opt" onclick="shareContent('${e(x.id)}')"><span>Share link</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.artist)}</span></button>`:''}</div>`);
+ showModal(`<h2 class="ttl-below">${e(x.title)}</h2><p>${e(x.artist)}</p><div class="pl-list"><button type="button" class="pl-opt" onclick="closeModal();playSong('${e(x.id)}')"><span>Play</span></button><button type="button" class="pl-opt" onclick="saveSongId('${e(x.id)}')"><span>${savedIds.has(x.id)?'Saved to favorites (tap to remove)':'Save to favorites'}</span>${ic(savedIds.has(x.id)?CHECK:HEART,18,2)}</button><button type="button" class="pl-opt" onclick="plAdd('${e(x.id)}')"><span>Add to playlist</span>${ic(PLIST,18,2)}</button><button type="button" class="pl-opt" onclick="songInfo('${e(x.id)}')"><span>About this song</span></button><button type="button" class="pl-opt" onclick="shareContent('${e(x.id)}')"><span>Share link</span></button>${x.creatorId?`<button type="button" class="pl-opt" onclick="closeModal();openCreator('${e(x.creatorId)}')"><span>View ${e(x.artist)}</span></button>`:''}</div>`);
 }
 (function(){
  let timer=null,fired=false,sx=0,sy=0;
- const card=t=>t&&t.closest?t.closest('.song-card,.video-card'):null,act=c=>c.dataset.vid?videoActions(c.dataset.vid):songActions(c.dataset.sid);
+ const card=t=>t&&t.closest?t.closest('.song-card,.video-card,.track[data-sid]'):null,act=c=>c.dataset.vid?videoActions(c.dataset.vid):songActions(c.dataset.sid);
  const clear=()=>{clearTimeout(timer);timer=null};
  document.addEventListener('pointerdown',ev=>{
   const c=card(ev.target);if(!c||ev.target.closest('a,.card-more'))return;
+  if(c.classList.contains('track')&&ev.target.closest('button'))return;
   fired=false;sx=ev.clientX;sy=ev.clientY;clear();
   timer=setTimeout(()=>{fired=true;if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}act(c)},500);
  });
@@ -1918,6 +2036,7 @@ function songActions(id){
  document.addEventListener('click',ev=>{
   const c=card(ev.target);if(!c||ev.target.closest('a,.card-more'))return;
   if(fired){fired=false;return}
+  if(c.classList.contains('track')){if(c.classList.contains('track-tap'))tapTrack(ev,c);return}
   if(c.dataset.vid)openVideo(c.dataset.vid);else playSong(c.dataset.sid);
  });
 })();
@@ -1972,7 +2091,7 @@ function renderProfile(){
  const row=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnail_url)?' has-thumb':''}"${s.kind==='song'?' data-mus="1"':''}${thumbStyle(s.thumbnail_url)}>${s.kind==='song'?songCover(s.thumbnail_url,s.id,'sm'):coverInner(s.thumbnail_url,s.id,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.genre||s.album||kind)}</span></div><div class="track-stat">${kfmt(s.play_count)}</div>${s.kind==='song'?`<button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button>`:'<span></span>'}<button class="play-mini" aria-label="Play ${e(s.title)}" onclick="profPlay('${e(s.id)}','${s.kind}')">${I.play}</button></div>`;
  const list=(L,none)=>L.length?`<div class="row-list">${L.map(row).join('')}</div>`:`<div class="empty">${none}</div>`;
  const body=profTab==='music'?list(S,'No songs yet.'):profTab==='albums'?(Object.keys(alb).length?Object.entries(alb).map(([k,L])=>`<div class="c-card"><div class="c-card-head"><h3>${e(k)}</h3><span class="badge" style="margin:0">${L.length} song${L.length>1?'s':''}</span></div>${list(L)}</div>`).join(''):'<div class="empty">No albums or playlists yet.</div>'):list(items.filter(x=>x.kind!=='song'),'No messages or videos yet.');
- $('profileRoot').innerHTML=`<button class="outline-btn" onclick="closeProfile()">Back</button>
+ $('profileRoot').innerHTML=`
  <div class="prof"><button class="prof-more" id="profMoreBtn" aria-label="More options" aria-haspopup="true" onclick="profMenu(event)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button><div class="prof-menu" id="profMenu" role="menu">${mine?`<button role="menuitem" onclick="profMenu();editProfile()">Edit profile</button>`:`<button role="menuitem" onclick="profMenu();profFollow()">${fol?'Unfollow':'Follow'}</button>`}<button role="menuitem" onclick="profMenu();shareCreator()">Share profile</button><button role="menuitem" onclick="profMenu();profCopy()">Copy profile link</button><button role="menuitem" onclick="profMenu();openSupport()">${mine?'Help and support':'Report or get help'}</button></div>${av(p.avatar_url,p.name,'xl')}<div class="prof-main"><h2>${e(p.name)}</h2><p class="prof-sub">${e(kind)}${p.location?', '+e(p.location):''}${p.verified?'<span class="badge">Verified</span>':''}</p>
  <div class="prof-stats"><span><b id="profFol">${fmtN(Number(p.followers)||0)}</b> followers</span><span><b>${fmtN(Number(p.plays)||0)}</b> plays</span><span><b>${S.length}</b> songs</span><span><b>${items.filter(x=>x.kind!=='song').length}</b> videos</span></div>
  ${p.description?`<p class="prof-about">${e(p.description)}</p>`:''}
@@ -2035,11 +2154,10 @@ function plRender(state){
   return;
  }
  const rows=P.items.map((s,i)=>`<div class="track pl-row"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnailUrl)?' has-thumb':''}" data-mus="1"${thumbStyle(s.thumbnailUrl)}>${songCover(s.thumbnailUrl,s.id||s.title,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.artist)}</span></div><button class="add-mini" aria-label="Remove ${e(s.title)} from this playlist" title="Remove from playlist" onclick="plRemove('${e(P.id)}','${e(s.id)}')">${ic(MINUS,18,2)}</button><button class="play-mini" aria-label="Play ${e(s.title)}" onclick="plPlay('${e(P.id)}','${e(s.id)}')">${I.play}</button></div>`).join('');
- r.innerHTML=`<button class="outline-btn" onclick="plShow(null)">All playlists</button>
- <div class="section-head" style="margin-top:18px"><div><h2>${e(P.name)}</h2><p>${nSongs(P.items.length)}</p></div><div class="btn-row"><button class="gold-btn" onclick="plPlayAll('${e(P.id)}')"${P.items.length?'':' disabled'}>${I.play} Play all</button><button class="outline-btn" onclick="plPick('${e(P.id)}')">Add songs</button><button class="outline-btn" onclick="plRename('${e(P.id)}')">Rename</button><button class="outline-btn" onclick="plDelete('${e(P.id)}')">Delete</button></div></div>
+ r.innerHTML=`<div class="section-head"><div><h2>${e(P.name)}</h2><p>${nSongs(P.items.length)}</p></div><div class="btn-row"><button class="gold-btn" onclick="plPlayAll('${e(P.id)}')"${P.items.length?'':' disabled'}>${I.play} Play all</button><button class="outline-btn" onclick="plPick('${e(P.id)}')">Add songs</button><button class="outline-btn" onclick="plRename('${e(P.id)}')">Rename</button><button class="outline-btn" onclick="plDelete('${e(P.id)}')">Delete</button></div></div>
  ${P.items.length?`<div class="row-list">${rows}</div>`:`<div class="empty">This playlist is empty.<br><br><button class="gold-btn" onclick="plPick('${e(P.id)}')">Add songs</button></div>`}`;
 }
-function plShow(id){plOpen=id;plRender();window.scrollTo({top:0})}
+function plShow(id){if(id&&String(id)!==String(plOpen))navPush('playlists',{pl:id});plOpen=id;plRender();window.scrollTo({top:0})}
 function plPlay(pid,sid){const P=plById(pid);if(P)playFrom(P.items,sid)}
 function plPlayAll(pid){const P=plById(pid);if(P&&P.items.length)playFrom(P.items,P.items[0].id)}
 function nameForm(title,text,val,btn){return `<h2>${title}</h2><p>${text}</p><form id="plForm" novalidate><div class="field"><label>Playlist name</label><input name="name" value="${e(val||'')}" maxlength="80" required autocomplete="off"></div><div class="form-error" id="ferr" role="alert"></div><button class="gold-btn" type="submit" id="fsub">${btn}</button></form>`}
