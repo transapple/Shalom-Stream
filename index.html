@@ -711,6 +711,64 @@ input::selection,textarea::selection{background:rgba(184,134,11,.35)}
 .tfg-grad{font-weight:800;letter-spacing:.02em;background:linear-gradient(90deg,#1e4fb3,#00a6d6,#b8860b,#e0a800,#c2410c,#1e4fb3);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:tfgFlow 6s linear infinite}
 @keyframes tfgFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
 @media(prefers-reduced-motion:reduce){.tfg-grad{animation:none}}
+
+/* Home: Live now card = title, thumbnail, creator, Join + Share */
+#heroLive .live-card{min-width:0;display:block;cursor:pointer}
+.live-card .live-top{padding:8px 14px 0}
+.live-card .live-top .card-title{margin-top:2px;margin-bottom:8px}
+.live-card .video{position:relative;border-radius:0;margin:0}
+.live-card .live-badge{left:10px;right:auto;top:10px;padding:3px 9px;font-size:11px}
+.live-card .live-cap{position:absolute;z-index:2;left:0;right:0;bottom:8px;text-align:center;color:#fff;font-weight:700;font-size:12px;text-shadow:0 1px 6px rgba(0,0,0,.7);pointer-events:none}
+.live-card .live-bot{padding-top:10px}
+.live-card .card-meta{margin:0}
+.live-btns{display:flex;gap:8px;margin-top:10px}
+.live-btns button{flex:1;min-width:0;height:38px;padding:0 6px;font-size:13px;border-radius:12px}
+.live-card .card-title.mq .song-title,.live-card .card-meta.mq .mq-in{display:inline-block;padding-left:100%;animation:mqMove var(--mqd,8s) linear infinite;will-change:transform}
+.live-card .card-title.mq,.live-card .card-meta.mq{text-overflow:clip}
+@media(prefers-reduced-motion:reduce){.live-card .card-title.mq .song-title,.live-card .card-meta.mq .mq-in{animation:none;padding-left:0}}
+
+/* Live card: small buttons + how many are watching right now */
+.live-btns{gap:6px;margin-top:8px}
+.live-btns button{flex:none;height:28px;padding:0 14px;font-size:12px;font-weight:650;border-radius:9px;line-height:1}
+.live-watch{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;color:var(--muted)}
+.live-watch b{color:var(--text);font-weight:700}
+.lw-dot{width:7px;height:7px;border-radius:50%;background:var(--danger);box-shadow:0 0 0 0 rgba(220,38,38,.6);animation:lwPulse 1.6s infinite}
+@keyframes lwPulse{70%{box-shadow:0 0 0 7px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+@media(prefers-reduced-motion:reduce){.lw-dot{animation:none}}
+
+/* ===== Watch screen ===== */
+body.wv-open{overflow:hidden}
+body.wv-open .modal-backdrop{z-index:1600}
+.wv{position:fixed;inset:0;z-index:1500;background:#000;color:#fff;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none}
+.wv-bar{display:flex;align-items:center;gap:6px;padding:calc(6px + env(safe-area-inset-top,0px)) 8px 6px;background:#000;flex:none;transition:opacity .25s}
+.wv-btn{width:42px;height:42px;flex:none;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer}
+.wv-btn:active{background:rgba(255,255,255,.25)}
+.wv-title{flex:1;min-width:0;font-weight:650;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
+.wv-title.mq{text-overflow:clip}.wv-title.mq .mq-in{display:inline-block;padding-left:100%;animation:mqMove var(--mqd,9s) linear infinite}
+.wv-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;background:#000}
+.wv-frame{width:100%;aspect-ratio:16/9;max-height:100%;background:#000}
+.wv-frame.tall{aspect-ratio:9/16;height:100%;width:auto;max-width:100%}
+.wv-frame iframe,.wv-frame video{width:100%;height:100%;border:0;display:block;background:#000}
+.wv-msg{padding:24px;text-align:center;color:#d6dbe3}.wv-msg .outline-btn{margin-top:10px;color:#fff;border-color:#fff4}
+.wv-hot{display:none}
+.wv-sheet{position:absolute;left:0;right:0;bottom:0;max-height:72%;background:var(--surface);color:var(--text);border-radius:20px 20px 0 0;transform:translateY(105%);transition:transform .28s ease;display:flex;flex-direction:column;z-index:5;box-shadow:0 -12px 40px rgba(0,0,0,.5);-webkit-user-select:text;user-select:text}
+.wv-sheet.open{transform:none}
+.wv-sheet-h{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px 18px;border-bottom:1px solid var(--line)}
+.wv-sheet-h .wv-btn{background:var(--bg);color:var(--text);width:36px;height:36px}
+.wv-sheet-b{overflow-y:auto;padding:0 18px 18px}
+.wv-sheet .eng{margin-top:10px;border-top:0;padding-top:0}
+/* Tilt the phone: the video takes the whole screen */
+@media(orientation:landscape){
+ .wv-bar{position:absolute;top:0;left:0;right:0;z-index:4;background:linear-gradient(rgba(0,0,0,.75),transparent);padding-top:6px}
+ .wv.hide-bar .wv-bar{opacity:0;pointer-events:none}
+ .wv-stage{position:absolute;inset:0}
+ .wv-frame{width:100%;height:100%;aspect-ratio:auto;max-height:none}
+ .wv-frame.tall{width:auto;height:100%;aspect-ratio:9/16}
+ .wv-hot{display:block;position:absolute;top:0;left:0;right:0;height:52px;z-index:3}
+ .wv.hide-bar .wv-hot{z-index:6}
+ .wv-sheet{left:auto;top:0;right:0;bottom:0;width:min(420px,60%);max-height:none;border-radius:20px 0 0 20px;transform:translateX(105%)}
+ .wv-sheet.open{transform:none}
+}
 </style>
 </head>
 <body>
@@ -981,7 +1039,7 @@ const rowSong=r=>({createdAt:r.created_at||'',creatorId:r.creator_id,genre:r.gen
 const rowMessage=r=>({pc:Number(r.play_count)||0,creatorId:r.creator_id,id:r.id,title:r.title,speaker:r.speaker||r.artist_name,church:r.church_name||'',length:r.duration_seconds?Math.max(1,Math.round(r.duration_seconds/60))+' min':'',duration:r.duration_seconds||0,audioUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const watchLbl=v=>{const n=Number(v.vc)||0;return kfmt(n)+(n===1?' watch':' watches')};
 const rowVideo=r=>({createdAt:r.created_at||'',vc:Number(r.view_count)||0,watch:kfmt(Number(r.view_count)||0),pc:Number(r.view_count)||0,creatorId:r.creator_id,description:r.description||'',id:r.id,title:r.title,channel:r.artist_name,videoUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
-const rowLive=r=>({creatorId:r.creator_id,id:r.id,title:r.title,name:r.artist_name,meta:r.meta||'Live now',viewers:r.viewers?kfmt(r.viewers):null,streamUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
+const rowLive=r=>({description:r.description||'',creatorId:r.creator_id,id:r.id,title:r.title,name:r.artist_name,meta:r.meta||'Live now',viewers:r.viewers?kfmt(r.viewers):null,streamUrl:r.media_url||null,thumbnailUrl:r.thumbnail_url||null});
 const rowCreator=r=>({type:TYPE_LABEL[r.type]?r.type:'ministry',fc:Number(r.follower_count)||0,avatar:r.avatar_url||'',id:r.id,name:r.name,followers:r.follower_count?kfmt(r.follower_count):'',meta:[TYPE_LABEL[r.type]||'Ministry',r.location].filter(Boolean).join(', ')});
 
 const COLS='id,title,artist_name,speaker,church_name,duration_seconds,media_url,thumbnail_url,meta,viewers,play_count,view_count,created_at,creator_id,genre,album,description';
@@ -1184,7 +1242,7 @@ const songArt=s=>{const u=okThumb(CAV.get(String(s.creatorId))||'');return `<div
 let miniMenu=null,miniFor=null;
 function closeSongMore(){if(miniMenu){miniMenu.remove();miniMenu=null;miniFor=null;['pointerdown','scroll','resize','keydown'].forEach(n=>document.removeEventListener(n,miniAway,true));window.removeEventListener('resize',closeSongMore)}}
 function miniAway(ev){if(ev.type==='keydown'){if(ev.key==='Escape')closeSongMore();return}if(ev.type==='pointerdown'&&miniMenu&&miniMenu.contains(ev.target))return;closeSongMore()}
-const MQSEL='.song-card .card-title,.song-card .ss-by,.artist-card .card-title,.video-card .card-title,.video-card .card-meta,.church-card .card-title,.church-card .card-meta';
+const MQSEL='.wv-title,.live-card .card-title,.live-card .card-meta,.song-card .card-title,.song-card .ss-by,.artist-card .card-title,.video-card .card-title,.video-card .card-meta,.church-card .card-title,.church-card .card-meta';
 function mqScan(all){
  document.querySelectorAll(all?MQSEL:MQSEL.split(',').map(x=>x+':not([data-mq])').join(',')).forEach(el=>{
   if(!el.clientWidth)return;
@@ -1392,7 +1450,11 @@ function toEmbed(u){
 }
 const thumbOf=(t,u)=>{const s=t&&/^https:\/\/[^\s"'()\\]+$/.test(t)?t:(ytId(u)?`https://i.ytimg.com/vi/${ytId(u)}/hqdefault.jpg`:null);return s?` style="--thumb:url('${s}')"`:''};
 const liveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl);return `<div class="message"><div class="video${t?' has-thumb':''}"${t} onclick="openLive('${e(l.id)}')">${t?'':brandArt(l.id||l.title,'video')}<span class="live-badge">Live</span><button class="video-play" aria-label="Join ${e(l.title||l.name)}">${I.play}</button><span class="video-label">${e(l.title||l.name)}</span></div><h3>${e(l.title||l.name)}</h3><p>${e(l.name)}, ${e(l.meta)}</p></div>`};
-const heroLiveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl);return `<div class="live-item${t?' has-thumb':''}"${t} onclick="openLive('${e(l.id)}')"><div class="live-tag"><span class="pulse" aria-hidden="true"></span>Live${l.viewers?`<span class="views">${e(l.viewers)} watching</span>`:''}</div><div><h3>${e(l.title||l.name)}</h3><p>${e(l.name)}, ${e(l.meta)}</p></div><button class="gold-btn" aria-label="Join ${e(l.title||l.name)}">Join stream</button></div>`};
+const heroLiveCard=l=>{const t=thumbOf(l.thumbnailUrl,l.streamUrl),ttl=l.title||l.name;return `<div class="card live-card" data-lid="${e(l.id)}"><div class="live-top"><div class="card-title"><span class="song-title" title="${e(ttl)}">${e(ttl)}</span></div></div><div class="video${t?' has-thumb':''}"${t}>${t?'':brandArt(l.id||l.title,'video')+'<span class="live-cap">Live now on ShalomStream</span>'}<span class="live-badge">Live</span></div><div class="card-body live-bot"><div class="card-meta"><span class="mq-in">${l.creatorId?`<a href="#" class="lnk" onclick="event.stopPropagation();openCreator('${e(l.creatorId)}');return false">${e(l.name)}</a>`:e(l.name)}</span></div><div class="live-btns"><button type="button" class="gold-btn" aria-label="Join ${e(ttl)}" onclick="event.stopPropagation();openLive('${e(l.id)}')">Join</button><button type="button" class="outline-btn" aria-label="Share ${e(ttl)}" onclick="event.stopPropagation();shareContent('${e(l.id)}')">Share</button></div></div></div>`};
+function liveActions(id){
+ const x=live.find(y=>String(y.id)===String(id));if(!x)return;
+ showModal(`<h2 class="ttl-below">${e(x.title||x.name)}</h2><p>${x.creatorId?`<a href="#" class="lnk" onclick="closeModal();openCreator('${e(x.creatorId)}');return false">${e(x.name)}</a>`:e(x.name)}</p><p>${x.description?e(x.description):'No description has been added for this live stream.'}</p><div class="btn-row"><button class="gold-btn" onclick="closeModal();openLive('${e(x.id)}')">${I.play} Join</button><button class="outline-btn" onclick="shareContent('${e(x.id)}')">Share</button>${x.creatorId?`<button class="outline-btn" onclick="closeModal();openCreator('${e(x.creatorId)}')">View profile</button>`:''}</div>`);
+}
 
 const HOME_MAX=6;
 const newestFirst=L=>L.slice().sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
@@ -1485,10 +1547,17 @@ async function setChartPeriod(p){
  catch(err){if(my===chartTick)$('chartList').innerHTML=`<div class="empty">${e(err.message)}</div>`}
 }
 function renderSaved(){fill('savedList',songs.filter(s=>savedIds.has(s.id)),track,'Songs you save will appear here. Use the heart in the player to save a song.')}
+/* While the page stays open, check every 10 minutes and refresh when a live stream has just moved to Videos. */
+setInterval(async()=>{
+ if(document.hidden||!sb)return;
+ try{const r=await sb.rpc('expire_live');if(r&&!r.error&&Number(r.data)>0)loadAll()}catch(_){}
+},600000);
 async function loadAll(){
  $('notice').hidden=true;
  ['heroLive','homeSongs','newSongs','newVideos','homeChurches','homeMessages','musicCards','artistCards','churchCards','messageList','videoCards','liveList','chartList','savedList'].forEach(id=>$(id).innerHTML='<div class="empty" style="grid-column:1/-1">Loading…</div>');
  try{
+  /* finished live streams (older than 8 hours) move to Videos first */
+  if(sb)try{await sb.rpc('expire_live')}catch(_){}
   [songs,artists,churchRows,messages,videos,live]=await Promise.all(['/songs','/artists','/churches','/messages','/videos','/live'].map(p=>api.get(p)));
   messages.forEach(m=>m.artist=m.speaker);mergeLinked();await loadTrend();artists=rankArtists(artists,songs);applyTrends();shownPhase=trendWeek();
   savedIds.clear();following.clear();try{(await api.get('/library/songs')).forEach(id=>savedIds.add(id));(await api.get('/follows')).forEach(id=>following.add(id))}catch(_){}
@@ -1506,8 +1575,9 @@ async function loadAll(){
    closes a pop-up, or closes the side menu. Nothing on the page needs its own Back button. */
 let ovl=0,popIgnore=0,pendingPush=null,modalSub=false;
 const navUrl=()=>location.pathname+location.search;
-function ovlPush(){try{history.pushState({ss:1,ovl:1},'',location.href)}catch(_){}ovl++}
-function ovlPop(){if(!ovl)return;const n=ovl;ovl=0;popIgnore++;try{history.go(-n)}catch(_){popIgnore--}}
+let pendingOvl=0;
+function ovlPush(){ovl++;if(popIgnore>0){pendingOvl++;return}try{history.pushState({ss:1,ovl:1},'',location.href)}catch(_){}}
+function ovlPop(k){k=Math.min(k||ovl,ovl);if(!k)return;ovl-=k;popIgnore++;try{history.go(-k)}catch(_){popIgnore--}}
 function navPush(page,extra){
  const st=Object.assign({ss:1,page},extra||{});
  if(popIgnore>0){pendingPush=st;return}
@@ -1515,14 +1585,18 @@ function navPush(page,extra){
 }
 function sideOpen(){return $('sidebar').classList.contains('open')}
 function openSide(){if(sideOpen())return;$('sidebar').classList.add('open');ovlPush()}
-function closeSide(){if(!sideOpen())return;$('sidebar').classList.remove('open');ovlPop()}
+function closeSide(){if(!sideOpen())return;$('sidebar').classList.remove('open');ovlPop(1)}
 try{history.replaceState({ss:1,page:'home'},'',location.href)}catch(_){}
 window.addEventListener('popstate',ev=>{
- if(popIgnore>0){popIgnore--;const pp=pendingPush;pendingPush=null;if(pp){try{history.pushState(pp,'',navUrl())}catch(_){}}return}
+ if(popIgnore>0){popIgnore--;const pp=pendingPush;pendingPush=null;if(pp){try{history.pushState(pp,'',navUrl())}catch(_){}}
+  while(pendingOvl>0){pendingOvl--;try{history.pushState({ss:1,ovl:1},'',location.href)}catch(_){}}return}
  if(ovl>0){
   ovl--;
-  if(modalSub&&ovl>0){modalSub=false;openAccount('replies',true);return}
-  if(ovl===0){modalSub=false;if(sideOpen())$('sidebar').classList.remove('open');if($('modalBackdrop').style.display==='flex')hideModalDom()}
+  if(modalSub&&ovl>0&&$('modalBackdrop').style.display==='flex'){modalSub=false;openAccount('replies',true);return}
+  /* one Back closes the top-most thing: pop-up, then watch screen, then side menu */
+  if($('modalBackdrop').style.display==='flex'){hideModalDom()}
+  else if($('watchView')){closeWatchDom()}
+  else if(sideOpen()){$('sidebar').classList.remove('open')}
   return;
  }
  const st=ev.state;
@@ -1555,14 +1629,21 @@ function paint(){const d=dur(),t=now();$('curTime').textContent=fmt(t);$('durTim
 function setPlaying(p){playing=p;setPresence('audio',p&&cur?cur.id:null);$('playBtn').innerHTML=p?I.pause:I.play;$('playBtn').setAttribute('aria-label',p?'Pause':'Play');syncPlayIcons(p)}
 function stopSim(){clearInterval(simTimer);simTimer=null}
 function startSim(){stopSim();simTimer=setInterval(()=>{simT+=.25*PS.speed;if(simT>=dur())onEnded();else paint()},250)}
+/* Songs and messages added from a link (YouTube, Facebook, Google Drive…) play on the watch screen, not in the audio player. */
+const isLinkMedia=u=>{if(!u)return false;const m=toEmbed(u);return !!(m&&m.type==='iframe')};
+function openLinkTrack(x){audio.pause();setPlaying(false);recordEvent(x.id,'play');mediaModal(x.title,x.audioUrl,'This link is not available.',x.id)}
 function loadTrack(i){
+ if(queue[i]&&isLinkMedia(queue[i].audioUrl)){
+  if(!window.__linkTap)for(let k=1;k<queue.length;k++){const j=(i+k)%queue.length;if(!isLinkMedia(queue[j].audioUrl)){loadTrack(j);return}}
+  window.__linkTap=false;openLinkTrack(queue[i]);return;
+ }
  pos=i;cur=queue[i];simT=0;stopSim();audio.pause();recordEvent(cur.id,'play');
  $('nowTitle').textContent=cur.title;$('nowArtist').textContent=cur.artist;setNowArt();
  $('player').classList.add('open');document.body.classList.add('has-player');markSaved();
  if(cur.audioUrl){if(fxOff)audio.removeAttribute('crossorigin');else audio.crossOrigin='anonymous';audio.src=cur.audioUrl;audio.volume=volume;audio.defaultPlaybackRate=PS.speed;audio.playbackRate=PS.speed;if(fx&&fx.ctx.state==='suspended')fx.ctx.resume().catch(()=>{});audio.play().catch(err=>{setPlaying(false);toast(err&&err.name==='NotAllowedError'?'Tap play to start.':'This track could not be played.')})}else startSim();
  setPlaying(true);paint();
 }
-function playFrom(list,id){const i=list.findIndex(x=>String(x.id)===String(id));if(i<0)return;queue=list;loadTrack(i)}
+function playFrom(list,id){const i=list.findIndex(x=>String(x.id)===String(id));if(i<0)return;queue=list;window.__linkTap=true;loadTrack(i);window.__linkTap=false}
 const playSong=id=>playFrom(songs,id),playMessage=id=>playFrom(messages,id);
 function togglePlay(){
  if(!cur)return;
@@ -1748,7 +1829,7 @@ function fieldHtml([n,l,t,x]){
  const ctl=t==='select'?`<select name="${n}"${req}>${x.map(o=>`<option>${e(o)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name="${n}" rows="3"${req}></textarea>`:`<input name="${n}" type="${t}"${t==='file'?' onchange="upPick(this)"':''}${req}>`;
  return `<div class="field"><label>${e(l)}</label>${ctl}</div>`;
 }
-function showModal(html){if($('modalBackdrop').style.display!=='flex'&&!sideOpen())ovlPush();$('modalContent').innerHTML=html;$('modalBackdrop').style.display='flex';const f=$('modalContent').querySelector('input,select,textarea,button');if(f)f.focus()}
+function showModal(html){if($('modalBackdrop').style.display!=='flex')ovlPush();$('modalContent').innerHTML=html;$('modalBackdrop').style.display='flex';const f=$('modalContent').querySelector('input,select,textarea,button');if(f)f.focus()}
 function openModal(type){
  if(type==='video')return openVideo((videos[1]||videos[0]||{}).id);
  const F=FORMS[type];
@@ -1766,21 +1847,68 @@ function openModal(type){
  const [t,p,cta,to,cta2,to2]=INFO[type]||INFO.about;
  showModal(`<h2>${t}</h2><p>${p}</p>${cta?`<div class="btn-row"><button class="gold-btn" onclick="openModal('${to}')">${cta}</button>${cta2?`<button class="outline-btn" onclick="openModal('${to2}')">${cta2}</button>`:''}</div>`:`<button class="outline-btn" onclick="closeModal()">Close</button>`}`);
 }
+/* ============ WATCH SCREEN: the whole screen is the video. Options live behind the three dots. ============ */
+const WV_DOTS='<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+const WV_X='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+let wvCtx=null,wvTimer=null;
 function mediaModal(title,url,missing,id){
- let body;
- if(!url)body=`<p>${missing}</p>`;
+ closeWatchDom();
+ let stage,orig=null;
+ if(!url)stage=`<div class="wv-msg"><p>${missing}</p></div>`;
  else{
   const m=toEmbed(url);
-  if(m&&m.type==='iframe'){const ox=parseUrl(url);body=`<div class="embed"${m.tall?' style="aspect-ratio:auto;height:72vh;width:min(100%,calc(72vh*9/16));margin:0 auto"':''}><iframe src="${e(m.src)}" title="${e(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>${ox?`<p class="embed-note">Video not loading? The owner may have turned off playing it outside their site. <a class="lnk" href="${e(ox.href)}" target="_blank" rel="noopener noreferrer">Open original</a></p>`:''}`}
-  else if(m)body=`<div class="video-modal"><video controls autoplay playsinline src="${e(m.src)}"></video></div>`;
-  else{const x=parseUrl(url);body=`<p>This one can’t be played here yet.</p>${x?`<a class="outline-btn" href="${e(x.href)}" target="_blank" rel="noopener noreferrer">Watch on the original site</a>`:''}`}
+  if(m&&m.type==='iframe'){orig=parseUrl(url);stage=`<div class="wv-frame${m.tall?' tall':''}"><iframe src="${e(m.src)}" title="${e(title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`}
+  else if(m)stage=`<div class="wv-frame"><video controls autoplay playsinline src="${e(m.src)}"></video></div>`;
+  else{orig=parseUrl(url);stage=`<div class="wv-msg"><p>This one can’t be played here yet.</p>${orig?`<a class="outline-btn" href="${e(orig.href)}" target="_blank" rel="noopener noreferrer">Watch on the original site</a>`:''}</div>`}
  }
- showModal(`<h2 class="media-title">${e(title)}</h2>${body}${id?`<div class="btn-row" style="margin:10px 0"><button class="outline-btn" onclick="shareContent('${e(id)}')">Share link</button></div>`+engHtml():''}`);if(id)engLoad(id);
+ const x=id?findContent(id):null;
+ wvCtx={id,orig,creatorId:x&&x.creatorId};
+ const el=document.createElement('div');el.id='watchView';el.className='wv';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');
+ el.innerHTML=`<div class="wv-bar"><button class="wv-btn" type="button" aria-label="Close" onclick="closeWatch()">${WV_X}</button><div class="wv-title"><span class="mq-in">${e(title)}</span></div>${id?`<button class="wv-btn" type="button" aria-label="More options" aria-haspopup="true" onclick="wvMenu(this)">${WV_DOTS}</button>`:''}</div><div class="wv-hot" onclick="wvShowBar()"></div><div class="wv-stage">${stage}</div>${id?`<div class="wv-sheet" id="wvSheet"><div class="wv-sheet-h"><strong>Likes &amp; comments</strong><button class="wv-btn" type="button" aria-label="Close comments" onclick="wvSheet(false)">${WV_X}</button></div><div class="wv-sheet-b">${engHtml()}</div></div>`:''}`;
+ document.body.appendChild(el);document.body.classList.add('wv-open');
+ ovlPush();
+ if(id)engLoad(id);
+ wvShowBar();setTimeout(()=>{try{mqScan(true)}catch(_){}},60);
 }
+function wvShowBar(){
+ const el=$('watchView');if(!el)return;el.classList.remove('hide-bar');clearTimeout(wvTimer);
+ if(matchMedia('(orientation:landscape)').matches)wvTimer=setTimeout(()=>{const w=$('watchView');const sh=$('wvSheet');if(w&&!(sh&&sh.classList.contains('open')))w.classList.add('hide-bar')},3500);
+}
+function wvSheet(on){const sh=$('wvSheet');if(sh)sh.classList.toggle('open',!!on);if(on)wvShowBar()}
+function wvMenu(btn){
+ if(!wvCtx)return;const c=wvCtx;
+ openMiniMenu('wv',btn,`<button type="button" role="menuitem" onclick="closeSongMore();shareContent('${e(c.id)}')">Share link</button><button type="button" role="menuitem" onclick="closeSongMore();wvSheet(true)">Likes &amp; comments</button><button type="button" role="menuitem" onclick="closeSongMore();wvFull()">Full screen / rotate</button>${c.orig?`<button type="button" role="menuitem" onclick="closeSongMore();window.open('${e(c.orig.href)}','_blank','noopener')">Open original</button>`:''}${c.creatorId?`<button type="button" role="menuitem" onclick="closeSongMore();closeWatch();openCreator('${e(c.creatorId)}')">View profile</button>`:''}`);
+}
+function wvFull(){
+ const el=$('watchView');if(!el)return;
+ const d=document,fs=d.fullscreenElement||d.webkitFullscreenElement;
+ if(fs){(d.exitFullscreen||d.webkitExitFullscreen).call(d);try{screen.orientation.unlock()}catch(_){}return}
+ const rq=el.requestFullscreen||el.webkitRequestFullscreen;
+ if(!rq){toast('Turn your phone sideways to watch wider');return}
+ Promise.resolve(rq.call(el)).then(()=>{try{screen.orientation.lock('landscape').catch(()=>{})}catch(_){}}).catch(()=>toast('Turn your phone sideways to watch wider'));
+}
+/* Turning the phone: sideways = go full screen, upright = leave full screen (where the phone allows it) */
+(function(){
+ const d=document,isFs=()=>d.fullscreenElement||d.webkitFullscreenElement;
+ const onTurn=()=>{
+  const el=$('watchView');if(!el)return;
+  const land=matchMedia('(orientation:landscape)').matches;wvShowBar();
+  if(land&&!isFs()){const rq=el.requestFullscreen||el.webkitRequestFullscreen;if(rq)try{Promise.resolve(rq.call(el)).catch(()=>{})}catch(_){}}
+  else if(!land&&isFs()){try{(d.exitFullscreen||d.webkitExitFullscreen).call(d)}catch(_){}}
+ };
+ matchMedia('(orientation:landscape)').addEventListener('change',onTurn);
+})();
+function closeWatchDom(){
+ const el=$('watchView');if(!el)return;
+ clearTimeout(wvTimer);const v=el.querySelector('video');if(v)try{v.pause()}catch(_){}
+ try{const d=document;if(d.fullscreenElement||d.webkitFullscreenElement)(d.exitFullscreen||d.webkitExitFullscreen).call(d);screen.orientation.unlock()}catch(_){}
+ el.remove();document.body.classList.remove('wv-open');setPresence('modal',null);wvCtx=null;closeSongMore();
+}
+function closeWatch(){if(!$('watchView'))return;closeWatchDom();ovlPop(1)}
 function openVideo(id){const v=videos.find(x=>String(x.id)===String(id));if(v){recordEvent(v.id,'view');v.vc=(v.vc||0)+1;v.watch=kfmt(v.vc);document.querySelectorAll('[data-vid="'+String(v.id).replace(/"/g,'')+'"] .card-foot .badge').forEach(b=>b.textContent=watchLbl(v));if(v.videoUrl)setPresence('modal',v.id)}if(v)mediaModal(v.title,v.videoUrl,'This video is not available yet.',v.id)}
-function openLive(id){const l=live.find(x=>String(x.id)===String(id));if(l){recordEvent(l.id,'view');if(l.streamUrl)setPresence('modal',l.id)}if(l)mediaModal(l.name,l.streamUrl,'This stream has not started yet. Check back at service time.',l.id)}
+function openLive(id){const l=live.find(x=>String(x.id)===String(id));if(l){recordEvent(l.id,'view');if(l.streamUrl)setPresence('modal',l.id)}if(l)mediaModal(l.title||l.name,l.streamUrl,'This stream has not started yet. Check back at service time.',l.id)}
 function hideModalDom(){setPresence('modal',null);$('modalBackdrop').style.display='none';const v=$('modalContent').querySelector('video');if(v)v.pause();$('modalContent').innerHTML='';modalSub=false}
-function closeModal(){const open=$('modalBackdrop').style.display==='flex';hideModalDom();if(open)ovlPop()}
+function closeModal(){const open=$('modalBackdrop').style.display==='flex',k=modalSub?2:1;hideModalDom();if(open)ovlPop(k)}
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeModal()});
 
 /* ============ SEARCH ============ */
@@ -1997,7 +2125,7 @@ async function openCreator(id){
  catch(err){$('profileRoot').innerHTML=`<div class="empty">${e(err.message)}</div>`}
 }
 function closeProfile(){history.back()}
-function profPlay(id,kind){if(kind==='video')return openVideo(id);playFrom((kind==='song'?songs:messages).filter(x=>String(x.creatorId)===String(prof.id)),id)}
+function profPlay(id,kind){if(kind==='video'){if(!videos.some(x=>String(x.id)===String(id))){const r=((prof&&prof.content)||[]).find(x=>String(x.id)===String(id));if(r)videos.push(rowVideo(r))}return openVideo(id)}playFrom((kind==='song'?songs:messages).filter(x=>String(x.creatorId)===String(prof.id)),id)}
 function profMenu(ev){if(ev)ev.stopPropagation();const m=$('profMenu');if(!m)return;m.classList.toggle('open',ev?!m.classList.contains('open'):false)}
 function profCopy(){const u=profileLink(prof.id);try{navigator.clipboard.writeText(u).then(()=>toast('Profile link copied'),()=>toast('Could not copy the link'))}catch(_){toast('Could not copy the link')}}
 document.addEventListener('click',()=>{const m=document.getElementById('profMenu');if(m)m.classList.remove('open')});
@@ -2022,11 +2150,11 @@ function songActions(id){
 }
 (function(){
  let timer=null,fired=false,sx=0,sy=0;
- const card=t=>t&&t.closest?t.closest('.song-card,.video-card,.track[data-sid]'):null,act=c=>c.dataset.vid?videoActions(c.dataset.vid):songActions(c.dataset.sid);
+ const card=t=>t&&t.closest?t.closest('.song-card,.video-card,.live-card,.track[data-sid]'):null,act=c=>c.dataset.lid?liveActions(c.dataset.lid):c.dataset.vid?videoActions(c.dataset.vid):songActions(c.dataset.sid);
  const clear=()=>{clearTimeout(timer);timer=null};
  document.addEventListener('pointerdown',ev=>{
   const c=card(ev.target);if(!c||ev.target.closest('a,.card-more'))return;
-  if(c.classList.contains('track')&&ev.target.closest('button'))return;
+  if((c.classList.contains('track')||c.classList.contains('live-card'))&&ev.target.closest('button'))return;
   fired=false;sx=ev.clientX;sy=ev.clientY;clear();
   timer=setTimeout(()=>{fired=true;if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}act(c)},500);
  });
@@ -2035,11 +2163,16 @@ function songActions(id){
  document.addEventListener('contextmenu',ev=>{if(card(ev.target)){ev.preventDefault();if(!fired){act(card(ev.target))}}});
  document.addEventListener('click',ev=>{
   const c=card(ev.target);if(!c||ev.target.closest('a,.card-more'))return;
+  if(c.classList.contains('live-card')&&ev.target.closest('button'))return;
   if(fired){fired=false;return}
+  if(c.dataset.lid){openLive(c.dataset.lid);return}
   if(c.classList.contains('track')){if(c.classList.contains('track-tap'))tapTrack(ev,c);return}
   if(c.dataset.vid)openVideo(c.dataset.vid);else playSong(c.dataset.sid);
  });
 })();
+
+
+
 
 /* Video previews: muted 15-second loops on video cards.
    Plays a chosen part of the video: the time in the link (?t=90, ?start=1m30s) if there is one,
@@ -2088,7 +2221,7 @@ addEventListener('message',ev=>{
 function renderProfile(){
  const p=prof,mine=creator&&creator.id===p.id,fol=following.has(String(p.id)),items=p.content||[],S=items.filter(x=>x.kind==='song'),kind=TYPE_LABEL[p.type]||'Ministry',alb={};
  S.forEach(s=>{const k=(s.album||'').trim();if(k)(alb[k]=alb[k]||[]).push(s)});
- const row=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnail_url)?' has-thumb':''}"${s.kind==='song'?' data-mus="1"':''}${thumbStyle(s.thumbnail_url)}>${s.kind==='song'?songCover(s.thumbnail_url,s.id,'sm'):coverInner(s.thumbnail_url,s.id,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.genre||s.album||kind)}</span></div><div class="track-stat">${kfmt(s.play_count)}</div>${s.kind==='song'?`<button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button>`:'<span></span>'}<button class="play-mini" aria-label="Play ${e(s.title)}" onclick="profPlay('${e(s.id)}','${s.kind}')">${I.play}</button></div>`;
+ const row=(s,i)=>`<div class="track"><div class="track-no">${i+1}</div><div class="track-art${okThumb(s.thumbnail_url)?' has-thumb':''}"${s.kind==='song'?' data-mus="1"':''}${thumbStyle(s.thumbnail_url)}>${s.kind==='song'?songCover(s.thumbnail_url,s.id,'sm'):coverInner(s.thumbnail_url,s.id,'sm')}</div><div class="track-info"><strong>${e(s.title)}</strong><span>${e(s.genre||s.album||kind)}</span></div><div class="track-stat">${s.kind==='video'?watchLbl({vc:s.view_count}):kfmt(s.play_count)}</div>${s.kind==='song'?`<button class="add-mini" aria-label="Add ${e(s.title)} to a playlist" title="Add to playlist" onclick="plAdd('${e(s.id)}')">${ic(PLUS,18,2)}</button>`:'<span></span>'}<button class="play-mini" aria-label="Play ${e(s.title)}" onclick="profPlay('${e(s.id)}','${s.kind}')">${I.play}</button></div>`;
  const list=(L,none)=>L.length?`<div class="row-list">${L.map(row).join('')}</div>`:`<div class="empty">${none}</div>`;
  const body=profTab==='music'?list(S,'No songs yet.'):profTab==='albums'?(Object.keys(alb).length?Object.entries(alb).map(([k,L])=>`<div class="c-card"><div class="c-card-head"><h3>${e(k)}</h3><span class="badge" style="margin:0">${L.length} song${L.length>1?'s':''}</span></div>${list(L)}</div>`).join(''):'<div class="empty">No albums or playlists yet.</div>'):list(items.filter(x=>x.kind!=='song'),'No messages or videos yet.');
  $('profileRoot').innerHTML=`
